@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"kickassembler.emulator.runtime": "D:\\Documents\\C64Tools\\WinVICE\\xvic.exe"
+	}
+}

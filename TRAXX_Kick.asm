@@ -42,7 +42,7 @@
 
 // -------------------------------------------------------------------------------
 
-ScreenHeader: // 100 bytes data
+ScreenHeader: // 100 bytes data showing high score
 .byte $4b,$4b,$4b,$20,$20,$20,$20,$20
 .byte $20,$20,$20,$41,$42,$43,$44,$45
 .byte $20,$20,$20,$20,$20,$4b,$4b,$4b
@@ -57,7 +57,7 @@ ScreenHeader: // 100 bytes data
 .byte $01,$0d,$01,$20,$20,$20,$20,$20
 .byte $20,$20,$20,$20
 
-ScreenHeaderColour: // 100bytes data
+ScreenHeaderColour: // 100bytes data colours
 .byte $05,$05,$05,$00,$00,$00,$00,$00
 .byte $00,$00,$00,$03,$03,$03,$03,$03
 .byte $00,$00,$00,$00,$00,$04,$04,$04
@@ -75,17 +75,20 @@ ScreenHeaderColour: // 100bytes data
 // -------------------------------------------------------------------------------------------
 DrawScreenHeader:
 //------------------------------
+// draw first 100 bytes (top 4 lines) to form screen headder
 	ldy #$64
 //------------------------------
+// loop round untill all 100 chars are on screen
 !DrawLoop:
 //------------------------------
 	lda ScreenHeader,Y 
 	sta GAMESETTINGS.Screen-1,Y 
 	lda ScreenHeaderColour,Y 
-	sta GAMESETTINGS.ScreenColour,Y 
+	sta GAMESETTINGS.ScreenColour -1,Y 
 	dey 
 	bne !DrawLoop-
 	rts 
+	
 //------------------------------
 SUBROUTINE__20FF_337A_OK:
 SUBROUTINE__20FF_3392_OK:
@@ -319,16 +322,22 @@ MainGameLoop:
 //------------------------------
 	// update positions of players and pursuers
 	jsr SUBROUTINE__28C8_2250_OK
+	
 	// Get player input
 	jsr SUBROUTINE__2560_2253_OK
+
 	// play ingame music
 	jsr SUBROUTINE__28E1_2256_OK
+
 	// some sounds messed up when disabled 
 	jsr SUBROUTINE__2A0E_2259_OK
+
 	//reset sounds after clompleation of grid block
 	jsr SUBROUTINE__2A3B_225C_OK
+
 	//No noticeably chanhe to gameplay when disabled!!
 	jsr SUBROUTINE__2B11_225F_OK
+
 	//No noticeably chanhe to gameplay when disabled!!
 	jsr SUBROUTINE__2E9B_2262_OK
 
@@ -1379,44 +1388,43 @@ SUBROUTINE__28DB_249B_OK:
 SUBROUTINE__28E1_2256_OK:
 //------------------------------
 	dec $14 
-	beq BRANCH_LOOP__28E6_28E3_OK
+	beq !skip+
 	rts 
 //------------------------------
-BRANCH_LOOP__28E6_28E3_OK:
+!skip:
 //------------------------------
 	lda $13 
 	sta $14 
 	dec $10 
-	beq BRANCH_LOOP__28EF_28EC_OK
-	rts 
+	beq !skip+
 //------------------------------
-BRANCH_LOOP__28EF_28EC_OK:
+!skip:
 //------------------------------
 	lda #$28
 	sta $10 
 	dec VIC.VICCRE 
 	lda VIC.VICCRE 
-	beq BRANCH_LOOP__28FC_28F9_OK
+	beq !skip+
 	rts 
 //------------------------------
-BRANCH_LOOP__28FC_28F9_OK:
+!skip:
 //------------------------------
 	ldy #$02
 //------------------------------
-BRANCH_LOOP__28FE_2905_OK:
+!loop:
 //------------------------------
 	inc $15 
-	bne BRANCH_LOOP__2904_2900_OK
+	bne !skip+
 	inc $16 
 //------------------------------
-BRANCH_LOOP__2904_2900_OK:
+!skip:
 //------------------------------
 	dey 
-	bne BRANCH_LOOP__28FE_2905_OK
+	bne !loop-
 	ldy #$00
 	lda ($15),Y 
 	cmp #$FF
-	beq BRANCH_LOOP__2920_290D_OK
+	beq !skip+
 	sta VIC.VICCRC 
 	iny 
 	lda ($15),Y 
@@ -1429,7 +1437,7 @@ BRANCH_LOOP__2904_2900_OK:
 	nop 
 //------------------------------
 SUBROUTINE__2920_2225_OK:
-BRANCH_LOOP__2920_290D_OK:
+!skip:
 //------------------------------
 	jmp JUMP_BRANCH_29D0_2920_OK
 

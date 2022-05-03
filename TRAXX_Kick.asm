@@ -38,7 +38,7 @@
 
 
 	jsr DrawScreenHeader
-	jmp JUMP_BRANCH_3060_2022_OK
+	jmp JUMP_BRANCH_3060_2022_OK													//jump 1
 
 // -------------------------------------------------------------------------------
 
@@ -317,13 +317,26 @@ JUMP_BRANCH_2200_3236_OK:
 //------------------------------
 MainGameLoop:
 //------------------------------
+	// update positions of players and pursuers
 	jsr SUBROUTINE__28C8_2250_OK
+	// Get player input
 	jsr SUBROUTINE__2560_2253_OK
+	// play ingame music
 	jsr SUBROUTINE__28E1_2256_OK
+	// some sounds messed up when disabled 
 	jsr SUBROUTINE__2A0E_2259_OK
+	//reset sounds after clompleation of grid block
 	jsr SUBROUTINE__2A3B_225C_OK
+	//No noticeably chanhe to gameplay when disabled!!
 	jsr SUBROUTINE__2B11_225F_OK
+	//No noticeably chanhe to gameplay when disabled!!
 	jsr SUBROUTINE__2E9B_2262_OK
+
+	//3 nop's added to be able to disable each subroutine above
+	//nop 
+	//nop
+	//nop
+	
 	jmp MainGameLoop
 	nop 
 	nop 
@@ -2617,8 +2630,7 @@ SUBROUTINE__2FDA_2A83_OK:
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
 	.byte $00,$00,$00,$00,$00,$00,$00
 //------------------------------
-SUBROUTINE__3000_3060_OK:
-SUBROUTINE__3000_30CA_OK:
+DrawOptionsTitleScreen:
 //------------------------------
 	jsr SUBROUTINE__21AE_3000_OK
 	ldx #$12
@@ -2629,7 +2641,6 @@ BRANCH_LOOP__3005_300C_OK:
 	sta $107F,X 
 	dex 
 	bne BRANCH_LOOP__3005_300C_OK
-.break
 	ldx #$05
 //------------------------------
 BRANCH_LOOP__3010_301D_OK:
@@ -2689,7 +2700,7 @@ BRANCH_LOOP__3055_305C_OK:
 JUMP_BRANCH_3060_2022_OK:
 JUMP_BRANCH_3060_2FA3_OK:
 //------------------------------
-	jsr SUBROUTINE__3000_3060_OK
+	jsr DrawOptionsTitleScreen
 //------------------------------
 BRANCH_LOOP__3063_3089_OK:
 BRANCH_LOOP__3063_30B9_OK:
@@ -2767,7 +2778,7 @@ BRANCH_LOOP__30CA_30AD_OK:
 JUMP_BRANCH_30CA_30B4_OK:
 BRANCH_LOOP__30CA_30C3_OK:
 //------------------------------
-	jsr SUBROUTINE__3000_30CA_OK
+	jsr DrawOptionsTitleScreen
 //------------------------------
 BRANCH_LOOP__30CD_30D1_OK:
 //------------------------------

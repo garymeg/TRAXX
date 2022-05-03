@@ -1,6 +1,6 @@
 ******************************* Segment: Default *******************************
 [Unnamed]
-1200: 00        - GAMESETTINGS,VIC:.byte %00000000			// ........
+1200: 00        - GAMESETTINGS,VIC,KERNAL:.byte %00000000			// ........
 1201: 0b        -         .byte %00001011			// ....x.xx
 1202: 08        -         .byte %00001000			// ....x...
 1203: 0a        -         .byte %00001010			// ....x.x.
@@ -12,7 +12,7 @@
 1209: 32        -         .byte %00110010			// ..xx..x.
 120a: 00        -         .byte %00000000			// ........
 120b: 00        -         .byte %00000000			// ........
-120c: 00        -         .byte %00000000			// ........
+120c: 00        -         .byte %00000000			// ........ 
 120d: 50        -         .byte %01010000			// .x.x....
 120e: 20        -         .byte %00100000			// ..x.....
 120f: 20        -         .byte %00100000			// ..x.....
@@ -3600,7 +3600,7 @@
 201a: a9 09     -         lda #$09
 201c: 8d 00 90  -         sta VIC.VICCR0
 201f: 20 ed 20  -         jsr DrawScreenHeader
-2022: 4c 60 30  -         jmp JUMP_BRANCH_3060_2022_OK
+2022: 4c 60 30  -         jmp JUMP_BRANCH_3060_2022_OK													//jump 1
 2025: 4b 4b 4b 20 20 20 20 20                          - ScreenHeader:.byte $4b,$4b,$4b,$20,$20,$20,$20,$20
 202d: 20 20 20 41 42 43 44 45                          -         .byte $20,$20,$20,$41,$42,$43,$44,$45
 2035: 20 20 20 20 20 4b 4b 4b                          -         .byte $20,$20,$20,$20,$20,$4b,$4b,$4b
@@ -3808,14 +3808,16 @@
 224d: ea        -         nop 
 224e: ea        -         nop 
 224f: ea        -         nop 
-2250: 20 c8 28  - JUMP_BRANCH_2250_2265_OK,BRANCH_LOOP__2250_2294_OK,JUMP_BRANCH_2250_2E98_OK,JUMP_BRANCH_2250_2EF8_OK:jsr SUBROUTINE__28C8_2250_OK
-2253: 20 60 25  -         jsr SUBROUTINE__2560_2253_OK
-2256: 20 e1 28  -         jsr SUBROUTINE__28E1_2256_OK
-2259: 20 0e 2a  -         jsr SUBROUTINE__2A0E_2259_OK
-225c: 20 3b 2a  -         jsr SUBROUTINE__2A3B_225C_OK
-225f: 20 11 2b  -         jsr SUBROUTINE__2B11_225F_OK
-2262: 20 9b 2e  -         jsr SUBROUTINE__2E9B_2262_OK
-2265: 4c 50 22  -         jmp JUMP_BRANCH_2250_2265_OK
+2250: 20 60 25  - MainGameLoop:jsr SUBROUTINE__2560_2253_OK
+2253: 20 e1 28  -         jsr SUBROUTINE__28E1_2256_OK
+2256: 20 0e 2a  -         jsr SUBROUTINE__2A0E_2259_OK
+2259: 20 3b 2a  -         jsr SUBROUTINE__2A3B_225C_OK
+225c: 20 11 2b  -         jsr SUBROUTINE__2B11_225F_OK
+225f: 20 9b 2e  -         jsr SUBROUTINE__2E9B_2262_OK
+2262: ea        -         nop
+2263: ea        -         nop
+2264: ea        -         nop
+2265: 4c 50 22  -         jmp MainGameLoop
 2268: ea        -         nop 
 2269: ea        -         nop 
 226a: ea        -         nop 
@@ -3856,9 +3858,9 @@
 228d: ea        -         nop 
 228e: ea        -         nop 
 228f: ea        -         nop 
-2290: ea        -         nop 
-2291: 20 e1 ff  -         jsr $FFE1
-2294: d0 ba     -         bne BRANCH_LOOP__2250_2294_OK
+2290: ea        -         nop
+2291: 20 e1 ff  -         jsr KERNAL.ISCNTC
+2294: d0 ba     -         bne MainGameLoop
 2296: 60        -         rts 
 2297: f5 f5 f5 f5 f5 f5 f5 f5                          -         .byte $f5,$f5,$f5,$f5,$f5,$f5,$f5,$f5
 229f: f5 f5 f5 f5 f5 f5 f5 f5                          -         .byte $f5,$f5,$f5,$f5,$f5,$f5,$f5,$f5
@@ -5182,7 +5184,7 @@
 2e8f: 20 a0 25  -         jsr SUBROUTINE__25A0_2E8F_OK
 2e92: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2E92_OK
 2e95: 4c f4 2e  -         jmp JUMP_BRANCH_2EF4_2E95_OK
-2e98: 4c 50 22  -         jmp JUMP_BRANCH_2250_2E98_OK
+2e98: 4c 50 22  -         jmp MainGameLoop
 2e9b: a5 08     - SUBROUTINE__2E9B_2262_OK:lda $08 
 2e9d: c9 01     -         cmp #$01
 2e9f: f0 01     -         beq BRANCH_LOOP__2EA2_2E9F_OK
@@ -5232,7 +5234,7 @@
 2ef5: 68        -         pla 
 2ef6: 68        -         pla 
 2ef7: 68        -         pla 
-2ef8: 4c 50 22  -         jmp JUMP_BRANCH_2250_2EF8_OK
+2ef8: 4c 50 22  -         jmp MainGameLoop
 2efb: 20 db 2e  - JUMP_BRANCH_2EFB_2C72_OK:jsr SUBROUTINE__2EDB_2EFB_OK
 2efe: a9 0f     -         lda #$0F
 2f00: 8d 0e 90  -         sta VIC.VICCRE 
@@ -5355,7 +5357,7 @@
 2fe9: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 2ff1: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 2ff9: 00 00 00 00 00 00 00                             -         .byte $00,$00,$00,$00,$00,$00,$00
-3000: 20 ae 21  - SUBROUTINE__3000_3060_OK,SUBROUTINE__3000_30CA_OK:jsr SUBROUTINE__21AE_3000_OK
+3000: 20 ae 21  - DrawOptionsTitleScreen:jsr SUBROUTINE__21AE_3000_OK
 3003: a2 12     -         ldx #$12
 3005: bd ff 30  - BRANCH_LOOP__3005_300C_OK:lda $30FF,X 
 3008: 9d 7f 10  -         sta $107F,X 
@@ -5397,18 +5399,18 @@
 305c: d0 f7     -         bne BRANCH_LOOP__3055_305C_OK
 305e: 60        -         rts 
 305f: ea        -         nop 
-3060: 20 00 30  - JUMP_BRANCH_3060_2022_OK,JUMP_BRANCH_3060_2FA3_OK:jsr SUBROUTINE__3000_3060_OK
+3060: 20 00 30  - JUMP_BRANCH_3060_2022_OK,JUMP_BRANCH_3060_2FA3_OK:jsr DrawOptionsTitleScreen
 3063: a2 02     - BRANCH_LOOP__3063_3089_OK,BRANCH_LOOP__3063_30B9_OK,JUMP_BRANCH_3063_30D3_OK:ldx #$02
-3065: 8a        - BRANCH_LOOP__3065_3077_OK:txa 
+3065: 8a        -         txa 
 3066: a0 00     -         ldy #$00
-3068: 99 64 94  - BRANCH_LOOP__3068_3072_OK:sta $9464,Y 
-306b: 99 00 95  -         sta $9500,Y 
-306e: 99 00 96  -         sta $9600,Y 
+3068: 99 64 94  -         sta GAMESETTINGS.ScreenColour + $64,Y 
+306b: 99 00 95  -         sta GAMESETTINGS.ScreenColour + $100,Y 
+306e: 99 00 96  -         sta GAMESETTINGS.ScreenColour + $200,Y 
 3071: 88        -         dey 
-3072: d0 f4     -         bne BRANCH_LOOP__3068_3072_OK
-3074: e8        -         inx 
+3072: d0 f4     -         bne !FillScreen-
+3074: e8        -         inx
 3075: e0 08     -         cpx #$08
-3077: d0 ec     -         bne BRANCH_LOOP__3065_3077_OK
+3077: d0 ec     -         bne !NextFlashColour-
 3079: 20 60 25  -         jsr SUBROUTINE__2560_3079_OK
 307c: a5 0a     -         lda $0A 
 307e: 29 80     -         and #$80
@@ -5443,7 +5445,7 @@
 30c3: d0 05     -         bne BRANCH_LOOP__30CA_30C3_OK
 30c5: a9 31     -         lda #$31
 30c7: 8d 7e 31  -         sta $317E 
-30ca: 20 00 30  - BRANCH_LOOP__30CA_3097_OK,JUMP_BRANCH_30CA_309E_OK,BRANCH_LOOP__30CA_30AD_OK,JUMP_BRANCH_30CA_30B4_OK,BRANCH_LOOP__30CA_30C3_OK:jsr SUBROUTINE__3000_30CA_OK
+30ca: 20 00 30  - BRANCH_LOOP__30CA_3097_OK,JUMP_BRANCH_30CA_309E_OK,BRANCH_LOOP__30CA_30AD_OK,JUMP_BRANCH_30CA_30B4_OK,BRANCH_LOOP__30CA_30C3_OK:jsr DrawOptionsTitleScreen
 30cd: a5 c5     - BRANCH_LOOP__30CD_30D1_OK:lda $C5 
 30cf: c9 40     -         cmp #$40
 30d1: d0 fa     -         bne BRANCH_LOOP__30CD_30D1_OK

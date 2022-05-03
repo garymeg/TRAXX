@@ -12,7 +12,7 @@
 				lda #$1A
 				sta $9001 
 				lda #$19
-				sta $9002 
+				sta $9002  
 				lda #$09
 				sta $9000 
 				jsr Draw_Game_Status_Screen

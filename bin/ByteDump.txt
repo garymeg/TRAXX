@@ -3600,7 +3600,7 @@
 201a: a9 09     -         lda #$09
 201c: 8d 00 90  -         sta VIC.VICCR0
 201f: 20 ed 20  -         jsr DrawScreenHeader
-2022: 4c 5e 30  -         jmp RunTitleScreen													//jump 1
+2022: 4c 60 30  -         jmp RunTitleScreen													//jump 1
 2025: 4b 4b 4b  - ScreenHeader,P1_Lives:.byte $4b,$4b,$4b
 2028: 20 20 20 20 20                                   -         .byte $20,$20,$20,$20,$20
 202d: 20 20 20  -         .byte $20,$20,$20
@@ -5320,7 +5320,7 @@
 2fa0: 68        -         pla 
 2fa1: 68        -         pla 
 2fa2: 68        -         pla 
-2fa3: 4c 5e 30  -         jmp RunTitleScreen
+2fa3: 4c 60 30  -         jmp RunTitleScreen
 2fa6: 8a        - SUBROUTINE__2FA6_2FD2_OK,SUBROUTINE__2FA6_2FDA_OK:txa 
 2fa7: 48        -         pha 
 2fa8: 98        -         tya 
@@ -5362,100 +5362,97 @@
 2ff9: 00 00 00 00 00 00 00                             -         .byte $00,$00,$00,$00,$00,$00,$00
 3000: 20 ae 21  - DrawOptionsTitleScreen:jsr ClearPlayScreen
 3003: a2 12     -         ldx #$12
-3005: bd fa 30  - LoopLlamaSoftPresents:lda llamasoftPresents-1,X 
+3005: bd ff 30  - LoopLlamaSoftPresents:lda llamasoftPresents-1,X 
 3008: 9d 7f 10  -         sta GAMESETTINGS.Screen + $7F,X 
 300b: ca        -         dex 
 300c: d0 f7     -         bne LoopLlamaSoftPresents
-300e: bd 30 20  - LoopTraxxLogo:lda Traxx_logo_top,X 
-3011: 9d b9 10  -         sta GAMESETTINGS.Screen + $B9,X 
-3014: bd 49 20  -         lda Traxx_logo_bottom,X 
-3017: 9d d2 10  -         sta GAMESETTINGS.Screen + $D2,X 
-301a: ca        -         dex 
-301b: d0 f1     -         bne LoopTraxxLogo
-301d: a2 19     -         ldx #$19
-301f: bd 17 31  - LoopAdvancedGameSoftware:lda advancedGameSoftware,X 
-3022: 9d f9 10  -         sta GAMESETTINGS.Screen + $F9,X 
-3025: ca        -         dex 
-3026: d0 f7     -         bne LoopAdvancedGameSoftware
-3028: ea        -         nop 
-3029: a2 07     -         ldx #$07
-302b: bd 30 31  - LoopJeffMinter:lda geoffMinterTop,X 
-302e: 9d 35 11  - SUBROUTINE__3030_206A_OK:sta GAMESETTINGS.Screen + $135,X 
-3031: bd 37 31  -         lda geoffMinterBottom,X 
-3034: 9d 4e 11  -         sta GAMESETTINGS.Screen + $14E,X 
-3037: ca        -         dex 
-3038: d0 f1     -         bne LoopJeffMinter
-303a: a2 14     -         ldx #$14
-303c: bd 3e 31  - LoopOptions:lda f1Pursures,X 
-303f: 9d 78 11  -         sta GAMESETTINGS.Screen + $178,X 
-3042: bd 52 31  -         lda f3Speed,X 
-3045: 9d aa 11  -         sta GAMESETTINGS.Screen + $1AA,X 
-3048: bd 66 31  -         lda f5Players,X 
-304b: 9d dc 11  -         sta GAMESETTINGS.Screen + $1DC,X 
-304e: ca        -         dex 
-304f: d0 eb     -         bne LoopOptions
-3051: a2 14     -         ldx #$14
-3053: bd 7a 31  - LoopPressFire:lda pressFireToStart,X 
-3056: 9d 0e 12  -         sta GAMESETTINGS.Screen + $20E,X 
-3059: ca        -         dex 
-305a: d0 f7     -         bne LoopPressFire
-305c: 60        -         rts 
-305d: ea        -         nop 
-305e: 20 00 30  - RunTitleScreen:jsr DrawOptionsTitleScreen
-3061: a2 02     - FlashTitleScreenText:ldx #$02
-3063: 8a        -         txa 
-3064: a0 00     -         ldy #$00
-3066: 99 64 94  -         sta GAMESETTINGS.ScreenColour + $64,Y 
-3069: 99 00 95  -         sta GAMESETTINGS.ScreenColour + $100,Y 
-306c: 99 00 96  -         sta GAMESETTINGS.ScreenColour + $200,Y 
-306f: 88        -         dey 
-3070: d0 f4     -         bne !FillScreen-
-3072: e8        -         inx
-3073: e0 08     -         cpx #$08
-3075: d0 ec     -         bne !NextFlashColour-
-3077: 20 60 25  -         jsr SUBROUTINE__2560_3079_OK
-307a: a5 0a     -         lda $0A 
-307c: 29 80     -         and #$80
-307e: f0 03     -         beq CheckOptionsKey
-3080: 4c fb 31  -         jmp JUMP_BRANCH_3200_3082_OK
-3083: a5 c5     - CheckOptionsKey:lda PAGEZERO.LSTX
-3085: c9 40     -         cmp #KEYBOARD.NUL
-3087: f0 d8     -         beq FlashTitleScreenText
-3089: c9 27     -         cmp #KEYBOARD.KEY_F1
-308b: d0 12     -         bne !CheckNextKey+
-308d: ee 51 31  -         inc noOfPursures
-3090: ad 51 31  -         lda noOfPursures
-3093: c9 3a     -         cmp #$3A
-3095: d0 2e     -         bne UpdateTitleOptions
-3097: a9 31     -         lda #$31
-3099: 8d 51 31  -         sta noOfPursures
-309c: 4c c5 30  -         jmp UpdateTitleOptions
-309f: c9 2f     -         cmp #KEYBOARD.KEY_F3
-30a1: d0 12     -         bne !CheckNextKey+
-30a3: ee 65 31  -         inc gameSpeed 
-30a6: ad 65 31  -         lda gameSpeed 
-30a9: c9 3a     -         cmp #$3A
-30ab: d0 18     -         bne UpdateTitleOptions
-30ad: a9 31     -         lda #$31
-30af: 8d 65 31  -         sta gameSpeed 
-30b2: 4c c5 30  -         jmp UpdateTitleOptions
-30b5: c9 37     -         cmp #KEYBOARD.KEY_F5
-30b7: d0 a8     -         bne FlashTitleScreenText
-30b9: ad 79 31  -         lda noOfPlayers 
-30bc: c9 33     -         cmp #$33
-30be: d0 05     -         bne UpdateTitleOptions
-30c0: a9 31     -         lda #$31
-30c2: 8d 79 31  -         sta noOfPlayers 
-30c5: 20 00 30  - UpdateTitleOptions:jsr DrawOptionsTitleScreen
-30c8: a5 c5     - NoKeyPressed:lda PAGEZERO.LSTX
-30ca: c9 40     -         cmp #KEYBOARD.NUL
-30cc: d0 fa     -         bne NoKeyPressed
-30ce: 4c 61 30  -         jmp FlashTitleScreenText
-30d1: ea        -         nop 
-30d2: ea        -         nop 
-30d3: ea        -         nop 
-30d4: ea        -         nop 
-30d5: ea        -         nop 
+300e: a2 05     -         ldx #$05
+3010: bd 2f 20  - LoopTraxxLogo:lda Traxx_logo_top-1,X 
+3013: 9d b9 10  -         sta GAMESETTINGS.Screen + $B9,X 
+3016: bd 48 20  -         lda Traxx_logo_bottom-1,x
+3019: 9d d2 10  -         sta GAMESETTINGS.Screen + $D2,X 
+301c: ca        -         dex 
+301d: d0 f1     -         bne LoopTraxxLogo
+301f: a2 19     -         ldx #$19
+3021: bd 1b 31  - LoopAdvancedGameSoftware:lda advancedGameSoftware-1,X 
+3024: 9d f9 10  -         sta GAMESETTINGS.Screen + $F9,X 
+3027: ca        -         dex 
+3028: d0 f7     -         bne LoopAdvancedGameSoftware
+302a: ea        -         nop 
+302b: a2 07     -         ldx #$07
+302d: bd 34 31  - LoopJeffMinter:lda geoffMinterTop-1,X 
+3030: 9d 35 11  - SUBROUTINE__3030_206A_OK:sta GAMESETTINGS.Screen + $135,X 
+3033: bd 3b 31  -         lda geoffMinterBottom-1,X 
+3036: 9d 4e 11  -         sta GAMESETTINGS.Screen + $14E,X 
+3039: ca        -         dex 
+303a: d0 f1     -         bne LoopJeffMinter
+303c: a2 14     -         ldx #$14
+303e: bd 42 31  - LoopOptions:lda f1Pursures-1,X 
+3041: 9d 78 11  -         sta GAMESETTINGS.Screen + $178,X 
+3044: bd 56 31  -         lda f3Speed-1,X 
+3047: 9d aa 11  -         sta GAMESETTINGS.Screen + $1AA,X 
+304a: bd 6a 31  -         lda f5Players-1,X 
+304d: 9d dc 11  -         sta GAMESETTINGS.Screen + $1DC,X 
+3050: ca        -         dex 
+3051: d0 eb     -         bne LoopOptions
+3053: a2 14     -         ldx #$14
+3055: bd 7e 31  - LoopPressFire:lda pressFireToStart-1,X 
+3058: 9d 0e 12  -         sta GAMESETTINGS.Screen + $20E,X 
+305b: ca        -         dex 
+305c: d0 f7     -         bne LoopPressFire
+305e: 60        -         rts 
+305f: ea        -         nop 
+3060: 20 00 30  - RunTitleScreen:jsr DrawOptionsTitleScreen
+3063: a2 02     - FlashTitleScreenText:ldx #$02
+3065: 8a        -         txa 
+3066: a0 00     -         ldy #$00
+3068: 99 64 94  -         sta GAMESETTINGS.ScreenColour + $64,Y 
+306b: 99 00 95  -         sta GAMESETTINGS.ScreenColour + $100,Y 
+306e: 99 00 96  -         sta GAMESETTINGS.ScreenColour + $200,Y 
+3071: 88        -         dey 
+3072: d0 f4     -         bne !FillScreen-
+3074: e8        -         inx
+3075: e0 08     -         cpx #$08
+3077: d0 ec     -         bne !NextFlashColour-
+3079: 20 60 25  -         jsr SUBROUTINE__2560_3079_OK
+307c: a5 0a     -         lda $0A 
+307e: 29 80     -         and #$80
+3080: f0 03     -         beq CheckOptionsKey
+3082: 4c 00 32  -         jmp JUMP_BRANCH_3200_3082_OK
+3085: a5 c5     - CheckOptionsKey:lda PAGEZERO.LSTX
+3087: c9 40     -         cmp #KEYBOARD.NUL
+3089: f0 d8     -         beq FlashTitleScreenText
+308b: c9 27     -         cmp #KEYBOARD.KEY_F1
+308d: d0 12     -         bne !CheckNextKey+
+308f: ee 56 31  -         inc noOfPursures
+3092: ad 56 31  -         lda noOfPursures
+3095: c9 3a     -         cmp #$3A
+3097: d0 31     -         bne UpdateTitleOptions
+3099: a9 31     -         lda #$31
+309b: 8d 56 31  -         sta noOfPursures
+309e: 4c ca 30  -         jmp UpdateTitleOptions
+30a1: c9 2f     -         cmp #KEYBOARD.KEY_F3
+30a3: d0 12     -         bne !CheckNextKey+
+30a5: ee 6a 31  -         inc gameSpeed 
+30a8: ad 6a 31  -         lda gameSpeed 
+30ab: c9 3a     -         cmp #$3A
+30ad: d0 1b     -         bne UpdateTitleOptions
+30af: a9 31     -         lda #$31
+30b1: 8d 6a 31  -         sta gameSpeed 
+30b4: 4c ca 30  -         jmp UpdateTitleOptions
+30b7: c9 37     -         cmp #KEYBOARD.KEY_F5
+30b9: d0 a8     -         bne FlashTitleScreenText
+30bb: ee 7e 31  -         inc noOfPlayers
+30be: ad 7e 31  -         lda noOfPlayers 
+30c1: c9 33     -         cmp #$33
+30c3: d0 05     -         bne UpdateTitleOptions
+30c5: a9 31     -         lda #$31
+30c7: 8d 7e 31  -         sta noOfPlayers 
+30ca: 20 00 30  - UpdateTitleOptions:jsr DrawOptionsTitleScreen
+30cd: a5 c5     - NoKeyPressed:lda PAGEZERO.LSTX
+30cf: c9 40     -         cmp #KEYBOARD.NUL
+30d1: d0 fa     -         bne NoKeyPressed
+30d3: 4c 63 30  -         jmp FlashTitleScreenText
 30d6: ea        -         nop 
 30d7: ea        -         nop 
 30d8: ea        -         nop 
@@ -5493,32 +5490,32 @@
 30f8: ea        -         nop 
 30f9: ea        -         nop 
 30fa: ea        -         nop 
-30fb: 0c 0c 01 0d 01 13 0f 06 14 20 10 12 05 13 05 0e  - llamasoftPresents:.byte $0c,$0c,$01,$0d,$01,$13,$0f,$06,$14,$20,$10,$12,$05,$13,$05,$0e,$14,$13
-310b: 14 13                                           
-310d: 41 42 43 44 45                                   - traxxTop:.byte  	$41,$42,$43,$44,$45														
-3112: 46 47 48 49 4a                                   - traxxBotton:.byte 	$46,$47,$48,$49,$4a
-3117: 01 04 16 01 0e 03 05 04 20 07 01 0d 05 20 13 0f  - advancedGameSoftware:.byte $01,$04,$16,$01,$0e,$03,$05,$04,$20,$07,$01,$0d,$05,$20,$13,$0f,$06,$14,$17,$01,$12,$05,$20,$02,$19
-3127: 06 14 17 01 12 05 20 02 19                      
-3130: 81 82 83 84 85 86 87                             - geoffMinterTop:.byte $81,$82,$83,$84,$85,$86,$87
-3137: 88 89 20 8a 8b 8c 8d                             - geoffMinterBottom:.byte $88,$89,$20,$8a,$8b,$8c,$8d
-313e: 06 31 3a 20 0e 0f 2e 20 10 15 12 13 15 05 12 13  - f1Pursures:.byte $06,$31,$3a,$20,$0e,$0f,$2e,$20,$10,$15,$12,$13,$15,$05,$12,$13,$3a,$20,$20
-314e: 3a 20 20                                        
-3151: 33        - noOfPursures:.byte $33
-3152: 06 33 3a 20 13 10 05 05 04 20 20 20 20 20 20 20  - f3Speed:.byte $06,$33,$3a,$20,$13,$10,$05,$05,$04,$20,$20,$20,$20,$20,$20,$20,$3a,$20,$20
-3162: 3a 20 20                                        
-3165: 31        - gameSpeed:.byte $31
-3166: 06 35 3a 20 0e 0f 2e 20 10 0c 01 19 05 12 13 20  - f5Players:.byte $06,$35,$3a,$20,$0e,$0f,$2e,$20,$10,$0c,$01,$19,$05,$12,$13,$20,$3a,$20,$20
-3176: 3a 20 20                                        
-3179: 31        - noOfPlayers:.byte $31
-317a: 10 12 05 13 13 20 06 09 12 05 20 14 0f 20 02 05  - pressFireToStart:.byte $10,$12,$05,$13,$13,$20,$06,$09,$12,$05,$20,$14,$0f,$20,$02,$05,$07,$09,$0e,$2e
-318a: 07 09 0e 2e                                     
-318e: ea        -         nop
-318f: ea        -         nop
-3190: ea        -         nop 
-3191: ea        -         nop 
-3192: ea        -         nop 
-3193: ea        -         nop 
-3194: ea        -         nop 
+30fb: ea        -         nop 
+30fc: ea        -         nop 
+30fd: ea        -         nop 
+30fe: ea        -         nop 
+30ff: ea        -         nop 
+3100: 0c 0c 01 0d 01 13 0f 06 14 20 10 12 05 13 05 0e  - llamasoftPresents:.byte $0c,$0c,$01,$0d,$01,$13,$0f,$06,$14,$20,$10,$12,$05,$13,$05,$0e,$14,$13
+3110: 14 13                                           
+3112: 41 42 43 44 45                                   - traxxTop:.byte  	$41,$42,$43,$44,$45														
+3117: 46 47 48 49 4a                                   - traxxBotton:.byte 	$46,$47,$48,$49,$4a
+311c: 01 04 16 01 0e 03 05 04 20 07 01 0d 05 20 13 0f  - advancedGameSoftware:.byte $01,$04,$16,$01,$0e,$03,$05,$04,$20,$07,$01,$0d,$05,$20,$13,$0f,$06,$14,$17,$01,$12,$05,$20,$02,$19
+312c: 06 14 17 01 12 05 20 02 19                      
+3135: 81 82 83 84 85 86 87                             - geoffMinterTop:.byte $81,$82,$83,$84,$85,$86,$87
+313c: 88 89 20 8a 8b 8c 8d                             - geoffMinterBottom:.byte $88,$89,$20,$8a,$8b,$8c,$8d
+3143: 06 31 3a 20 0e 0f 2e 20 10 15 12 13 15 05 12 13  - f1Pursures:.byte $06,$31,$3a,$20,$0e,$0f,$2e,$20,$10,$15,$12,$13,$15,$05,$12,$13,$3a,$20,$20
+3153: 3a 20 20                                        
+3156: 33        - noOfPursures:.byte $33
+3157: 06 33 3a 20 13 10 05 05 04 20 20 20 20 20 20 20  - f3Speed:.byte $06,$33,$3a,$20,$13,$10,$05,$05,$04,$20,$20,$20,$20,$20,$20,$20,$3a,$20,$20
+3167: 3a 20 20                                        
+316a: 31        - gameSpeed:.byte $31
+316b: 06 35 3a 20 0e 0f 2e 20 10 0c 01 19 05 12 13 20  - f5Players:.byte $06,$35,$3a,$20,$0e,$0f,$2e,$20,$10,$0c,$01,$19,$05,$12,$13,$20,$3a,$20,$20
+317b: 3a 20 20                                        
+317e: 31        - noOfPlayers:.byte $31
+317f: 10 12 05 13 13 20 06 09 12 05 20 14 0f 20 02 05  - pressFireToStart:.byte $10,$12,$05,$13,$13,$20,$06,$09,$12,$05,$20,$14,$0f,$20,$02,$05,$07,$09,$0e,$2e
+318f: 07 09 0e 2e                                     
+3193: ea        -         nop
+3194: ea        -         nop
 3195: ea        -         nop 
 3196: ea        -         nop 
 3197: ea        -         nop 
@@ -5543,12 +5540,12 @@
 31aa: ea        -         nop 
 31ab: ea        -         nop 
 31ac: ea        -         nop 
-31ad: ea        - JUMP_BRANCH_31B2_1B6C_OK,JUMP_BRANCH_31B2_1BEE_OK:nop 
+31ad: ea        -         nop 
 31ae: ea        -         nop 
 31af: ea        -         nop 
 31b0: ea        -         nop 
 31b1: ea        -         nop 
-31b2: ea        -         nop 
+31b2: ea        - JUMP_BRANCH_31B2_1B6C_OK,JUMP_BRANCH_31B2_1BEE_OK:nop 
 31b3: ea        -         nop 
 31b4: ea        -         nop 
 31b5: ea        -         nop 
@@ -5621,472 +5618,477 @@
 31f8: ea        -         nop 
 31f9: ea        -         nop 
 31fa: ea        -         nop 
-31fb: a0 30     - JUMP_BRANCH_3200_3082_OK:ldy #$30
-31fd: ad 79 31  -         lda noOfPlayers 
-3200: 85 26     -         sta PAGEZERO.ZP_Players // $26 
-3202: c6 26     -         dec PAGEZERO.ZP_Players
-3204: 88        -         dey 
-3205: d0 fb     -         bne !ConvertScreenCodeToNumber-
-3207: a0 30     -         ldy #$30
-3209: ad 51 31  -         lda noOfPursures 
-320c: 85 19     -         sta PAGEZERO.ZP_Pursures
-320e: c6 19     -         dec PAGEZERO.ZP_Pursures
-3210: 88        -         dey 
-3211: d0 fb     -         bne !ConvertScreenCodeToNumber-
-3213: a9 aa     -         lda #$AA
-3215: 85 0d     -         sta $0D 
-3217: ad 65 31  -         lda gameSpeed
-321a: 85 1f     -         sta PAGEZERO.ZP_Speed
-321c: a0 30     -         ldy #$30
-321e: c6 1f     -         dec PAGEZERO.ZP_Speed 
-3220: 88        -         dey 
-3221: d0 fb     -         bne !ConvertScreenCodeToNumber-
-3223: a5 0d     - CreateGameSpeedDelayTime:lda PAGEZERO.ZP_GameSpeed
-3225: 38        -         sec 
-3226: e9 0a     -         sbc #$0A
-3228: 85 0d     -         sta PAGEZERO.ZP_GameSpeed 
-322a: c6 1f     -         dec PAGEZERO.ZP_Speed
-322c: d0 f5     -         bne CreateGameSpeedDelayTime
-322e: 20 ed 20  -         jsr DrawScreenHeader
-3231: 4c 00 22  -         jmp StartGamePlay
-3234: 02 02 ff ff ff ff ff ff                          -         .byte $02,$02,$ff,$ff,$ff,$ff,$ff,$ff
-323c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-3244: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-324c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-3254: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-325c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-3264: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-326c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-3274: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-327c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-3284: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-328c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-3294: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-329c: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32a4: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32ac: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32b4: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32bc: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32c4: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32cc: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32d4: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32dc: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32e4: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32ec: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-32f4: ff ff ff ff ff ff ff cb                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$cb
-32fc: f0 00 7f 00 7f 24 3f 30                          -         .byte $f0,$00,$7f,$00,$7f,$24,$3f,$30
-3304: 7f 00 ff 20 ff 34 7f 14                          -         .byte $7f,$00,$ff,$20,$ff,$34,$7f,$14
-330c: 9f 00 ff 00 ff 14 5f 34                          -         .byte $9f,$00,$ff,$00,$ff,$14,$5f,$34
-3314: 3f 00 ff 00 ff 10 6f 14                          -         .byte $3f,$00,$ff,$00,$ff,$10,$6f,$14
-331c: bf 00 ff 00 ff 30 7f 04                          -         .byte $bf,$00,$ff,$00,$ff,$30,$7f,$04
-3324: 3f 00 ff 00 ff 10 3f 14                          -         .byte $3f,$00,$ff,$00,$ff,$10,$3f,$14
-332c: 7f 00 ff 00 ff 34 7f 30                          -         .byte $7f,$00,$ff,$00,$ff,$34,$7f,$30
-3334: ff 00 ff 00 ff 30 7f 30                          -         .byte $ff,$00,$ff,$00,$ff,$30,$7f,$30
-333c: ff 00 ff 00 ff 30 7d 14                          -         .byte $ff,$00,$ff,$00,$ff,$30,$7d,$14
-3344: bf 00 ff 00 ff 10 7f 34                          -         .byte $bf,$00,$ff,$00,$ff,$10,$7f,$34
-334c: 3f 00 ff 00 ff 10 7f 04                          -         .byte $3f,$00,$ff,$00,$ff,$10,$7f,$04
-3354: 5f 00 ff 00 ff 30 3f 20                          -         .byte $5f,$00,$ff,$00,$ff,$30,$3f,$20
-335c: eb 00 ff 00 ff 10 3f 30                          -         .byte $eb,$00,$ff,$00,$ff,$10,$3f,$30
-3364: bf 00 ff 00 ff 90 3f 04                          -         .byte $bf,$00,$ff,$00,$ff,$90,$3f,$04
-336c: 3f 00 ff 00 ff 20 3f 34                          -         .byte $3f,$00,$ff,$00,$ff,$20,$3f,$34
-3374: bf 20 ff 20 ff 34 3f 30                          -         .byte $bf,$20,$ff,$20,$ff,$34,$3f,$30
-337c: 7f 00 ff 20 ff 24 ff 70                          -         .byte $7f,$00,$ff,$20,$ff,$24,$ff,$70
-3384: bf 00 ff 10 ff 34 bf 30                          -         .byte $bf,$00,$ff,$10,$ff,$34,$bf,$30
-338c: 7f 20 ff 20 ff 32 7f a4                          -         .byte $7f,$20,$ff,$20,$ff,$32,$7f,$a4
-3394: 3f 00 ff 00 ff 30 1f 30                          -         .byte $3f,$00,$ff,$00,$ff,$30,$1f,$30
-339c: bf 00 ff 00 ff 30 ff 34                          -         .byte $bf,$00,$ff,$00,$ff,$30,$ff,$34
-33a4: 3f 00 ff 04 ff 10 3f 34                          -         .byte $3f,$00,$ff,$04,$ff,$10,$3f,$34
-33ac: fb 00 7f 00 ff 30 3f 34                          -         .byte $fb,$00,$7f,$00,$ff,$30,$3f,$34
-33b4: ff 10 bf 00 ff 30 ff 30                          -         .byte $ff,$10,$bf,$00,$ff,$30,$ff,$30
-33bc: 3f 00 ff 10 ff 34 bf 20                          -         .byte $3f,$00,$ff,$10,$ff,$34,$bf,$20
-33c4: 7f 00 ff 00 ff 34 ff 34                          -         .byte $7f,$00,$ff,$00,$ff,$34,$ff,$34
-33cc: 7f 00 ff 00 ff 30 bf 10                          -         .byte $7f,$00,$ff,$00,$ff,$30,$bf,$10
-33d4: 3f 00 ff 10 ff 30 3f 20                          -         .byte $3f,$00,$ff,$10,$ff,$30,$3f,$20
-33dc: 7f 00 bf 00 ff 34 7f 30                          -         .byte $7f,$00,$bf,$00,$ff,$34,$7f,$30
-33e4: 3f 00 ff 00 ff 30 3f 30                          -         .byte $3f,$00,$ff,$00,$ff,$30,$3f,$30
-33ec: 3f 20 ff 10 ff 30 1f 44                          -         .byte $3f,$20,$ff,$10,$ff,$30,$1f,$44
-33f4: 3f 20 ff 20 ff 30 6f fc                          -         .byte $3f,$20,$ff,$20,$ff,$30,$6f,$fc
-33fc: 08 00 ff 00 ff 02 ff 01                          -         .byte $08,$00,$ff,$00,$ff,$02,$ff,$01
-3404: ff 00 ff 00 ff 00 f7 01                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f7,$01
-340c: ff 00 ff 00 ff 83 ff 13                          -         .byte $ff,$00,$ff,$00,$ff,$83,$ff,$13
-3414: 3f 00 ff 00 ff 02 7f 00                          -         .byte $3f,$00,$ff,$00,$ff,$02,$7f,$00
-341c: ff 00 ff 00 ff 01 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$01,$f7,$00
-3424: ff 00 ff 00 ff 42 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$42,$f7,$00
-342c: ff 00 ff 00 ff 11 ff 02                          -         .byte $ff,$00,$ff,$00,$ff,$11,$ff,$02
-3434: ff 00 ff 00 ff 02 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
-343c: bf 00 f7 00 ff 21 f7 02                          -         .byte $bf,$00,$f7,$00,$ff,$21,$f7,$02
-3444: f7 00 ff 00 ff 02 ff 00                          -         .byte $f7,$00,$ff,$00,$ff,$02,$ff,$00
-344c: ff 00 ff 00 ff 01 f7 01                          -         .byte $ff,$00,$ff,$00,$ff,$01,$f7,$01
-3454: ff 00 ff 00 ff 02 ef 13                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ef,$13
-345c: b7 00 ff 00 ff 02 f7 01                          -         .byte $b7,$00,$ff,$00,$ff,$02,$f7,$01
-3464: ff 00 ff 02 ff 00 f7 41                          -         .byte $ff,$00,$ff,$02,$ff,$00,$f7,$41
-346c: f7 02 ff 00 ff 22 ff 00                          -         .byte $f7,$02,$ff,$00,$ff,$22,$ff,$00
-3474: ff 00 bf 00 ff 02 df 01                          -         .byte $ff,$00,$bf,$00,$ff,$02,$df,$01
-347c: ff 00 f7 00 ff 02 f7 01                          -         .byte $ff,$00,$f7,$00,$ff,$02,$f7,$01
-3484: ff 00 ff 00 ff 82 f7 02                          -         .byte $ff,$00,$ff,$00,$ff,$82,$f7,$02
-348c: df 00 ff 02 ff 02 ff 00                          -         .byte $df,$00,$ff,$02,$ff,$02,$ff,$00
-3494: ff 00 ff 00 ff 00 df 03                          -         .byte $ff,$00,$ff,$00,$ff,$00,$df,$03
-349c: ff 00 ff 01 ff 00 df 02                          -         .byte $ff,$00,$ff,$01,$ff,$00,$df,$02
-34a4: ff 00 ff 00 ff 00 7f 01                          -         .byte $ff,$00,$ff,$00,$ff,$00,$7f,$01
-34ac: ff 00 ff 01 ff 00 ff 01                          -         .byte $ff,$00,$ff,$01,$ff,$00,$ff,$01
-34b4: ff 00 ff 00 ff 02 ff 01                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
-34bc: ff 00 ff 00 ff 02 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
-34c4: ff 00 ff 00 ff 01 f7 02                          -         .byte $ff,$00,$ff,$00,$ff,$01,$f7,$02
-34cc: ff 00 ff 02 ff 21 ff 01                          -         .byte $ff,$00,$ff,$02,$ff,$21,$ff,$01
-34d4: bf 00 ff 00 ff 02 f7 00                          -         .byte $bf,$00,$ff,$00,$ff,$02,$f7,$00
-34dc: f7 00 ff 00 f7 06 ef 02                          -         .byte $f7,$00,$ff,$00,$f7,$06,$ef,$02
-34e4: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-34ec: ff 00 ff 00 ff 02 ff 01                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
-34f4: ff 00 ff 00 ff 03 ff 55                          -         .byte $ff,$00,$ff,$00,$ff,$03,$ff,$55
-34fc: 05 05 c0 20 20 c0 00 00                          -         .byte $05,$05,$c0,$20,$20,$c0,$00,$00
-3504: c0 20 23 c3 03 03 c3 20                          -         .byte $c0,$20,$23,$c3,$03,$03,$c3,$20
-350c: 20 c0 f0 80 c4 54 54 c0                          -         .byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
-3514: 00 00 c0 20 20 c0 10 20                          -         .byte $00,$00,$c0,$20,$20,$c0,$10,$20
-351c: c0 50 50 c3 83 83 c3 53                          -         .byte $c0,$50,$50,$c3,$83,$83,$c3,$53
-3524: 50 c0 f0 80 c0 50 50 c0                          -         .byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
-352c: 00 03 c3 20 21 c1 01 01                          -         .byte $00,$03,$c3,$20,$21,$c1,$01,$01
-3534: c1 20 20 c0 00 00 c0 20                          -         .byte $c1,$20,$20,$c0,$00,$00,$c0,$20
-353c: 20 00 f3 83 50 51 51 01                          -         .byte $20,$00,$f3,$83,$50,$51,$51,$01
-3544: 01 c1 20 20 c0 00 10 c0                          -         .byte $01,$c1,$20,$20,$c0,$00,$10,$c0
-354c: 50 50 c0 91 80 c3 53 53                          -         .byte $50,$50,$c0,$91,$80,$c3,$53,$53
-3554: c3 03 f0 c0 50 50 c0 00                          -         .byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
-355c: 00 c0 20 27 c7 07 07 c7                          -         .byte $00,$c0,$20,$27,$c7,$07,$07,$c7
-3564: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
-356c: c7 07 f7 c7 57 57 c7 07                          -         .byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
-3574: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-357c: 57 57 c7 97 87 c7 57 57                          -         .byte $57,$57,$c7,$97,$87,$c7,$57,$57
-3584: 97 07 f7 57 57 57 07 07                          -         .byte $97,$07,$f7,$57,$57,$57,$07,$07
-358c: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-3594: 27 c7 07 07 c7 27 27 c7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$c7
-359c: c7 07 c7 57 57 c7 07 07                          -         .byte $c7,$07,$c7,$57,$57,$c7,$07,$07
-35a4: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-35ac: 57 c7 47 d7 c7 57 57 c7                          -         .byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
-35b4: 97 07 c7 57 57 c7 07 07                          -         .byte $97,$07,$c7,$57,$57,$c7,$07,$07
-35bc: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-35c4: 27 c7 07 07 c7 27 27 d7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$d7
-35cc: 87 07 57 57 57 07 07 c7                          -         .byte $87,$07,$57,$57,$57,$07,$07,$c7
-35d4: 27 27 c7 07 07 c7 27 57                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$57
-35dc: c7 67 47 c7 57 57 c7 37                          -         .byte $c7,$67,$47,$c7,$57,$57,$c7,$37
-35e4: 97 c7 47 57 c7 07 07 c7                          -         .byte $97,$c7,$47,$57,$c7,$07,$07,$c7
-35ec: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
-35f4: c7 07 07 c7 27 27 c7 27                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$27
-35fc: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-3604: 07 c7 27 27 c7 87 87 c7                          -         .byte $07,$c7,$27,$27,$c7,$87,$87,$c7
-360c: 57 57 c7 07 07 c7 27 27                          -         .byte $57,$57,$c7,$07,$07,$c7,$27,$27
-3614: c7 07 07 c7 27 57 c7 37                          -         .byte $c7,$07,$07,$c7,$27,$57,$c7,$37
-361c: 47 c7 57 57 57 17 17 57                          -         .byte $47,$c7,$57,$57,$57,$17,$17,$57
-3624: 47 57 07 07 c7 27 27 c7                          -         .byte $47,$57,$07,$07,$c7,$27,$27,$c7
-362c: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
-3634: c7 27 27 c7 87 87 c7 57                          -         .byte $c7,$27,$27,$c7,$87,$87,$c7,$57
-363c: 57 c7 07 07 c7 27 27 c7                          -         .byte $57,$c7,$07,$07,$c7,$27,$27,$c7
-3644: 07 07 c7 27 27 c7 17 37                          -         .byte $07,$07,$c7,$27,$27,$c7,$17,$37
-364c: c7 57 57 c7 47 17 c7 47                          -         .byte $c7,$57,$57,$c7,$47,$17,$c7,$47
-3654: 47 c7 07 07 c7 27 27 c7                          -         .byte $47,$c7,$07,$07,$c7,$27,$27,$c7
-365c: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
-3664: c7 27 27 77 87 87 57 57                          -         .byte $c7,$27,$27,$77,$87,$87,$57,$57
-366c: 57 07 07 c7 27 27 c7 07                          -         .byte $57,$07,$07,$c7,$27,$27,$c7,$07
-3674: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-367c: 57 57 c7 c7 47 c7 47 47                          -         .byte $57,$57,$c7,$c7,$47,$c7,$47,$47
-3684: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-368c: 07 c7 27 27 c7 07 07 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$07,$c7
-3694: 27 27 c7 57 87 c7 57 57                          -         .byte $27,$27,$c7,$57,$87,$c7,$57,$57
-369c: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-36a4: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-36ac: 57 57 97 c7 47 57 47 57                          -         .byte $57,$57,$97,$c7,$47,$57,$47,$57
-36b4: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-36bc: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-36c4: 27 c7 87 77 c7 57 57 c7                          -         .byte $27,$c7,$87,$77,$c7,$57,$57,$c7
-36cc: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
-36d4: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-36dc: 57 c7 87 c7 c7 47 47 c7                          -         .byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
-36e4: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-36ec: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-36f4: 27 87 87 57 57 57 57 27                          -         .byte $27,$87,$87,$57,$57,$57,$57,$27
-36fc: 27 a7 47 07 a7 27 27 57                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$57
-3704: 57 57 57 57 57 27 47 a7                          -         .byte $57,$57,$57,$57,$57,$27,$47,$a7
-370c: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
-3714: a7 27 47 a7 27 57 a7 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
-371c: 17 a7 47 47 a7 07 f7 a7                          -         .byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
-3724: 57 27 a7 47 27 a7 27 27                          -         .byte $57,$27,$a7,$47,$27,$a7,$27,$27
-372c: a7 07 47 a7 27 27 a7 57                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$57
-3734: 57 a7 57 57 a7 27 47 a7                          -         .byte $57,$a7,$57,$57,$a7,$27,$47,$a7
-373c: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
-3744: a7 27 47 a7 27 57 57 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$57,$d7
-374c: 57 57 47 57 f7 07 a7 57                          -         .byte $57,$57,$47,$57,$f7,$07,$a7,$57
-3754: 57 a7 47 07 a7 27 27 a7                          -         .byte $57,$a7,$47,$07,$a7,$27,$27,$a7
-375c: e7 07 a7 27 27 a7 57 57                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$57
-3764: a7 57 57 a7 e7 27 a7 27                          -         .byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
-376c: 27 a7 47 07 a7 27 27 a7                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$a7
-3774: e7 07 a7 27 27 a7 57 d7                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
-377c: a7 47 47 a7 f7 07 a7 57                          -         .byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
-3784: 57 a7 47 47 a7 27 27 a7                          -         .byte $57,$a7,$47,$47,$a7,$27,$27,$a7
-378c: e7 07 a7 27 27 57 57 57                          -         .byte $e7,$07,$a7,$27,$27,$57,$57,$57
-3794: 57 57 57 07 e7 a7 27 27                          -         .byte $57,$57,$57,$07,$e7,$a7,$27,$27
-379c: a7 47 47 a7 27 27 a7 07                          -         .byte $a7,$47,$47,$a7,$27,$27,$a7,$07
-37a4: e7 a7 27 27 a7 57 57 a7                          -         .byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
-37ac: 47 47 a7 f7 f7 a7 57 57                          -         .byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
-37b4: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-37bc: 67 a7 27 27 a7 57 57 a2                          -         .byte $67,$a7,$27,$27,$a7,$57,$57,$a2
-37c4: 52 52 a2 02 e7 a7 27 27                          -         .byte $52,$52,$a2,$02,$e7,$a7,$27,$27
-37cc: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-37d4: 67 a7 27 27 57 57 57 57                          -         .byte $67,$a7,$27,$27,$57,$57,$57,$57
-37dc: 47 57 07 f7 a7 57 57 a7                          -         .byte $47,$57,$07,$f7,$a7,$57,$57,$a7
-37e4: f7 07 a7 27 27 a7 77 07                          -         .byte $f7,$07,$a7,$27,$27,$a7,$77,$07
-37ec: a7 27 27 a7 57 57 a7 57                          -         .byte $a7,$27,$27,$a7,$57,$57,$a7,$57
-37f4: 57 a7 77 07 a7 27 27 5f                          -         .byte $57,$a7,$77,$07,$a7,$27,$27,$5f
-37fc: 93 00 ff 00 ff 80 ff 00                          -         .byte $93,$00,$ff,$00,$ff,$80,$ff,$00
-3804: ff 00 ff 00 ff a0 f7 80                          -         .byte $ff,$00,$ff,$00,$ff,$a0,$f7,$80
-380c: ff 00 ff 00 ff a1 df 00                          -         .byte $ff,$00,$ff,$00,$ff,$a1,$df,$00
-3814: ff 00 ff 00 ff 20 fe 08                          -         .byte $ff,$00,$ff,$00,$ff,$20,$fe,$08
-381c: d6 00 ff 00 ff 21 fe 00                          -         .byte $d6,$00,$ff,$00,$ff,$21,$fe,$00
-3824: ff 00 ff 00 ff 20 fe 84                          -         .byte $ff,$00,$ff,$00,$ff,$20,$fe,$84
-382c: fe 00 ff 00 ff 24 ff 00                          -         .byte $fe,$00,$ff,$00,$ff,$24,$ff,$00
-3834: fe 00 ff 00 ff 00 fe 00                          -         .byte $fe,$00,$ff,$00,$ff,$00,$fe,$00
-383c: ff 00 ff 00 ff 00 fe a1                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fe,$a1
-3844: f7 00 ff 00 ff 04 bf 00                          -         .byte $f7,$00,$ff,$00,$ff,$04,$bf,$00
-384c: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-3854: ff 00 ff 00 ff 20 ff 88                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$88
-385c: be 00 ff 00 ff 00 bf a0                          -         .byte $be,$00,$ff,$00,$ff,$00,$bf,$a0
-3864: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-386c: 7e 00 ff 00 ff a4 fe 80                          -         .byte $7e,$00,$ff,$00,$ff,$a4,$fe,$80
-3874: fe 00 ff 00 ff 80 df 80                          -         .byte $fe,$00,$ff,$00,$ff,$80,$df,$80
-387c: ff 00 ff 00 ff 01 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
-3884: ff 00 ff 00 ff 00 fd 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
-388c: df 00 ff 00 ff 00 fe 20                          -         .byte $df,$00,$ff,$00,$ff,$00,$fe,$20
-3894: 7e 00 ff 00 ff 20 fc 88                          -         .byte $7e,$00,$ff,$00,$ff,$20,$fc,$88
-389c: fe 00 ff 00 ff 08 fe 22                          -         .byte $fe,$00,$ff,$00,$ff,$08,$fe,$22
-38a4: fe 00 ff 00 ff 80 fe 90                          -         .byte $fe,$00,$ff,$00,$ff,$80,$fe,$90
-38ac: fe 00 ff 00 ff 01 bf 00                          -         .byte $fe,$00,$ff,$00,$ff,$01,$bf,$00
-38b4: 7f 00 ff 00 ff 20 ff b2                          -         .byte $7f,$00,$ff,$00,$ff,$20,$ff,$b2
-38bc: fe 00 ff 00 ff 91 ee 80                          -         .byte $fe,$00,$ff,$00,$ff,$91,$ee,$80
-38c4: ff 00 ff 00 ff 80 fe 20                          -         .byte $ff,$00,$ff,$00,$ff,$80,$fe,$20
-38cc: ff 00 ff 00 ff 80 ef 20                          -         .byte $ff,$00,$ff,$00,$ff,$80,$ef,$20
-38d4: ff 00 ff 00 ff 80 ef 00                          -         .byte $ff,$00,$ff,$00,$ff,$80,$ef,$00
-38dc: df 00 ff 00 ff 80 fe 00                          -         .byte $df,$00,$ff,$00,$ff,$80,$fe,$00
-38e4: ff 00 ff 00 ff 08 de 20                          -         .byte $ff,$00,$ff,$00,$ff,$08,$de,$20
-38ec: ff 00 ff 00 ff 80 fe 00                          -         .byte $ff,$00,$ff,$00,$ff,$80,$fe,$00
-38f4: ff 00 ff 00 ff 00 6f 55                          -         .byte $ff,$00,$ff,$00,$ff,$00,$6f,$55
-38fc: 05 05 c0 20 20 c0 00 00                          -         .byte $05,$05,$c0,$20,$20,$c0,$00,$00
-3904: c0 20 23 c3 03 03 c3 20                          -         .byte $c0,$20,$23,$c3,$03,$03,$c3,$20
-390c: 20 c0 f0 80 c4 54 54 c0                          -         .byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
-3914: 00 00 c0 20 20 c0 10 20                          -         .byte $00,$00,$c0,$20,$20,$c0,$10,$20
-391c: c0 50 50 c3 83 83 c3 53                          -         .byte $c0,$50,$50,$c3,$83,$83,$c3,$53
-3924: 50 c0 f0 80 c0 50 50 c0                          -         .byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
-392c: 00 03 c3 20 21 c1 01 01                          -         .byte $00,$03,$c3,$20,$21,$c1,$01,$01
-3934: c1 20 20 c0 00 00 c0 20                          -         .byte $c1,$20,$20,$c0,$00,$00,$c0,$20
-393c: 20 00 f3 83 50 51 51 01                          -         .byte $20,$00,$f3,$83,$50,$51,$51,$01
-3944: 01 c1 20 20 c0 00 10 c0                          -         .byte $01,$c1,$20,$20,$c0,$00,$10,$c0
-394c: 50 50 c0 91 80 c3 53 53                          -         .byte $50,$50,$c0,$91,$80,$c3,$53,$53
-3954: c3 03 f0 c0 50 50 c0 00                          -         .byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
-395c: 00 c0 20 27 c7 07 07 c7                          -         .byte $00,$c0,$20,$27,$c7,$07,$07,$c7
-3964: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
-396c: c7 07 f7 c7 57 57 c7 07                          -         .byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
-3974: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-397c: 57 57 c7 97 87 c7 57 57                          -         .byte $57,$57,$c7,$97,$87,$c7,$57,$57
-3984: 97 07 f7 57 57 57 07 07                          -         .byte $97,$07,$f7,$57,$57,$57,$07,$07
-398c: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-3994: 27 c7 07 07 c7 27 27 c7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$c7
-399c: c7 07 c7 57 57 c7 07 07                          -         .byte $c7,$07,$c7,$57,$57,$c7,$07,$07
-39a4: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-39ac: 57 c7 47 d7 c7 57 57 c7                          -         .byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
-39b4: 97 07 c7 57 57 c7 07 07                          -         .byte $97,$07,$c7,$57,$57,$c7,$07,$07
-39bc: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-39c4: 27 c7 07 07 c7 27 27 d7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$d7
-39cc: 87 07 57 57 57 07 07 c7                          -         .byte $87,$07,$57,$57,$57,$07,$07,$c7
-39d4: 27 27 c7 07 07 c7 27 57                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$57
-39dc: c7 67 47 c7 57 57 c7 37                          -         .byte $c7,$67,$47,$c7,$57,$57,$c7,$37
-39e4: 97 c7 47 57 c7 07 07 c7                          -         .byte $97,$c7,$47,$57,$c7,$07,$07,$c7
-39ec: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
-39f4: c7 07 07 c7 27 27 c7 27                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$27
-39fc: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-3a04: 07 c7 27 27 c7 87 87 c7                          -         .byte $07,$c7,$27,$27,$c7,$87,$87,$c7
-3a0c: 57 57 c7 07 07 c7 27 27                          -         .byte $57,$57,$c7,$07,$07,$c7,$27,$27
-3a14: c7 07 07 c7 27 57 c7 37                          -         .byte $c7,$07,$07,$c7,$27,$57,$c7,$37
-3a1c: 47 c7 57 57 57 17 17 57                          -         .byte $47,$c7,$57,$57,$57,$17,$17,$57
-3a24: 47 57 07 07 c7 27 27 c7                          -         .byte $47,$57,$07,$07,$c7,$27,$27,$c7
-3a2c: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
-3a34: c7 27 27 c7 87 87 c7 57                          -         .byte $c7,$27,$27,$c7,$87,$87,$c7,$57
-3a3c: 57 c7 07 07 c7 27 27 c7                          -         .byte $57,$c7,$07,$07,$c7,$27,$27,$c7
-3a44: 07 07 c7 27 27 c7 17 37                          -         .byte $07,$07,$c7,$27,$27,$c7,$17,$37
-3a4c: c7 57 57 c7 47 17 c7 47                          -         .byte $c7,$57,$57,$c7,$47,$17,$c7,$47
-3a54: 47 c7 07 07 c7 27 27 c7                          -         .byte $47,$c7,$07,$07,$c7,$27,$27,$c7
-3a5c: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
-3a64: c7 27 27 77 87 87 57 57                          -         .byte $c7,$27,$27,$77,$87,$87,$57,$57
-3a6c: 57 07 07 c7 27 27 c7 07                          -         .byte $57,$07,$07,$c7,$27,$27,$c7,$07
-3a74: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-3a7c: 57 57 c7 c7 47 c7 47 47                          -         .byte $57,$57,$c7,$c7,$47,$c7,$47,$47
-3a84: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-3a8c: 07 c7 27 27 c7 07 07 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$07,$c7
-3a94: 27 27 c7 57 87 c7 57 57                          -         .byte $27,$27,$c7,$57,$87,$c7,$57,$57
-3a9c: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-3aa4: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-3aac: 57 57 97 c7 47 57 47 57                          -         .byte $57,$57,$97,$c7,$47,$57,$47,$57
-3ab4: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-3abc: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-3ac4: 27 c7 87 77 c7 57 57 c7                          -         .byte $27,$c7,$87,$77,$c7,$57,$57,$c7
-3acc: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
-3ad4: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-3adc: 57 c7 87 c7 c7 47 47 c7                          -         .byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
-3ae4: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-3aec: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-3af4: 27 87 87 57 57 57 57 27                          -         .byte $27,$87,$87,$57,$57,$57,$57,$27
-3afc: 27 a7 47 07 a7 27 27 57                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$57
-3b04: 57 57 57 57 57 27 47 a7                          -         .byte $57,$57,$57,$57,$57,$27,$47,$a7
-3b0c: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
-3b14: a7 27 47 a7 27 57 a7 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
-3b1c: 17 a7 47 47 a7 07 f7 a7                          -         .byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
-3b24: 57 27 a7 47 27 a7 27 27                          -         .byte $57,$27,$a7,$47,$27,$a7,$27,$27
-3b2c: a7 07 47 a7 27 27 a7 57                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$57
-3b34: 57 a7 57 57 a7 27 47 a7                          -         .byte $57,$a7,$57,$57,$a7,$27,$47,$a7
-3b3c: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
-3b44: a7 27 47 a7 27 57 57 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$57,$d7
-3b4c: 57 57 47 57 f7 07 a7 57                          -         .byte $57,$57,$47,$57,$f7,$07,$a7,$57
-3b54: 57 a7 47 07 a7 27 27 a7                          -         .byte $57,$a7,$47,$07,$a7,$27,$27,$a7
-3b5c: e7 07 a7 27 27 a7 57 57                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$57
-3b64: a7 57 57 a7 e7 27 a7 27                          -         .byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
-3b6c: 27 a7 47 07 a7 27 27 a7                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$a7
-3b74: e7 07 a7 27 27 a7 57 d7                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
-3b7c: a7 47 47 a7 f7 07 a7 57                          -         .byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
-3b84: 57 a7 47 47 a7 27 27 a7                          -         .byte $57,$a7,$47,$47,$a7,$27,$27,$a7
-3b8c: e7 07 a7 27 27 57 57 57                          -         .byte $e7,$07,$a7,$27,$27,$57,$57,$57
-3b94: 57 57 57 07 e7 a7 27 27                          -         .byte $57,$57,$57,$07,$e7,$a7,$27,$27
-3b9c: a7 47 47 a7 27 27 a7 07                          -         .byte $a7,$47,$47,$a7,$27,$27,$a7,$07
-3ba4: e7 a7 27 27 a7 57 57 a7                          -         .byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
-3bac: 47 47 a7 f7 f7 a7 57 57                          -         .byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
-3bb4: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-3bbc: 67 a7 27 27 a7 57 57 a2                          -         .byte $67,$a7,$27,$27,$a7,$57,$57,$a2
-3bc4: 52 52 a2 02 e7 a7 27 27                          -         .byte $52,$52,$a2,$02,$e7,$a7,$27,$27
-3bcc: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-3bd4: 67 a7 27 27 57 57 57 57                          -         .byte $67,$a7,$27,$27,$57,$57,$57,$57
-3bdc: 47 57 07 f7 a7 57 57 a7                          -         .byte $47,$57,$07,$f7,$a7,$57,$57,$a7
-3be4: f7 07 a7 27 27 a7 77 07                          -         .byte $f7,$07,$a7,$27,$27,$a7,$77,$07
-3bec: a7 27 27 a7 57 57 a7 57                          -         .byte $a7,$27,$27,$a7,$57,$57,$a7,$57
-3bf4: 57 a7 77 07 a7 27 27 03                          -         .byte $57,$a7,$77,$07,$a7,$27,$27,$03
-3bfc: 00 03 06 00 ff 00 ef 20                          -         .byte $00,$03,$06,$00,$ff,$00,$ef,$20
-3c04: 9f 00 ff 00 ff 20 f7 03                          -         .byte $9f,$00,$ff,$00,$ff,$20,$f7,$03
-3c0c: 00 03 00 00 ff 00 a5 06                          -         .byte $00,$03,$00,$00,$ff,$00,$a5,$06
-3c14: ff 00 ff 00 ff 00 af 20                          -         .byte $ff,$00,$ff,$00,$ff,$00,$af,$20
-3c1c: ff 00 ff 00 ff 00 a7 20                          -         .byte $ff,$00,$ff,$00,$ff,$00,$a7,$20
-3c24: f7 00 ff 00 ff 00 b7 20                          -         .byte $f7,$00,$ff,$00,$ff,$00,$b7,$20
-3c2c: ff 00 ff 00 ff 91 af 40                          -         .byte $ff,$00,$ff,$00,$ff,$91,$af,$40
-3c34: af 00 ff 00 ff 00 b7 01                          -         .byte $af,$00,$ff,$00,$ff,$00,$b7,$01
-3c3c: ff 00 ff 00 ff 82 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$82,$f7,$00
-3c44: ff 00 ff 00 ff 00 bf 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$bf,$00
-3c4c: f7 00 ff 00 ff 20 df 80                          -         .byte $f7,$00,$ff,$00,$ff,$20,$df,$80
-3c54: af 00 ff 00 ff 00 ff 00                          -         .byte $af,$00,$ff,$00,$ff,$00,$ff,$00
-3c5c: f7 00 ff 00 ff 10 ef 00                          -         .byte $f7,$00,$ff,$00,$ff,$10,$ef,$00
-3c64: f7 00 ff 00 ff 02 ef 40                          -         .byte $f7,$00,$ff,$00,$ff,$02,$ef,$40
-3c6c: e7 00 ff 00 ff a0 fd 02                          -         .byte $e7,$00,$ff,$00,$ff,$a0,$fd,$02
-3c74: ff 00 ff 00 ff 00 f6 09                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f6,$09
-3c7c: bf 00 ff 00 ff 10 ff 00                          -         .byte $bf,$00,$ff,$00,$ff,$10,$ff,$00
-3c84: ff 00 ff 00 ff 00 e9 20                          -         .byte $ff,$00,$ff,$00,$ff,$00,$e9,$20
-3c8c: ef 00 ff 00 ff 00 f7 00                          -         .byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
-3c94: ff 00 ff 00 ff 00 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f7,$00
-3c9c: bf 00 ff 00 ff 00 ad 00                          -         .byte $bf,$00,$ff,$00,$ff,$00,$ad,$00
-3ca4: bf 00 ff 00 ff 00 8f 00                          -         .byte $bf,$00,$ff,$00,$ff,$00,$8f,$00
-3cac: bf 00 ff 00 ff 00 ff 02                          -         .byte $bf,$00,$ff,$00,$ff,$00,$ff,$02
-3cb4: b7 00 ff 00 ff 81 a7 00                          -         .byte $b7,$00,$ff,$00,$ff,$81,$a7,$00
-3cbc: ff 00 ff 00 ff 80 ed 00                          -         .byte $ff,$00,$ff,$00,$ff,$80,$ed,$00
-3cc4: ba 00 ff 00 ff 00 f7 00                          -         .byte $ba,$00,$ff,$00,$ff,$00,$f7,$00
-3ccc: e7 00 ff 00 ff 80 ff 42                          -         .byte $e7,$00,$ff,$00,$ff,$80,$ff,$42
-3cd4: ef 00 ff 00 ff 00 af 52                          -         .byte $ef,$00,$ff,$00,$ff,$00,$af,$52
-3cdc: e5 00 ff 00 ff 20 bf 00                          -         .byte $e5,$00,$ff,$00,$ff,$20,$bf,$00
-3ce4: ff 00 ff 00 ff 00 ff 1a                          -         .byte $ff,$00,$ff,$00,$ff,$00,$ff,$1a
-3cec: af 00 ff 00 ff 00 f7 01                          -         .byte $af,$00,$ff,$00,$ff,$00,$f7,$01
-3cf4: e6 00 ff 00 ff 0a ff ec                          -         .byte $e6,$00,$ff,$00,$ff,$0a,$ff,$ec
-3cfc: 86 00 ff 00 ff 00 ff 19                          -         .byte $86,$00,$ff,$00,$ff,$00,$ff,$19
-3d04: f9 00 ff 00 ff 12 ff 16                          -         .byte $f9,$00,$ff,$00,$ff,$12,$ff,$16
-3d0c: fd 00 ff 00 ff 12 fe 00                          -         .byte $fd,$00,$ff,$00,$ff,$12,$fe,$00
-3d14: f6 00 ff 00 ff 10 ff 00                          -         .byte $f6,$00,$ff,$00,$ff,$10,$ff,$00
-3d1c: fb 00 ff 00 ff 20 f5 01                          -         .byte $fb,$00,$ff,$00,$ff,$20,$f5,$01
-3d24: ff 00 ff 00 ff 52 ff 10                          -         .byte $ff,$00,$ff,$00,$ff,$52,$ff,$10
-3d2c: fd 00 ff 00 ff 90 ff 00                          -         .byte $fd,$00,$ff,$00,$ff,$90,$ff,$00
-3d34: fb 00 ff 00 ff 18 bd 10                          -         .byte $fb,$00,$ff,$00,$ff,$18,$bd,$10
-3d3c: 7b 00 ff 00 ff 10 ff 10                          -         .byte $7b,$00,$ff,$00,$ff,$10,$ff,$10
-3d44: fb 00 ff 00 ff 10 fb 12                          -         .byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
-3d4c: ff 00 ff 00 ff 00 fd 10                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$10
-3d54: fb 00 ff 00 ff 02 cf 00                          -         .byte $fb,$00,$ff,$00,$ff,$02,$cf,$00
-3d5c: ff 00 ff 00 ff 18 fd 00                          -         .byte $ff,$00,$ff,$00,$ff,$18,$fd,$00
-3d64: ff 00 ff 00 ff 02 ff 10                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$10
-3d6c: ff 00 ff 00 ff 01 ef 12                          -         .byte $ff,$00,$ff,$00,$ff,$01,$ef,$12
-3d74: ff 00 ff 00 ff 02 f9 12                          -         .byte $ff,$00,$ff,$00,$ff,$02,$f9,$12
-3d7c: fb 00 ff 00 ff 10 fb 12                          -         .byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
-3d84: ff 00 ff 00 ff 0a ff 12                          -         .byte $ff,$00,$ff,$00,$ff,$0a,$ff,$12
-3d8c: ff 00 ff 00 ff 10 ff 06                          -         .byte $ff,$00,$ff,$00,$ff,$10,$ff,$06
-3d94: fc 00 ff 00 ff 00 f3 00                          -         .byte $fc,$00,$ff,$00,$ff,$00,$f3,$00
-3d9c: f9 00 ff 00 ff 20 fd 12                          -         .byte $f9,$00,$ff,$00,$ff,$20,$fd,$12
-3da4: f3 00 ff 00 ff 90 ff 12                          -         .byte $f3,$00,$ff,$00,$ff,$90,$ff,$12
-3dac: f9 00 ff 00 ff 12 ff 10                          -         .byte $f9,$00,$ff,$00,$ff,$12,$ff,$10
-3db4: fd 00 ff 00 ff 02 fb 12                          -         .byte $fd,$00,$ff,$00,$ff,$02,$fb,$12
-3dbc: fb 00 ff 00 ff 00 fb 12                          -         .byte $fb,$00,$ff,$00,$ff,$00,$fb,$12
-3dc4: fe 00 ff 00 ff 02 f7 00                          -         .byte $fe,$00,$ff,$00,$ff,$02,$f7,$00
-3dcc: fa 00 ff 00 ff 13 fb 10                          -         .byte $fa,$00,$ff,$00,$ff,$13,$fb,$10
-3dd4: ff 00 ff 00 ff 10 f9 10                          -         .byte $ff,$00,$ff,$00,$ff,$10,$f9,$10
-3ddc: fb 00 ff 00 ff 10 fd 12                          -         .byte $fb,$00,$ff,$00,$ff,$10,$fd,$12
-3de4: fa 00 ff 00 ff 11 f7 80                          -         .byte $fa,$00,$ff,$00,$ff,$11,$f7,$80
-3dec: ff 00 ff 00 ff 04 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$04,$ff,$00
-3df4: ff 00 ff 00 ff 00 7a ef                          -         .byte $ff,$00,$ff,$00,$ff,$00,$7a,$ef
-3dfc: ca 00 ff 00 ff 00 ff 00                          -         .byte $ca,$00,$ff,$00,$ff,$00,$ff,$00
-3e04: ff 00 ff 00 ff 00 7f 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$7f,$00
-3e0c: ff 00 ff 00 ff 00 fd 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
-3e14: ff 00 ff 00 ff 02 fd 08                          -         .byte $ff,$00,$ff,$00,$ff,$02,$fd,$08
-3e1c: ff 00 ff 00 ff 00 fd 02                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$02
-3e24: f7 00 ff 00 ff 00 ff 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
-3e2c: ff 00 ff 00 ff 00 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
-3e34: ff 00 ff 00 ff 00 f3 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f3,$00
-3e3c: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-3e44: ff 00 ff 00 ff 01 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
-3e4c: f7 00 ff 00 ff 02 f7 00                          -         .byte $f7,$00,$ff,$00,$ff,$02,$f7,$00
-3e54: ff 00 ff 00 ff 00 f5 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f5,$00
-3e5c: bf 00 ff 00 ff 00 ff 10                          -         .byte $bf,$00,$ff,$00,$ff,$00,$ff,$10
-3e64: f7 00 ff 00 ff 00 fd 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$fd,$00
-3e6c: 67 00 ff 00 ff 08 f5 00                          -         .byte $67,$00,$ff,$00,$ff,$08,$f5,$00
-3e74: b7 00 ff 00 ff a5 ff 00                          -         .byte $b7,$00,$ff,$00,$ff,$a5,$ff,$00
-3e7c: f5 00 ff 00 ff 00 f5 00                          -         .byte $f5,$00,$ff,$00,$ff,$00,$f5,$00
-3e84: f7 00 ff 00 ff 00 ff 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
-3e8c: fd 00 ff 00 ff 02 f7 00                          -         .byte $fd,$00,$ff,$00,$ff,$02,$f7,$00
-3e94: f7 00 ff 00 ff 00 f7 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$f7,$00
-3e9c: f7 00 ff 00 ff 00 f7 10                          -         .byte $f7,$00,$ff,$00,$ff,$00,$f7,$10
-3ea4: ff 00 ff 00 ff 00 bf 80                          -         .byte $ff,$00,$ff,$00,$ff,$00,$bf,$80
-3eac: ff 00 ff 00 ff 00 fd 40                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$40
-3eb4: f5 00 ff 00 ff 14 fd 00                          -         .byte $f5,$00,$ff,$00,$ff,$14,$fd,$00
-3ebc: f7 00 ff 00 ff 08 f7 01                          -         .byte $f7,$00,$ff,$00,$ff,$08,$f7,$01
-3ec4: ef 00 ff 00 ff 00 f7 00                          -         .byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
-3ecc: ff 00 ff 00 ff 10 f7 01                          -         .byte $ff,$00,$ff,$00,$ff,$10,$f7,$01
-3ed4: ff 00 ff 00 ff 00 f5 50                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f5,$50
-3edc: fd 00 ff 00 ff 01 f7 00                          -         .byte $fd,$00,$ff,$00,$ff,$01,$f7,$00
-3ee4: fd 00 ff 00 ff 04 fd 00                          -         .byte $fd,$00,$ff,$00,$ff,$04,$fd,$00
-3eec: ff 00 ff 00 ff 00 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
-3ef4: 7f 00 ff 00 ff 92 ff ff                          -         .byte $7f,$00,$ff,$00,$ff,$92,$ff,$ff
-3efc: d5 00 ff 00 ff 00 00 00                          -         .byte $d5,$00,$ff,$00,$ff,$00,$00,$00
-3f04: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f0c: 00 00 ff 00 ff 00 00 20                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$20
-3f14: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f1c: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f24: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f2c: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f34: 00 00 ff 00 ff 20 00 00                          -         .byte $00,$00,$ff,$00,$ff,$20,$00,$00
-3f3c: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f44: 20 00 ff 00 ff 40 00 00                          -         .byte $20,$00,$ff,$00,$ff,$40,$00,$00
-3f4c: 00 00 fb 00 ff 40 00 80                          -         .byte $00,$00,$fb,$00,$ff,$40,$00,$80
-3f54: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f5c: 00 00 ff 00 ff 00 80 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$80,$00
-3f64: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f6c: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f74: 02 00 ff 00 ff 00 00 00                          -         .byte $02,$00,$ff,$00,$ff,$00,$00,$00
-3f7c: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3f84: 00 00 ff 00 ff 60 01 00                          -         .byte $00,$00,$ff,$00,$ff,$60,$01,$00
-3f8c: 00 00 ff 00 ff 00 00 08                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$08
-3f94: 00 00 ff 00 ff 04 00 00                          -         .byte $00,$00,$ff,$00,$ff,$04,$00,$00
-3f9c: 00 00 ff 00 ff 00 00 08                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$08
-3fa4: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fac: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fb4: 00 00 ff 00 ff 00 00 11                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$11
-3fbc: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fc4: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fcc: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fd4: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fdc: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fe4: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
-3fec: 02 00 ff 00 ff 01 00 00                          -         .byte $02,$00,$ff,$00,$ff,$01,$00,$00
-3ff4: 00 00 ff 00 ff 00 ff                             -         .byte $00,$00,$ff,$00,$ff,$00,$ff
+31fb: ea        -         nop 
+31fc: ea        -         nop 
+31fd: ea        -         nop 
+31fe: ea        -         nop 
+31ff: ea        -         nop 
+3200: a0 30     - JUMP_BRANCH_3200_3082_OK:ldy #$30
+3202: ad 7e 31  -         lda noOfPlayers 
+3205: 85 26     -         sta PAGEZERO.ZP_Players // $26 
+3207: c6 26     -         dec PAGEZERO.ZP_Players
+3209: 88        -         dey 
+320a: d0 fb     -         bne !ConvertScreenCodeToNumber-
+320c: a0 30     -         ldy #$30
+320e: ad 56 31  -         lda noOfPursures 
+3211: 85 19     -         sta PAGEZERO.ZP_Pursures
+3213: c6 19     -         dec PAGEZERO.ZP_Pursures
+3215: 88        -         dey 
+3216: d0 fb     -         bne !ConvertScreenCodeToNumber-
+3218: a9 aa     -         lda #$AA
+321a: 85 0d     -         sta $0D 
+321c: ad 6a 31  -         lda gameSpeed
+321f: 85 1f     -         sta PAGEZERO.ZP_Speed
+3221: a0 30     -         ldy #$30
+3223: c6 1f     -         dec PAGEZERO.ZP_Speed 
+3225: 88        -         dey 
+3226: d0 fb     -         bne !ConvertScreenCodeToNumber-
+3228: a5 0d     - CreateGameSpeedDelayTime:lda PAGEZERO.ZP_GameSpeed
+322a: 38        -         sec 
+322b: e9 0a     -         sbc #$0A
+322d: 85 0d     -         sta PAGEZERO.ZP_GameSpeed 
+322f: c6 1f     -         dec PAGEZERO.ZP_Speed
+3231: d0 f5     -         bne CreateGameSpeedDelayTime
+3233: 20 ed 20  -         jsr DrawScreenHeader
+3236: 4c 00 22  -         jmp StartGamePlay
+3239: 02 02 ff ff ff ff ff ff                          -         .byte $02,$02,$ff,$ff,$ff,$ff,$ff,$ff
+3241: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3249: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3251: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3259: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3261: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3269: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3271: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3279: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3281: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3289: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3291: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+3299: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32a1: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32a9: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32b1: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32b9: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32c1: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32c9: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32d1: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32d9: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32e1: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32e9: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32f1: ff ff ff ff ff ff ff ff                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+32f9: ff ff ff ff ff ff ff cb                          -         .byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$cb
+3301: f0 00 7f 00 7f 24 3f 30                          -         .byte $f0,$00,$7f,$00,$7f,$24,$3f,$30
+3309: 7f 00 ff 20 ff 34 7f 14                          -         .byte $7f,$00,$ff,$20,$ff,$34,$7f,$14
+3311: 9f 00 ff 00 ff 14 5f 34                          -         .byte $9f,$00,$ff,$00,$ff,$14,$5f,$34
+3319: 3f 00 ff 00 ff 10 6f 14                          -         .byte $3f,$00,$ff,$00,$ff,$10,$6f,$14
+3321: bf 00 ff 00 ff 30 7f 04                          -         .byte $bf,$00,$ff,$00,$ff,$30,$7f,$04
+3329: 3f 00 ff 00 ff 10 3f 14                          -         .byte $3f,$00,$ff,$00,$ff,$10,$3f,$14
+3331: 7f 00 ff 00 ff 34 7f 30                          -         .byte $7f,$00,$ff,$00,$ff,$34,$7f,$30
+3339: ff 00 ff 00 ff 30 7f 30                          -         .byte $ff,$00,$ff,$00,$ff,$30,$7f,$30
+3341: ff 00 ff 00 ff 30 7d 14                          -         .byte $ff,$00,$ff,$00,$ff,$30,$7d,$14
+3349: bf 00 ff 00 ff 10 7f 34                          -         .byte $bf,$00,$ff,$00,$ff,$10,$7f,$34
+3351: 3f 00 ff 00 ff 10 7f 04                          -         .byte $3f,$00,$ff,$00,$ff,$10,$7f,$04
+3359: 5f 00 ff 00 ff 30 3f 20                          -         .byte $5f,$00,$ff,$00,$ff,$30,$3f,$20
+3361: eb 00 ff 00 ff 10 3f 30                          -         .byte $eb,$00,$ff,$00,$ff,$10,$3f,$30
+3369: bf 00 ff 00 ff 90 3f 04                          -         .byte $bf,$00,$ff,$00,$ff,$90,$3f,$04
+3371: 3f 00 ff 00 ff 20 3f 34                          -         .byte $3f,$00,$ff,$00,$ff,$20,$3f,$34
+3379: bf 20 ff 20 ff 34 3f 30                          -         .byte $bf,$20,$ff,$20,$ff,$34,$3f,$30
+3381: 7f 00 ff 20 ff 24 ff 70                          -         .byte $7f,$00,$ff,$20,$ff,$24,$ff,$70
+3389: bf 00 ff 10 ff 34 bf 30                          -         .byte $bf,$00,$ff,$10,$ff,$34,$bf,$30
+3391: 7f 20 ff 20 ff 32 7f a4                          -         .byte $7f,$20,$ff,$20,$ff,$32,$7f,$a4
+3399: 3f 00 ff 00 ff 30 1f 30                          -         .byte $3f,$00,$ff,$00,$ff,$30,$1f,$30
+33a1: bf 00 ff 00 ff 30 ff 34                          -         .byte $bf,$00,$ff,$00,$ff,$30,$ff,$34
+33a9: 3f 00 ff 04 ff 10 3f 34                          -         .byte $3f,$00,$ff,$04,$ff,$10,$3f,$34
+33b1: fb 00 7f 00 ff 30 3f 34                          -         .byte $fb,$00,$7f,$00,$ff,$30,$3f,$34
+33b9: ff 10 bf 00 ff 30 ff 30                          -         .byte $ff,$10,$bf,$00,$ff,$30,$ff,$30
+33c1: 3f 00 ff 10 ff 34 bf 20                          -         .byte $3f,$00,$ff,$10,$ff,$34,$bf,$20
+33c9: 7f 00 ff 00 ff 34 ff 34                          -         .byte $7f,$00,$ff,$00,$ff,$34,$ff,$34
+33d1: 7f 00 ff 00 ff 30 bf 10                          -         .byte $7f,$00,$ff,$00,$ff,$30,$bf,$10
+33d9: 3f 00 ff 10 ff 30 3f 20                          -         .byte $3f,$00,$ff,$10,$ff,$30,$3f,$20
+33e1: 7f 00 bf 00 ff 34 7f 30                          -         .byte $7f,$00,$bf,$00,$ff,$34,$7f,$30
+33e9: 3f 00 ff 00 ff 30 3f 30                          -         .byte $3f,$00,$ff,$00,$ff,$30,$3f,$30
+33f1: 3f 20 ff 10 ff 30 1f 44                          -         .byte $3f,$20,$ff,$10,$ff,$30,$1f,$44
+33f9: 3f 20 ff 20 ff 30 6f fc                          -         .byte $3f,$20,$ff,$20,$ff,$30,$6f,$fc
+3401: 08 00 ff 00 ff 02 ff 01                          -         .byte $08,$00,$ff,$00,$ff,$02,$ff,$01
+3409: ff 00 ff 00 ff 00 f7 01                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f7,$01
+3411: ff 00 ff 00 ff 83 ff 13                          -         .byte $ff,$00,$ff,$00,$ff,$83,$ff,$13
+3419: 3f 00 ff 00 ff 02 7f 00                          -         .byte $3f,$00,$ff,$00,$ff,$02,$7f,$00
+3421: ff 00 ff 00 ff 01 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$01,$f7,$00
+3429: ff 00 ff 00 ff 42 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$42,$f7,$00
+3431: ff 00 ff 00 ff 11 ff 02                          -         .byte $ff,$00,$ff,$00,$ff,$11,$ff,$02
+3439: ff 00 ff 00 ff 02 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
+3441: bf 00 f7 00 ff 21 f7 02                          -         .byte $bf,$00,$f7,$00,$ff,$21,$f7,$02
+3449: f7 00 ff 00 ff 02 ff 00                          -         .byte $f7,$00,$ff,$00,$ff,$02,$ff,$00
+3451: ff 00 ff 00 ff 01 f7 01                          -         .byte $ff,$00,$ff,$00,$ff,$01,$f7,$01
+3459: ff 00 ff 00 ff 02 ef 13                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ef,$13
+3461: b7 00 ff 00 ff 02 f7 01                          -         .byte $b7,$00,$ff,$00,$ff,$02,$f7,$01
+3469: ff 00 ff 02 ff 00 f7 41                          -         .byte $ff,$00,$ff,$02,$ff,$00,$f7,$41
+3471: f7 02 ff 00 ff 22 ff 00                          -         .byte $f7,$02,$ff,$00,$ff,$22,$ff,$00
+3479: ff 00 bf 00 ff 02 df 01                          -         .byte $ff,$00,$bf,$00,$ff,$02,$df,$01
+3481: ff 00 f7 00 ff 02 f7 01                          -         .byte $ff,$00,$f7,$00,$ff,$02,$f7,$01
+3489: ff 00 ff 00 ff 82 f7 02                          -         .byte $ff,$00,$ff,$00,$ff,$82,$f7,$02
+3491: df 00 ff 02 ff 02 ff 00                          -         .byte $df,$00,$ff,$02,$ff,$02,$ff,$00
+3499: ff 00 ff 00 ff 00 df 03                          -         .byte $ff,$00,$ff,$00,$ff,$00,$df,$03
+34a1: ff 00 ff 01 ff 00 df 02                          -         .byte $ff,$00,$ff,$01,$ff,$00,$df,$02
+34a9: ff 00 ff 00 ff 00 7f 01                          -         .byte $ff,$00,$ff,$00,$ff,$00,$7f,$01
+34b1: ff 00 ff 01 ff 00 ff 01                          -         .byte $ff,$00,$ff,$01,$ff,$00,$ff,$01
+34b9: ff 00 ff 00 ff 02 ff 01                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
+34c1: ff 00 ff 00 ff 02 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
+34c9: ff 00 ff 00 ff 01 f7 02                          -         .byte $ff,$00,$ff,$00,$ff,$01,$f7,$02
+34d1: ff 00 ff 02 ff 21 ff 01                          -         .byte $ff,$00,$ff,$02,$ff,$21,$ff,$01
+34d9: bf 00 ff 00 ff 02 f7 00                          -         .byte $bf,$00,$ff,$00,$ff,$02,$f7,$00
+34e1: f7 00 ff 00 f7 06 ef 02                          -         .byte $f7,$00,$ff,$00,$f7,$06,$ef,$02
+34e9: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+34f1: ff 00 ff 00 ff 02 ff 01                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
+34f9: ff 00 ff 00 ff 03 ff 55                          -         .byte $ff,$00,$ff,$00,$ff,$03,$ff,$55
+3501: 05 05 c0 20 20 c0 00 00                          -         .byte $05,$05,$c0,$20,$20,$c0,$00,$00
+3509: c0 20 23 c3 03 03 c3 20                          -         .byte $c0,$20,$23,$c3,$03,$03,$c3,$20
+3511: 20 c0 f0 80 c4 54 54 c0                          -         .byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
+3519: 00 00 c0 20 20 c0 10 20                          -         .byte $00,$00,$c0,$20,$20,$c0,$10,$20
+3521: c0 50 50 c3 83 83 c3 53                          -         .byte $c0,$50,$50,$c3,$83,$83,$c3,$53
+3529: 50 c0 f0 80 c0 50 50 c0                          -         .byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
+3531: 00 03 c3 20 21 c1 01 01                          -         .byte $00,$03,$c3,$20,$21,$c1,$01,$01
+3539: c1 20 20 c0 00 00 c0 20                          -         .byte $c1,$20,$20,$c0,$00,$00,$c0,$20
+3541: 20 00 f3 83 50 51 51 01                          -         .byte $20,$00,$f3,$83,$50,$51,$51,$01
+3549: 01 c1 20 20 c0 00 10 c0                          -         .byte $01,$c1,$20,$20,$c0,$00,$10,$c0
+3551: 50 50 c0 91 80 c3 53 53                          -         .byte $50,$50,$c0,$91,$80,$c3,$53,$53
+3559: c3 03 f0 c0 50 50 c0 00                          -         .byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
+3561: 00 c0 20 27 c7 07 07 c7                          -         .byte $00,$c0,$20,$27,$c7,$07,$07,$c7
+3569: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
+3571: c7 07 f7 c7 57 57 c7 07                          -         .byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
+3579: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+3581: 57 57 c7 97 87 c7 57 57                          -         .byte $57,$57,$c7,$97,$87,$c7,$57,$57
+3589: 97 07 f7 57 57 57 07 07                          -         .byte $97,$07,$f7,$57,$57,$57,$07,$07
+3591: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+3599: 27 c7 07 07 c7 27 27 c7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$c7
+35a1: c7 07 c7 57 57 c7 07 07                          -         .byte $c7,$07,$c7,$57,$57,$c7,$07,$07
+35a9: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+35b1: 57 c7 47 d7 c7 57 57 c7                          -         .byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
+35b9: 97 07 c7 57 57 c7 07 07                          -         .byte $97,$07,$c7,$57,$57,$c7,$07,$07
+35c1: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+35c9: 27 c7 07 07 c7 27 27 d7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$d7
+35d1: 87 07 57 57 57 07 07 c7                          -         .byte $87,$07,$57,$57,$57,$07,$07,$c7
+35d9: 27 27 c7 07 07 c7 27 57                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$57
+35e1: c7 67 47 c7 57 57 c7 37                          -         .byte $c7,$67,$47,$c7,$57,$57,$c7,$37
+35e9: 97 c7 47 57 c7 07 07 c7                          -         .byte $97,$c7,$47,$57,$c7,$07,$07,$c7
+35f1: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
+35f9: c7 07 07 c7 27 27 c7 27                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$27
+3601: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+3609: 07 c7 27 27 c7 87 87 c7                          -         .byte $07,$c7,$27,$27,$c7,$87,$87,$c7
+3611: 57 57 c7 07 07 c7 27 27                          -         .byte $57,$57,$c7,$07,$07,$c7,$27,$27
+3619: c7 07 07 c7 27 57 c7 37                          -         .byte $c7,$07,$07,$c7,$27,$57,$c7,$37
+3621: 47 c7 57 57 57 17 17 57                          -         .byte $47,$c7,$57,$57,$57,$17,$17,$57
+3629: 47 57 07 07 c7 27 27 c7                          -         .byte $47,$57,$07,$07,$c7,$27,$27,$c7
+3631: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
+3639: c7 27 27 c7 87 87 c7 57                          -         .byte $c7,$27,$27,$c7,$87,$87,$c7,$57
+3641: 57 c7 07 07 c7 27 27 c7                          -         .byte $57,$c7,$07,$07,$c7,$27,$27,$c7
+3649: 07 07 c7 27 27 c7 17 37                          -         .byte $07,$07,$c7,$27,$27,$c7,$17,$37
+3651: c7 57 57 c7 47 17 c7 47                          -         .byte $c7,$57,$57,$c7,$47,$17,$c7,$47
+3659: 47 c7 07 07 c7 27 27 c7                          -         .byte $47,$c7,$07,$07,$c7,$27,$27,$c7
+3661: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
+3669: c7 27 27 77 87 87 57 57                          -         .byte $c7,$27,$27,$77,$87,$87,$57,$57
+3671: 57 07 07 c7 27 27 c7 07                          -         .byte $57,$07,$07,$c7,$27,$27,$c7,$07
+3679: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+3681: 57 57 c7 c7 47 c7 47 47                          -         .byte $57,$57,$c7,$c7,$47,$c7,$47,$47
+3689: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+3691: 07 c7 27 27 c7 07 07 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$07,$c7
+3699: 27 27 c7 57 87 c7 57 57                          -         .byte $27,$27,$c7,$57,$87,$c7,$57,$57
+36a1: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+36a9: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+36b1: 57 57 97 c7 47 57 47 57                          -         .byte $57,$57,$97,$c7,$47,$57,$47,$57
+36b9: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+36c1: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+36c9: 27 c7 87 77 c7 57 57 c7                          -         .byte $27,$c7,$87,$77,$c7,$57,$57,$c7
+36d1: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
+36d9: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+36e1: 57 c7 87 c7 c7 47 47 c7                          -         .byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
+36e9: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+36f1: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+36f9: 27 87 87 57 57 57 57 27                          -         .byte $27,$87,$87,$57,$57,$57,$57,$27
+3701: 27 a7 47 07 a7 27 27 57                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$57
+3709: 57 57 57 57 57 27 47 a7                          -         .byte $57,$57,$57,$57,$57,$27,$47,$a7
+3711: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
+3719: a7 27 47 a7 27 57 a7 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
+3721: 17 a7 47 47 a7 07 f7 a7                          -         .byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
+3729: 57 27 a7 47 27 a7 27 27                          -         .byte $57,$27,$a7,$47,$27,$a7,$27,$27
+3731: a7 07 47 a7 27 27 a7 57                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$57
+3739: 57 a7 57 57 a7 27 47 a7                          -         .byte $57,$a7,$57,$57,$a7,$27,$47,$a7
+3741: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
+3749: a7 27 47 a7 27 57 57 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$57,$d7
+3751: 57 57 47 57 f7 07 a7 57                          -         .byte $57,$57,$47,$57,$f7,$07,$a7,$57
+3759: 57 a7 47 07 a7 27 27 a7                          -         .byte $57,$a7,$47,$07,$a7,$27,$27,$a7
+3761: e7 07 a7 27 27 a7 57 57                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$57
+3769: a7 57 57 a7 e7 27 a7 27                          -         .byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
+3771: 27 a7 47 07 a7 27 27 a7                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$a7
+3779: e7 07 a7 27 27 a7 57 d7                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
+3781: a7 47 47 a7 f7 07 a7 57                          -         .byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
+3789: 57 a7 47 47 a7 27 27 a7                          -         .byte $57,$a7,$47,$47,$a7,$27,$27,$a7
+3791: e7 07 a7 27 27 57 57 57                          -         .byte $e7,$07,$a7,$27,$27,$57,$57,$57
+3799: 57 57 57 07 e7 a7 27 27                          -         .byte $57,$57,$57,$07,$e7,$a7,$27,$27
+37a1: a7 47 47 a7 27 27 a7 07                          -         .byte $a7,$47,$47,$a7,$27,$27,$a7,$07
+37a9: e7 a7 27 27 a7 57 57 a7                          -         .byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
+37b1: 47 47 a7 f7 f7 a7 57 57                          -         .byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
+37b9: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+37c1: 67 a7 27 27 a7 57 57 a2                          -         .byte $67,$a7,$27,$27,$a7,$57,$57,$a2
+37c9: 52 52 a2 02 e7 a7 27 27                          -         .byte $52,$52,$a2,$02,$e7,$a7,$27,$27
+37d1: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+37d9: 67 a7 27 27 57 57 57 57                          -         .byte $67,$a7,$27,$27,$57,$57,$57,$57
+37e1: 47 57 07 f7 a7 57 57 a7                          -         .byte $47,$57,$07,$f7,$a7,$57,$57,$a7
+37e9: f7 07 a7 27 27 a7 77 07                          -         .byte $f7,$07,$a7,$27,$27,$a7,$77,$07
+37f1: a7 27 27 a7 57 57 a7 57                          -         .byte $a7,$27,$27,$a7,$57,$57,$a7,$57
+37f9: 57 a7 77 07 a7 27 27 5f                          -         .byte $57,$a7,$77,$07,$a7,$27,$27,$5f
+3801: 93 00 ff 00 ff 80 ff 00                          -         .byte $93,$00,$ff,$00,$ff,$80,$ff,$00
+3809: ff 00 ff 00 ff a0 f7 80                          -         .byte $ff,$00,$ff,$00,$ff,$a0,$f7,$80
+3811: ff 00 ff 00 ff a1 df 00                          -         .byte $ff,$00,$ff,$00,$ff,$a1,$df,$00
+3819: ff 00 ff 00 ff 20 fe 08                          -         .byte $ff,$00,$ff,$00,$ff,$20,$fe,$08
+3821: d6 00 ff 00 ff 21 fe 00                          -         .byte $d6,$00,$ff,$00,$ff,$21,$fe,$00
+3829: ff 00 ff 00 ff 20 fe 84                          -         .byte $ff,$00,$ff,$00,$ff,$20,$fe,$84
+3831: fe 00 ff 00 ff 24 ff 00                          -         .byte $fe,$00,$ff,$00,$ff,$24,$ff,$00
+3839: fe 00 ff 00 ff 00 fe 00                          -         .byte $fe,$00,$ff,$00,$ff,$00,$fe,$00
+3841: ff 00 ff 00 ff 00 fe a1                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fe,$a1
+3849: f7 00 ff 00 ff 04 bf 00                          -         .byte $f7,$00,$ff,$00,$ff,$04,$bf,$00
+3851: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+3859: ff 00 ff 00 ff 20 ff 88                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$88
+3861: be 00 ff 00 ff 00 bf a0                          -         .byte $be,$00,$ff,$00,$ff,$00,$bf,$a0
+3869: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+3871: 7e 00 ff 00 ff a4 fe 80                          -         .byte $7e,$00,$ff,$00,$ff,$a4,$fe,$80
+3879: fe 00 ff 00 ff 80 df 80                          -         .byte $fe,$00,$ff,$00,$ff,$80,$df,$80
+3881: ff 00 ff 00 ff 01 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
+3889: ff 00 ff 00 ff 00 fd 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
+3891: df 00 ff 00 ff 00 fe 20                          -         .byte $df,$00,$ff,$00,$ff,$00,$fe,$20
+3899: 7e 00 ff 00 ff 20 fc 88                          -         .byte $7e,$00,$ff,$00,$ff,$20,$fc,$88
+38a1: fe 00 ff 00 ff 08 fe 22                          -         .byte $fe,$00,$ff,$00,$ff,$08,$fe,$22
+38a9: fe 00 ff 00 ff 80 fe 90                          -         .byte $fe,$00,$ff,$00,$ff,$80,$fe,$90
+38b1: fe 00 ff 00 ff 01 bf 00                          -         .byte $fe,$00,$ff,$00,$ff,$01,$bf,$00
+38b9: 7f 00 ff 00 ff 20 ff b2                          -         .byte $7f,$00,$ff,$00,$ff,$20,$ff,$b2
+38c1: fe 00 ff 00 ff 91 ee 80                          -         .byte $fe,$00,$ff,$00,$ff,$91,$ee,$80
+38c9: ff 00 ff 00 ff 80 fe 20                          -         .byte $ff,$00,$ff,$00,$ff,$80,$fe,$20
+38d1: ff 00 ff 00 ff 80 ef 20                          -         .byte $ff,$00,$ff,$00,$ff,$80,$ef,$20
+38d9: ff 00 ff 00 ff 80 ef 00                          -         .byte $ff,$00,$ff,$00,$ff,$80,$ef,$00
+38e1: df 00 ff 00 ff 80 fe 00                          -         .byte $df,$00,$ff,$00,$ff,$80,$fe,$00
+38e9: ff 00 ff 00 ff 08 de 20                          -         .byte $ff,$00,$ff,$00,$ff,$08,$de,$20
+38f1: ff 00 ff 00 ff 80 fe 00                          -         .byte $ff,$00,$ff,$00,$ff,$80,$fe,$00
+38f9: ff 00 ff 00 ff 00 6f 55                          -         .byte $ff,$00,$ff,$00,$ff,$00,$6f,$55
+3901: 05 05 c0 20 20 c0 00 00                          -         .byte $05,$05,$c0,$20,$20,$c0,$00,$00
+3909: c0 20 23 c3 03 03 c3 20                          -         .byte $c0,$20,$23,$c3,$03,$03,$c3,$20
+3911: 20 c0 f0 80 c4 54 54 c0                          -         .byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
+3919: 00 00 c0 20 20 c0 10 20                          -         .byte $00,$00,$c0,$20,$20,$c0,$10,$20
+3921: c0 50 50 c3 83 83 c3 53                          -         .byte $c0,$50,$50,$c3,$83,$83,$c3,$53
+3929: 50 c0 f0 80 c0 50 50 c0                          -         .byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
+3931: 00 03 c3 20 21 c1 01 01                          -         .byte $00,$03,$c3,$20,$21,$c1,$01,$01
+3939: c1 20 20 c0 00 00 c0 20                          -         .byte $c1,$20,$20,$c0,$00,$00,$c0,$20
+3941: 20 00 f3 83 50 51 51 01                          -         .byte $20,$00,$f3,$83,$50,$51,$51,$01
+3949: 01 c1 20 20 c0 00 10 c0                          -         .byte $01,$c1,$20,$20,$c0,$00,$10,$c0
+3951: 50 50 c0 91 80 c3 53 53                          -         .byte $50,$50,$c0,$91,$80,$c3,$53,$53
+3959: c3 03 f0 c0 50 50 c0 00                          -         .byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
+3961: 00 c0 20 27 c7 07 07 c7                          -         .byte $00,$c0,$20,$27,$c7,$07,$07,$c7
+3969: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
+3971: c7 07 f7 c7 57 57 c7 07                          -         .byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
+3979: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+3981: 57 57 c7 97 87 c7 57 57                          -         .byte $57,$57,$c7,$97,$87,$c7,$57,$57
+3989: 97 07 f7 57 57 57 07 07                          -         .byte $97,$07,$f7,$57,$57,$57,$07,$07
+3991: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+3999: 27 c7 07 07 c7 27 27 c7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$c7
+39a1: c7 07 c7 57 57 c7 07 07                          -         .byte $c7,$07,$c7,$57,$57,$c7,$07,$07
+39a9: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+39b1: 57 c7 47 d7 c7 57 57 c7                          -         .byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
+39b9: 97 07 c7 57 57 c7 07 07                          -         .byte $97,$07,$c7,$57,$57,$c7,$07,$07
+39c1: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+39c9: 27 c7 07 07 c7 27 27 d7                          -         .byte $27,$c7,$07,$07,$c7,$27,$27,$d7
+39d1: 87 07 57 57 57 07 07 c7                          -         .byte $87,$07,$57,$57,$57,$07,$07,$c7
+39d9: 27 27 c7 07 07 c7 27 57                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$57
+39e1: c7 67 47 c7 57 57 c7 37                          -         .byte $c7,$67,$47,$c7,$57,$57,$c7,$37
+39e9: 97 c7 47 57 c7 07 07 c7                          -         .byte $97,$c7,$47,$57,$c7,$07,$07,$c7
+39f1: 27 27 c7 07 07 c7 27 27                          -         .byte $27,$27,$c7,$07,$07,$c7,$27,$27
+39f9: c7 07 07 c7 27 27 c7 27                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$27
+3a01: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+3a09: 07 c7 27 27 c7 87 87 c7                          -         .byte $07,$c7,$27,$27,$c7,$87,$87,$c7
+3a11: 57 57 c7 07 07 c7 27 27                          -         .byte $57,$57,$c7,$07,$07,$c7,$27,$27
+3a19: c7 07 07 c7 27 57 c7 37                          -         .byte $c7,$07,$07,$c7,$27,$57,$c7,$37
+3a21: 47 c7 57 57 57 17 17 57                          -         .byte $47,$c7,$57,$57,$57,$17,$17,$57
+3a29: 47 57 07 07 c7 27 27 c7                          -         .byte $47,$57,$07,$07,$c7,$27,$27,$c7
+3a31: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
+3a39: c7 27 27 c7 87 87 c7 57                          -         .byte $c7,$27,$27,$c7,$87,$87,$c7,$57
+3a41: 57 c7 07 07 c7 27 27 c7                          -         .byte $57,$c7,$07,$07,$c7,$27,$27,$c7
+3a49: 07 07 c7 27 27 c7 17 37                          -         .byte $07,$07,$c7,$27,$27,$c7,$17,$37
+3a51: c7 57 57 c7 47 17 c7 47                          -         .byte $c7,$57,$57,$c7,$47,$17,$c7,$47
+3a59: 47 c7 07 07 c7 27 27 c7                          -         .byte $47,$c7,$07,$07,$c7,$27,$27,$c7
+3a61: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
+3a69: c7 27 27 77 87 87 57 57                          -         .byte $c7,$27,$27,$77,$87,$87,$57,$57
+3a71: 57 07 07 c7 27 27 c7 07                          -         .byte $57,$07,$07,$c7,$27,$27,$c7,$07
+3a79: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+3a81: 57 57 c7 c7 47 c7 47 47                          -         .byte $57,$57,$c7,$c7,$47,$c7,$47,$47
+3a89: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+3a91: 07 c7 27 27 c7 07 07 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$07,$c7
+3a99: 27 27 c7 57 87 c7 57 57                          -         .byte $27,$27,$c7,$57,$87,$c7,$57,$57
+3aa1: c7 07 07 c7 27 27 c7 07                          -         .byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+3aa9: 07 c7 27 27 c7 07 17 c7                          -         .byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+3ab1: 57 57 97 c7 47 57 47 57                          -         .byte $57,$57,$97,$c7,$47,$57,$47,$57
+3ab9: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+3ac1: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+3ac9: 27 c7 87 77 c7 57 57 c7                          -         .byte $27,$c7,$87,$77,$c7,$57,$57,$c7
+3ad1: 07 07 c7 27 27 c7 07 07                          -         .byte $07,$07,$c7,$27,$27,$c7,$07,$07
+3ad9: c7 27 27 c7 07 07 c7 57                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+3ae1: 57 c7 87 c7 c7 47 47 c7                          -         .byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
+3ae9: f7 07 c7 27 27 c7 07 07                          -         .byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+3af1: c7 27 27 c7 07 07 c7 27                          -         .byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+3af9: 27 87 87 57 57 57 57 27                          -         .byte $27,$87,$87,$57,$57,$57,$57,$27
+3b01: 27 a7 47 07 a7 27 27 57                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$57
+3b09: 57 57 57 57 57 27 47 a7                          -         .byte $57,$57,$57,$57,$57,$27,$47,$a7
+3b11: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
+3b19: a7 27 47 a7 27 57 a7 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
+3b21: 17 a7 47 47 a7 07 f7 a7                          -         .byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
+3b29: 57 27 a7 47 27 a7 27 27                          -         .byte $57,$27,$a7,$47,$27,$a7,$27,$27
+3b31: a7 07 47 a7 27 27 a7 57                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$57
+3b39: 57 a7 57 57 a7 27 47 a7                          -         .byte $57,$a7,$57,$57,$a7,$27,$47,$a7
+3b41: 27 27 a7 07 27 a7 27 27                          -         .byte $27,$27,$a7,$07,$27,$a7,$27,$27
+3b49: a7 27 47 a7 27 57 57 d7                          -         .byte $a7,$27,$47,$a7,$27,$57,$57,$d7
+3b51: 57 57 47 57 f7 07 a7 57                          -         .byte $57,$57,$47,$57,$f7,$07,$a7,$57
+3b59: 57 a7 47 07 a7 27 27 a7                          -         .byte $57,$a7,$47,$07,$a7,$27,$27,$a7
+3b61: e7 07 a7 27 27 a7 57 57                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$57
+3b69: a7 57 57 a7 e7 27 a7 27                          -         .byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
+3b71: 27 a7 47 07 a7 27 27 a7                          -         .byte $27,$a7,$47,$07,$a7,$27,$27,$a7
+3b79: e7 07 a7 27 27 a7 57 d7                          -         .byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
+3b81: a7 47 47 a7 f7 07 a7 57                          -         .byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
+3b89: 57 a7 47 47 a7 27 27 a7                          -         .byte $57,$a7,$47,$47,$a7,$27,$27,$a7
+3b91: e7 07 a7 27 27 57 57 57                          -         .byte $e7,$07,$a7,$27,$27,$57,$57,$57
+3b99: 57 57 57 07 e7 a7 27 27                          -         .byte $57,$57,$57,$07,$e7,$a7,$27,$27
+3ba1: a7 47 47 a7 27 27 a7 07                          -         .byte $a7,$47,$47,$a7,$27,$27,$a7,$07
+3ba9: e7 a7 27 27 a7 57 57 a7                          -         .byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
+3bb1: 47 47 a7 f7 f7 a7 57 57                          -         .byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
+3bb9: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+3bc1: 67 a7 27 27 a7 57 57 a2                          -         .byte $67,$a7,$27,$27,$a7,$57,$57,$a2
+3bc9: 52 52 a2 02 e7 a7 27 27                          -         .byte $52,$52,$a2,$02,$e7,$a7,$27,$27
+3bd1: a7 07 47 a7 27 27 a7 07                          -         .byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+3bd9: 67 a7 27 27 57 57 57 57                          -         .byte $67,$a7,$27,$27,$57,$57,$57,$57
+3be1: 47 57 07 f7 a7 57 57 a7                          -         .byte $47,$57,$07,$f7,$a7,$57,$57,$a7
+3be9: f7 07 a7 27 27 a7 77 07                          -         .byte $f7,$07,$a7,$27,$27,$a7,$77,$07
+3bf1: a7 27 27 a7 57 57 a7 57                          -         .byte $a7,$27,$27,$a7,$57,$57,$a7,$57
+3bf9: 57 a7 77 07 a7 27 27 03                          -         .byte $57,$a7,$77,$07,$a7,$27,$27,$03
+3c01: 00 03 06 00 ff 00 ef 20                          -         .byte $00,$03,$06,$00,$ff,$00,$ef,$20
+3c09: 9f 00 ff 00 ff 20 f7 03                          -         .byte $9f,$00,$ff,$00,$ff,$20,$f7,$03
+3c11: 00 03 00 00 ff 00 a5 06                          -         .byte $00,$03,$00,$00,$ff,$00,$a5,$06
+3c19: ff 00 ff 00 ff 00 af 20                          -         .byte $ff,$00,$ff,$00,$ff,$00,$af,$20
+3c21: ff 00 ff 00 ff 00 a7 20                          -         .byte $ff,$00,$ff,$00,$ff,$00,$a7,$20
+3c29: f7 00 ff 00 ff 00 b7 20                          -         .byte $f7,$00,$ff,$00,$ff,$00,$b7,$20
+3c31: ff 00 ff 00 ff 91 af 40                          -         .byte $ff,$00,$ff,$00,$ff,$91,$af,$40
+3c39: af 00 ff 00 ff 00 b7 01                          -         .byte $af,$00,$ff,$00,$ff,$00,$b7,$01
+3c41: ff 00 ff 00 ff 82 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$82,$f7,$00
+3c49: ff 00 ff 00 ff 00 bf 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$bf,$00
+3c51: f7 00 ff 00 ff 20 df 80                          -         .byte $f7,$00,$ff,$00,$ff,$20,$df,$80
+3c59: af 00 ff 00 ff 00 ff 00                          -         .byte $af,$00,$ff,$00,$ff,$00,$ff,$00
+3c61: f7 00 ff 00 ff 10 ef 00                          -         .byte $f7,$00,$ff,$00,$ff,$10,$ef,$00
+3c69: f7 00 ff 00 ff 02 ef 40                          -         .byte $f7,$00,$ff,$00,$ff,$02,$ef,$40
+3c71: e7 00 ff 00 ff a0 fd 02                          -         .byte $e7,$00,$ff,$00,$ff,$a0,$fd,$02
+3c79: ff 00 ff 00 ff 00 f6 09                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f6,$09
+3c81: bf 00 ff 00 ff 10 ff 00                          -         .byte $bf,$00,$ff,$00,$ff,$10,$ff,$00
+3c89: ff 00 ff 00 ff 00 e9 20                          -         .byte $ff,$00,$ff,$00,$ff,$00,$e9,$20
+3c91: ef 00 ff 00 ff 00 f7 00                          -         .byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
+3c99: ff 00 ff 00 ff 00 f7 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f7,$00
+3ca1: bf 00 ff 00 ff 00 ad 00                          -         .byte $bf,$00,$ff,$00,$ff,$00,$ad,$00
+3ca9: bf 00 ff 00 ff 00 8f 00                          -         .byte $bf,$00,$ff,$00,$ff,$00,$8f,$00
+3cb1: bf 00 ff 00 ff 00 ff 02                          -         .byte $bf,$00,$ff,$00,$ff,$00,$ff,$02
+3cb9: b7 00 ff 00 ff 81 a7 00                          -         .byte $b7,$00,$ff,$00,$ff,$81,$a7,$00
+3cc1: ff 00 ff 00 ff 80 ed 00                          -         .byte $ff,$00,$ff,$00,$ff,$80,$ed,$00
+3cc9: ba 00 ff 00 ff 00 f7 00                          -         .byte $ba,$00,$ff,$00,$ff,$00,$f7,$00
+3cd1: e7 00 ff 00 ff 80 ff 42                          -         .byte $e7,$00,$ff,$00,$ff,$80,$ff,$42
+3cd9: ef 00 ff 00 ff 00 af 52                          -         .byte $ef,$00,$ff,$00,$ff,$00,$af,$52
+3ce1: e5 00 ff 00 ff 20 bf 00                          -         .byte $e5,$00,$ff,$00,$ff,$20,$bf,$00
+3ce9: ff 00 ff 00 ff 00 ff 1a                          -         .byte $ff,$00,$ff,$00,$ff,$00,$ff,$1a
+3cf1: af 00 ff 00 ff 00 f7 01                          -         .byte $af,$00,$ff,$00,$ff,$00,$f7,$01
+3cf9: e6 00 ff 00 ff 0a ff ec                          -         .byte $e6,$00,$ff,$00,$ff,$0a,$ff,$ec
+3d01: 86 00 ff 00 ff 00 ff 19                          -         .byte $86,$00,$ff,$00,$ff,$00,$ff,$19
+3d09: f9 00 ff 00 ff 12 ff 16                          -         .byte $f9,$00,$ff,$00,$ff,$12,$ff,$16
+3d11: fd 00 ff 00 ff 12 fe 00                          -         .byte $fd,$00,$ff,$00,$ff,$12,$fe,$00
+3d19: f6 00 ff 00 ff 10 ff 00                          -         .byte $f6,$00,$ff,$00,$ff,$10,$ff,$00
+3d21: fb 00 ff 00 ff 20 f5 01                          -         .byte $fb,$00,$ff,$00,$ff,$20,$f5,$01
+3d29: ff 00 ff 00 ff 52 ff 10                          -         .byte $ff,$00,$ff,$00,$ff,$52,$ff,$10
+3d31: fd 00 ff 00 ff 90 ff 00                          -         .byte $fd,$00,$ff,$00,$ff,$90,$ff,$00
+3d39: fb 00 ff 00 ff 18 bd 10                          -         .byte $fb,$00,$ff,$00,$ff,$18,$bd,$10
+3d41: 7b 00 ff 00 ff 10 ff 10                          -         .byte $7b,$00,$ff,$00,$ff,$10,$ff,$10
+3d49: fb 00 ff 00 ff 10 fb 12                          -         .byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
+3d51: ff 00 ff 00 ff 00 fd 10                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$10
+3d59: fb 00 ff 00 ff 02 cf 00                          -         .byte $fb,$00,$ff,$00,$ff,$02,$cf,$00
+3d61: ff 00 ff 00 ff 18 fd 00                          -         .byte $ff,$00,$ff,$00,$ff,$18,$fd,$00
+3d69: ff 00 ff 00 ff 02 ff 10                          -         .byte $ff,$00,$ff,$00,$ff,$02,$ff,$10
+3d71: ff 00 ff 00 ff 01 ef 12                          -         .byte $ff,$00,$ff,$00,$ff,$01,$ef,$12
+3d79: ff 00 ff 00 ff 02 f9 12                          -         .byte $ff,$00,$ff,$00,$ff,$02,$f9,$12
+3d81: fb 00 ff 00 ff 10 fb 12                          -         .byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
+3d89: ff 00 ff 00 ff 0a ff 12                          -         .byte $ff,$00,$ff,$00,$ff,$0a,$ff,$12
+3d91: ff 00 ff 00 ff 10 ff 06                          -         .byte $ff,$00,$ff,$00,$ff,$10,$ff,$06
+3d99: fc 00 ff 00 ff 00 f3 00                          -         .byte $fc,$00,$ff,$00,$ff,$00,$f3,$00
+3da1: f9 00 ff 00 ff 20 fd 12                          -         .byte $f9,$00,$ff,$00,$ff,$20,$fd,$12
+3da9: f3 00 ff 00 ff 90 ff 12                          -         .byte $f3,$00,$ff,$00,$ff,$90,$ff,$12
+3db1: f9 00 ff 00 ff 12 ff 10                          -         .byte $f9,$00,$ff,$00,$ff,$12,$ff,$10
+3db9: fd 00 ff 00 ff 02 fb 12                          -         .byte $fd,$00,$ff,$00,$ff,$02,$fb,$12
+3dc1: fb 00 ff 00 ff 00 fb 12                          -         .byte $fb,$00,$ff,$00,$ff,$00,$fb,$12
+3dc9: fe 00 ff 00 ff 02 f7 00                          -         .byte $fe,$00,$ff,$00,$ff,$02,$f7,$00
+3dd1: fa 00 ff 00 ff 13 fb 10                          -         .byte $fa,$00,$ff,$00,$ff,$13,$fb,$10
+3dd9: ff 00 ff 00 ff 10 f9 10                          -         .byte $ff,$00,$ff,$00,$ff,$10,$f9,$10
+3de1: fb 00 ff 00 ff 10 fd 12                          -         .byte $fb,$00,$ff,$00,$ff,$10,$fd,$12
+3de9: fa 00 ff 00 ff 11 f7 80                          -         .byte $fa,$00,$ff,$00,$ff,$11,$f7,$80
+3df1: ff 00 ff 00 ff 04 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$04,$ff,$00
+3df9: ff 00 ff 00 ff 00 7a ef                          -         .byte $ff,$00,$ff,$00,$ff,$00,$7a,$ef
+3e01: ca 00 ff 00 ff 00 ff 00                          -         .byte $ca,$00,$ff,$00,$ff,$00,$ff,$00
+3e09: ff 00 ff 00 ff 00 7f 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$7f,$00
+3e11: ff 00 ff 00 ff 00 fd 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
+3e19: ff 00 ff 00 ff 02 fd 08                          -         .byte $ff,$00,$ff,$00,$ff,$02,$fd,$08
+3e21: ff 00 ff 00 ff 00 fd 02                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$02
+3e29: f7 00 ff 00 ff 00 ff 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
+3e31: ff 00 ff 00 ff 00 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
+3e39: ff 00 ff 00 ff 00 f3 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f3,$00
+3e41: ff 00 ff 00 ff 20 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+3e49: ff 00 ff 00 ff 01 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
+3e51: f7 00 ff 00 ff 02 f7 00                          -         .byte $f7,$00,$ff,$00,$ff,$02,$f7,$00
+3e59: ff 00 ff 00 ff 00 f5 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f5,$00
+3e61: bf 00 ff 00 ff 00 ff 10                          -         .byte $bf,$00,$ff,$00,$ff,$00,$ff,$10
+3e69: f7 00 ff 00 ff 00 fd 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$fd,$00
+3e71: 67 00 ff 00 ff 08 f5 00                          -         .byte $67,$00,$ff,$00,$ff,$08,$f5,$00
+3e79: b7 00 ff 00 ff a5 ff 00                          -         .byte $b7,$00,$ff,$00,$ff,$a5,$ff,$00
+3e81: f5 00 ff 00 ff 00 f5 00                          -         .byte $f5,$00,$ff,$00,$ff,$00,$f5,$00
+3e89: f7 00 ff 00 ff 00 ff 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
+3e91: fd 00 ff 00 ff 02 f7 00                          -         .byte $fd,$00,$ff,$00,$ff,$02,$f7,$00
+3e99: f7 00 ff 00 ff 00 f7 00                          -         .byte $f7,$00,$ff,$00,$ff,$00,$f7,$00
+3ea1: f7 00 ff 00 ff 00 f7 10                          -         .byte $f7,$00,$ff,$00,$ff,$00,$f7,$10
+3ea9: ff 00 ff 00 ff 00 bf 80                          -         .byte $ff,$00,$ff,$00,$ff,$00,$bf,$80
+3eb1: ff 00 ff 00 ff 00 fd 40                          -         .byte $ff,$00,$ff,$00,$ff,$00,$fd,$40
+3eb9: f5 00 ff 00 ff 14 fd 00                          -         .byte $f5,$00,$ff,$00,$ff,$14,$fd,$00
+3ec1: f7 00 ff 00 ff 08 f7 01                          -         .byte $f7,$00,$ff,$00,$ff,$08,$f7,$01
+3ec9: ef 00 ff 00 ff 00 f7 00                          -         .byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
+3ed1: ff 00 ff 00 ff 10 f7 01                          -         .byte $ff,$00,$ff,$00,$ff,$10,$f7,$01
+3ed9: ff 00 ff 00 ff 00 f5 50                          -         .byte $ff,$00,$ff,$00,$ff,$00,$f5,$50
+3ee1: fd 00 ff 00 ff 01 f7 00                          -         .byte $fd,$00,$ff,$00,$ff,$01,$f7,$00
+3ee9: fd 00 ff 00 ff 04 fd 00                          -         .byte $fd,$00,$ff,$00,$ff,$04,$fd,$00
+3ef1: ff 00 ff 00 ff 00 ff 00                          -         .byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
+3ef9: 7f 00 ff 00 ff 92 ff ff                          -         .byte $7f,$00,$ff,$00,$ff,$92,$ff,$ff
+3f01: d5 00 ff 00 ff 00 00 00                          -         .byte $d5,$00,$ff,$00,$ff,$00,$00,$00
+3f09: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f11: 00 00 ff 00 ff 00 00 20                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$20
+3f19: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f21: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f29: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f31: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f39: 00 00 ff 00 ff 20 00 00                          -         .byte $00,$00,$ff,$00,$ff,$20,$00,$00
+3f41: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f49: 20 00 ff 00 ff 40 00 00                          -         .byte $20,$00,$ff,$00,$ff,$40,$00,$00
+3f51: 00 00 fb 00 ff 40 00 80                          -         .byte $00,$00,$fb,$00,$ff,$40,$00,$80
+3f59: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f61: 00 00 ff 00 ff 00 80 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$80,$00
+3f69: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f71: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f79: 02 00 ff 00 ff 00 00 00                          -         .byte $02,$00,$ff,$00,$ff,$00,$00,$00
+3f81: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3f89: 00 00 ff 00 ff 60 01 00                          -         .byte $00,$00,$ff,$00,$ff,$60,$01,$00
+3f91: 00 00 ff 00 ff 00 00 08                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$08
+3f99: 00 00 ff 00 ff 04 00 00                          -         .byte $00,$00,$ff,$00,$ff,$04,$00,$00
+3fa1: 00 00 ff 00 ff 00 00 08                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$08
+3fa9: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fb1: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fb9: 00 00 ff 00 ff 00 00 11                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$11
+3fc1: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fc9: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fd1: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fd9: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fe1: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3fe9: 00 00 ff 00 ff 00 00 00                          -         .byte $00,$00,$ff,$00,$ff,$00,$00,$00
+3ff1: 02 00 ff 00 ff 01 00 00                          -         .byte $02,$00,$ff,$00,$ff,$01,$00,$00
+3ff9: 00 00 ff 00 ff 00 ff                             -         .byte $00,$00,$ff,$00,$ff,$00,$ff

@@ -1624,6 +1624,7 @@ SUBROUTINE__2A0E_2259_OK:
 		rts 
 
 		BRANCH_LOOP__2AFB_2AF4_OK:
+.break
 		cmp #$06
 		beq BRANCH_LOOP__2AF6_2AFD_OK
 		cmp #$04
@@ -2473,16 +2474,16 @@ DrawOptionsTitleScreen:
 		ldx #$05
 
 	LoopTraxxLogo:
-		lda Traxx_logo_top,X 
+		lda Traxx_logo_top-1,X 
 		sta GAMESETTINGS.Screen + $B9,X 
-		lda Traxx_logo_bottom,X 
+		lda Traxx_logo_bottom-1,x
 		sta GAMESETTINGS.Screen + $D2,X 
 		dex 
 		bne LoopTraxxLogo
 	
 	ldx #$19
 	LoopAdvancedGameSoftware:
-		lda advancedGameSoftware,X 
+		lda advancedGameSoftware-1,X 
 		sta GAMESETTINGS.Screen + $F9,X 
 		dex 
 		bne LoopAdvancedGameSoftware
@@ -2490,28 +2491,28 @@ DrawOptionsTitleScreen:
 	nop 
 	ldx #$07
 	LoopJeffMinter:
-		lda geoffMinterTop,X 
+		lda geoffMinterTop-1,X 
 		SUBROUTINE__3030_206A_OK:
 		sta GAMESETTINGS.Screen + $135,X 
-		lda geoffMinterBottom,X 
+		lda geoffMinterBottom-1,X 
 		sta GAMESETTINGS.Screen + $14E,X 
 		dex 
 		bne LoopJeffMinter
 
 	ldx #$14
 	LoopOptions:
-		lda f1Pursures,X 
+		lda f1Pursures-1,X 
 		sta GAMESETTINGS.Screen + $178,X 
-		lda f3Speed,X 
+		lda f3Speed-1,X 
 		sta GAMESETTINGS.Screen + $1AA,X 
-		lda f5Players,X 
+		lda f5Players-1,X 
 		sta GAMESETTINGS.Screen + $1DC,X 
 		dex 
 		bne LoopOptions
 
 	ldx #$14
 	LoopPressFire:
-		lda pressFireToStart,X 
+		lda pressFireToStart-1,X 
 		sta GAMESETTINGS.Screen + $20E,X 
 		dex 
 		bne LoopPressFire
@@ -2574,6 +2575,7 @@ RunTitleScreen:
 
 	cmp #KEYBOARD.KEY_F5
 	bne FlashTitleScreenText
+	inc noOfPlayers
 	lda noOfPlayers 
 	cmp #$33
 	bne UpdateTitleOptions
@@ -2635,7 +2637,7 @@ RunTitleScreen:
 		nop 
 
 
-// 	Title Screen Data    // $3100
+	// 	Title Screen Data    // $3100
 	llamasoftPresents:   // $3100
 		//18 chars		llamasoft presents
 		.byte $0c,$0c,$01,$0d,$01,$13,$0f,$06,$14,$20,$10,$12,$05,$13,$05,$0e,$14,$13

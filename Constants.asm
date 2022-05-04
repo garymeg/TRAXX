@@ -64,7 +64,7 @@ PAGEZERO:
         .label ZP_09            = $09
         .label JOYSTICK_DIR     = $0a
         .label ZP_0b            = $0b
-        .label ZP_0D            = $0d
+        .label ZP_GameSpeed   = $0d
 
         .label ZP_Pursures      = $19
         .label ZP_Speed         = $1f

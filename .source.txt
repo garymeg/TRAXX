@@ -78,6 +78,19 @@ ScreenHeader: // 100 bytes data showing high score
 		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 
 ScreenHeaderColour: // 100bytes data colours
+	.byte $05,$05,$05,$00,$00,$00,$00,$00
+	.byte $00,$00,$00,$03,$03,$03,$03,$03
+	.byte $00,$00,$00,$00,$00,$04,$04,$04
+	.byte $00,$00,$00,$00,$00,$00,$00,$00
+	.byte $00,$00,$00,$00,$03,$03,$03,$03
+	.byte $03,$00,$00,$00,$00,$00,$00,$00
+	.byte $00,$00,$03,$03,$00,$01,$01,$01
+	.byte $01,$01,$00,$00,$00,$00,$00,$00
+	.byte $00,$00,$00,$03,$03,$00,$01,$01
+	.byte $01,$01,$01,$00,$00,$00,$00,$00
+	.byte $00,$00,$00,$00,$01,$00,$03,$03
+	.byte $03,$03,$03,$00,$00,$00,$00,$00
+	.byte $00,$00,$00,$00
 DrawScreenHeader:
 	// draw first 100 bytes (top 4 lines) to form screen headder
 	ldy #$64
@@ -258,13 +271,13 @@ SUBROUTINE__21D4_21BC_OK:
 	.byte $F5,$F5,$F5,$F5,$F5,$F5
 	.byte $F5
 
-JUMP_BRANCH_2200_3236_OK:
+StartGamePlay:
 
 	jsr ClearPlayScreen
 	jsr DrawGrid
-	lda $19
-	sta $19
-	lda #$0F
+	lda PAGEZERO.ZP_Pursures
+	sta PAGEZERO.ZP_Pursures
+	lda #$0F					// Set Max Volume
 	sta VIC.VICCRE 
 	jsr SUBROUTINE__2E0E_220F_OK
 	jsr SUBROUTINE__2C1C_2212_OK
@@ -2457,7 +2470,8 @@ DrawOptionsTitleScreen:
 		sta GAMESETTINGS.Screen + $7F,X 
 		dex 
 		bne LoopLlamaSoftPresents
-	
+		ldx #$05
+
 	LoopTraxxLogo:
 		lda Traxx_logo_top,X 
 		sta GAMESETTINGS.Screen + $B9,X 
@@ -2787,45 +2801,45 @@ JUMP_BRANCH_31B2_1BEE_OK:
 JUMP_BRANCH_3200_3082_OK:
 
 	ldy #$30
-	lda $317E 
-	sta $26 
+	lda noOfPlayers 
+	sta PAGEZERO.ZP_Players // $26 
 
-	BRANCH_LOOP__3207_320A_OK:
+	!ConvertScreenCodeToNumber:
 
-		dec $26 
+		dec PAGEZERO.ZP_Players
 		dey 
-		bne BRANCH_LOOP__3207_320A_OK
+		bne !ConvertScreenCodeToNumber-
 	ldy #$30
-	lda $3156 
-	sta $19 
+	lda noOfPursures 
+	sta PAGEZERO.ZP_Pursures
 
-	BRANCH_LOOP__3213_3216_OK:
+	!ConvertScreenCodeToNumber:
 
-		dec $19 
+		dec PAGEZERO.ZP_Pursures
 		dey 
-		bne BRANCH_LOOP__3213_3216_OK
+		bne !ConvertScreenCodeToNumber-
 	lda #$AA
 	sta $0D 
-	lda $316A 
-	sta $1F 
+	lda gameSpeed
+	sta PAGEZERO.ZP_Speed
 	ldy #$30
 
-	BRANCH_LOOP__3223_3226_OK:
+	!ConvertScreenCodeToNumber:
 
-		dec $1F 
+		dec PAGEZERO.ZP_Speed 
 		dey 
-		bne BRANCH_LOOP__3223_3226_OK
+		bne !ConvertScreenCodeToNumber-
 
-	BRANCH_LOOP__3228_3231_OK:
+	CreateGameSpeedDelayTime:
 
-		lda $0D 
+		lda PAGEZERO.ZP_GameSpeed
 		sec 
 		sbc #$0A
-		sta $0D 
-		dec $1F 
-		bne BRANCH_LOOP__3228_3231_OK
+		sta PAGEZERO.ZP_GameSpeed 
+		dec PAGEZERO.ZP_Speed
+		bne CreateGameSpeedDelayTime
 	jsr DrawScreenHeader
-	jmp JUMP_BRANCH_2200_3236_OK
+	jmp StartGamePlay
 
 // $3239 Data Block
 

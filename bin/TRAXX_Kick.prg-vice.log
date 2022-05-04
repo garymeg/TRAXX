@@ -63,7 +63,7 @@ Main CPU: starting at ($FFFC).
 Main CPU: RESET.
 video_dx9: Failed to prepare for rendering!
 Sound: Opened device `dx', speed 44100Hz, fragment size 23ms, buffer size 116ms
-AUTOSTART: Injecting program data at $1200 (size $2e00)
+AUTOSTART: Injecting program data at $1200 (size $2dfb)
 AUTOSTART: Ready
 AUTOSTART: Turning Warp mode off
 AUTOSTART: Running program

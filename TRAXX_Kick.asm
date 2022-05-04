@@ -1271,16 +1271,13 @@ JUMP_BRANCH_2880_282B_OK:
 
 SUBROUTINE__289A_2862_OK:
 SUBROUTINE__289A_28C2_OK:
-
 	txa 
 	pha 
 	tya 
 	pha 
 	ldy #$0A
 	ldx #$00
-
-BRANCH_LOOP__28A2_28BB_OK:
-
+	BRANCH_LOOP__28A2_28BB_OK:
 	lda $2300,X 
 	cmp $01 
 	bne BRANCH_LOOP__28B5_28A7_OK
@@ -1289,14 +1286,10 @@ BRANCH_LOOP__28A2_28BB_OK:
 	nop 
 	bne BRANCH_LOOP__28B5_28AE_OK
 	lda #$07
-
-JUMP_BRANCH_28B2_1B50_OK:
-
+	JUMP_BRANCH_28B2_1B50_OK:
 	sta $2303,X 
-
-BRANCH_LOOP__28B5_28A7_OK:
-BRANCH_LOOP__28B5_28AE_OK:
-
+	BRANCH_LOOP__28B5_28A7_OK:
+	BRANCH_LOOP__28B5_28AE_OK:
 	inx 
 	inx 
 	inx 
@@ -1321,8 +1314,7 @@ SUBROUTINE__28C8_2250_OK:
 	beq BRANCH_LOOP__28CD_28CA_OK
 	rts 
 
-BRANCH_LOOP__28CD_28CA_OK:
-
+	BRANCH_LOOP__28CD_28CA_OK:
 	lda $0E 
 	sta $0F 
 	jmp JUMP_BRANCH_2526_28D1_OK
@@ -1340,42 +1332,31 @@ SUBROUTINE__28DB_249B_OK:
 	rts 
 
 SUBROUTINE__28E1_2256_OK:
-
 	dec $14 
 	beq !skip+
 	rts 
-
-!skip:
-
+	!skip:
 	lda $13 
 	sta $14 
 	dec $10 
 	beq !skip+
 	rts
-
-!skip:
-
+	!skip:
 	lda #$28
 	sta $10 
 	dec VIC.VICCRE 
 	lda VIC.VICCRE 
 	beq !skip+
 	rts 
-
-!skip:
-
+	!skip:
 	ldy #$02
-
-!loop:
-
-	inc $15 
-	bne !skip+
-	inc $16 
-
-!skip:
-
-	dey 
-	bne !loop-
+	!loop:
+		inc $15 
+		bne !skip+
+		inc $16 
+		!skip:
+		dey 
+		bne !loop-
 	ldy #$00
 	lda ($15),Y 
 	cmp #$FF
@@ -1391,37 +1372,35 @@ SUBROUTINE__28E1_2256_OK:
 
 	nop 
 
-SUBROUTINE__2920_2225_OK:
-!skip:
+	SUBROUTINE__2920_2225_OK:
+	!skip:
 
 	jmp JUMP_BRANCH_29D0_2920_OK
 
-// $2923
-.byte $15,$a9,$29,$85,$16,$60,$02,$02
-.byte $87,$02,$9f,$02,$af,$02,$87,$01
-.byte $9f,$02,$af,$02,$87,$01,$9f,$02
-.byte $af,$02,$87,$02,$a4,$02,$b7,$02
-.byte $87,$01,$a4,$02,$b7,$02,$87,$01
-.byte $a4,$02,$b7,$02,$87,$02,$9f,$02
-.byte $af,$02,$87,$01,$9f,$02,$af,$02
-.byte $87,$01,$9f,$02,$af,$02,$a4,$02
-.byte $a4,$02,$a4,$01,$a4,$02,$a4,$04
-.byte $a4,$01,$a4,$01,$af,$01,$af,$01
-.byte $b3,$01,$b3,$01,$b7,$02,$bb,$02
-.byte $b7,$02,$af,$02,$a4,$02,$af,$02
-.byte $a4,$02,$93,$02,$af,$02,$af,$01
-.byte $b7,$01,$af,$02,$a4,$02,$9f,$01
-.byte $9f,$01,$93,$02,$87,$04,$b7,$01
-.byte $b7,$01,$bb,$02,$b7,$02,$af,$02
-.byte $a4,$02,$af,$02,$a4,$02,$93,$02
-.byte $af,$02,$af,$01,$b7,$01,$af,$02
-.byte $a4,$02,$9f,$01,$9f,$01,$93,$02
-.byte $87,$04,$00,$01,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff
-
+// $2923 Data Block
+	.byte $15,$a9,$29,$85,$16,$60,$02,$02
+	.byte $87,$02,$9f,$02,$af,$02,$87,$01
+	.byte $9f,$02,$af,$02,$87,$01,$9f,$02
+	.byte $af,$02,$87,$02,$a4,$02,$b7,$02
+	.byte $87,$01,$a4,$02,$b7,$02,$87,$01
+	.byte $a4,$02,$b7,$02,$87,$02,$9f,$02
+	.byte $af,$02,$87,$01,$9f,$02,$af,$02
+	.byte $87,$01,$9f,$02,$af,$02,$a4,$02
+	.byte $a4,$02,$a4,$01,$a4,$02,$a4,$04
+	.byte $a4,$01,$a4,$01,$af,$01,$af,$01
+	.byte $b3,$01,$b3,$01,$b7,$02,$bb,$02
+	.byte $b7,$02,$af,$02,$a4,$02,$af,$02
+	.byte $a4,$02,$93,$02,$af,$02,$af,$01
+	.byte $b7,$01,$af,$02,$a4,$02,$9f,$01
+	.byte $9f,$01,$93,$02,$87,$04,$b7,$01
+	.byte $b7,$01,$bb,$02,$b7,$02,$af,$02
+	.byte $a4,$02,$af,$02,$a4,$02,$93,$02
+	.byte $af,$02,$af,$01,$b7,$01,$af,$02
+	.byte $a4,$02,$9f,$01,$9f,$01,$93,$02
+	.byte $87,$04,$00,$01,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff
 
 SUBROUTINE__29C6_28A9_OK:
-
 	lda $2301,X 
 	clc 
 	adc #$84
@@ -1429,9 +1408,7 @@ SUBROUTINE__29C6_28A9_OK:
 	rts 
 
 	.byte $FF
-
 JUMP_BRANCH_29D0_2920_OK:
-
 	lda #$29
 	sta $15 
 	sta $16 
@@ -1445,88 +1422,67 @@ JUMP_BRANCH_29D0_2920_OK:
 	sta VIC.VICCRE 
 	rts 
 
-BRANCH_LOOP__29E8_2A12_OK:
-JUMP_BRANCH_29E8_2B28_OK:
-
+	BRANCH_LOOP__29E8_2A12_OK:
+	JUMP_BRANCH_29E8_2B28_OK:
 	ldx #$01
-
-BRANCH_LOOP__29EA_2A0B_OK:
-
-	lda VIC.VICCRD 
-	cmp #$C3
-	bne BRANCH_LOOP__29F9_29EF_OK
-	lda #$E1
-	sta VIC.VICCRD 
-	jmp JUMP_BRANCH_2A0A_29F6_OK
-
-BRANCH_LOOP__29F9_29EF_OK:
-
-	cmp #$E1
-	bne BRANCH_LOOP__2A05_29FB_OK
-	lda #$F0
-	sta VIC.VICCRD 
-	jmp JUMP_BRANCH_2A0A_2A02_OK
-
-BRANCH_LOOP__2A05_29FB_OK:
-
-	lda #$00
-	sta VIC.VICCRD 
-
-JUMP_BRANCH_2A0A_29F6_OK:
-JUMP_BRANCH_2A0A_2A02_OK:
-
-	dex 
-	bne BRANCH_LOOP__29EA_2A0B_OK
+	BRANCH_LOOP__29EA_2A0B_OK:
+		lda VIC.VICCRD 
+		cmp #$C3
+		bne BRANCH_LOOP__29F9_29EF_OK
+		lda #$E1
+		sta VIC.VICCRD 
+		jmp JUMP_BRANCH_2A0A_29F6_OK
+		BRANCH_LOOP__29F9_29EF_OK:
+		cmp #$E1
+		bne BRANCH_LOOP__2A05_29FB_OK
+		lda #$F0
+		sta VIC.VICCRD 
+		jmp JUMP_BRANCH_2A0A_2A02_OK
+		BRANCH_LOOP__2A05_29FB_OK:
+		lda #$00
+		sta VIC.VICCRD 
+		JUMP_BRANCH_2A0A_29F6_OK:
+		JUMP_BRANCH_2A0A_2A02_OK:
+		dex 
+		bne BRANCH_LOOP__29EA_2A0B_OK
 	rts 
-
 SUBROUTINE__2A0E_2259_OK:
-
 	lda $08 
 	cmp #$01
 	beq BRANCH_LOOP__29E8_2A12_OK
 	rts 
 
-BRANCH_LOOP__2A17_2A38_BAD:
-BRANCH_LOOP__2A15_2A41_OK:
-
-	lda VIC.VICCRB 
-	cmp #$00
-	bne BRANCH_LOOP__2A1D_2A1A_OK
+	BRANCH_LOOP__2A17_2A38_BAD:
+		BRANCH_LOOP__2A15_2A41_OK:
+			lda VIC.VICCRB 
+			cmp #$00
+			bne BRANCH_LOOP__2A1D_2A1A_OK
+			rts 
+			BRANCH_LOOP__2A1D_2A1A_OK:
+			inc VIC.VICCRB 
+			inc VIC.VICCRA 
+			inc VIC.VICCRD 
+			rts 
+			.byte $0F
+			sta VIC.VICCRE 
+			rts 
+			sta $9009,X 
+			jmp JUMP_BRANCH_2A37_2A2F_OK
+			lda #$00
+			sta $9009,X 
+			JUMP_BRANCH_2A37_2A2F_OK:
+			dex 
+			bne BRANCH_LOOP__2A17_2A38_BAD
+		rts 
+		SUBROUTINE__2A3B_225C_OK:
+		lda $08 
+		nop 
+		nop 
+		cmp #$01
+		beq BRANCH_LOOP__2A15_2A41_OK
 	rts 
 
-BRANCH_LOOP__2A1D_2A1A_OK:
-
-	inc VIC.VICCRB 
-	inc VIC.VICCRA 
-	inc VIC.VICCRD 
-	rts 
-
-	.byte $0F
-	sta VIC.VICCRE 
-	rts 
-
-	sta $9009,X 
-	jmp JUMP_BRANCH_2A37_2A2F_OK
-	lda #$00
-	sta $9009,X 
-
-JUMP_BRANCH_2A37_2A2F_OK:
-
-	dex 
-	bne BRANCH_LOOP__2A17_2A38_BAD
-	rts 
-
-SUBROUTINE__2A3B_225C_OK:
-
-	lda $08 
-	nop 
-	nop 
-	cmp #$01
-	beq BRANCH_LOOP__2A15_2A41_OK
-	rts 
-
-JUMP_BRANCH_2A44_281E_OK:
-
+	JUMP_BRANCH_2A44_281E_OK:
 	lda #$F2
 	sta VIC.VICCRA 
 	sta VIC.VICCRB 
@@ -1541,44 +1497,39 @@ JUMP_BRANCH_2A44_281E_OK:
 	nop 
 	jmp JUMP_BRANCH_2A83_2A5D_OK
 
-SUBROUTINE__2A60_2A50_OK:
-BRANCH_LOOP__2A60_2A79_OK:
-SUBROUTINE__2A60_2B49_OK:
+	SUBROUTINE__2A60_2A50_OK:
+	BRANCH_LOOP__2A60_2A79_OK:
+	SUBROUTINE__2A60_2B49_OK:
 
-	tya 
-	pha 
+		tya 
+		pha 
+		BRANCH_LOOP__2A62_2A74_OK:
+			lda ($1A),Y 
+			clc 
+			adc #$01
+			sta ($1A),Y 
+			cmp #$3A
+			bne BRANCH_LOOP__2A76_2A6B_OK
+			lda #$30
+			sta ($1A),Y 
+			dey 
+			cpy #$FF
+			bne BRANCH_LOOP__2A62_2A74_OK
 
-BRANCH_LOOP__2A62_2A74_OK:
-
-	lda ($1A),Y 
-	clc 
-	adc #$01
-	sta ($1A),Y 
-	cmp #$3A
-	bne BRANCH_LOOP__2A76_2A6B_OK
-	lda #$30
-	sta ($1A),Y 
-	dey 
-	cpy #$FF
-	bne BRANCH_LOOP__2A62_2A74_OK
-
-BRANCH_LOOP__2A76_2A6B_OK:
-
-	pla 
-	tay 
-	dex 
-	bne BRANCH_LOOP__2A60_2A79_OK
+		BRANCH_LOOP__2A76_2A6B_OK:
+		pla 
+		tay 
+		dex 
+		bne BRANCH_LOOP__2A60_2A79_OK
 	ldy #$00
 	rts 
 
-BRANCH_LOOP__2A7E_2A59_OK:
-
+	BRANCH_LOOP__2A7E_2A59_OK:
 	jmp JUMP_BRANCH_2EEE_2A7E_OK
 	pla 
 	rts 
 
-JUMP_BRANCH_2A83_2A5D_OK:
-
+	JUMP_BRANCH_2A83_2A5D_OK:
 	jsr SUBROUTINE__2FDA_2A83_OK
 	and #$07
 	cmp #$07
@@ -1602,29 +1553,26 @@ JUMP_BRANCH_2A83_2A5D_OK:
 	lda #$01
 	sta $20 
 
-BRANCH_LOOP__2AB3_2A8A_OK:
-BRANCH_LOOP__2AB3_2A93_OK:
-BRANCH_LOOP__2AB3_2A9C_OK:
-BRANCH_LOOP__2AB3_2AA5_OK:
-BRANCH_LOOP__2AB3_2AA9_OK:
+	BRANCH_LOOP__2AB3_2A8A_OK:
+	BRANCH_LOOP__2AB3_2A93_OK:
+	BRANCH_LOOP__2AB3_2A9C_OK:
+	BRANCH_LOOP__2AB3_2AA5_OK:
+	BRANCH_LOOP__2AB3_2AA9_OK:
 
 	jmp JUMP_BRANCH_2E38_2AB3_OK
-
-JUMP_BRANCH_2AB6_2B19_OK:
-
+	JUMP_BRANCH_2AB6_2B19_OK:
 	lda $18 
 	bne BRANCH_LOOP__2ABB_2AB8_OK
 	rts 
 
-BRANCH_LOOP__2ABB_2AB8_OK:
-
+	BRANCH_LOOP__2ABB_2AB8_OK:
 	cmp #$FF
 	bne BRANCH_LOOP__2AC4_2ABD_OK
 	lda #$03
 	sta $20 
 	rts 
 
-BRANCH_LOOP__2AC4_2ABD_OK:
+	BRANCH_LOOP__2AC4_2ABD_OK:
 
 	cmp #$20
 	bne BRANCH_LOOP__2AD6_2AC6_OK
@@ -1636,16 +1584,14 @@ BRANCH_LOOP__2AC4_2ABD_OK:
 	sta $13 
 	rts 
 
-BRANCH_LOOP__2AD6_2AC6_OK:
-
+	BRANCH_LOOP__2AD6_2AC6_OK:
 	jsr SUBROUTINE__2B2B_2AD6_OK
 	lda VIC.VICCRC 
 	cmp #$C0
 	beq BRANCH_LOOP__2AE1_2ADE_OK
 	rts 
 
-BRANCH_LOOP__2AE1_2ADE_OK:
-
+	BRANCH_LOOP__2AE1_2ADE_OK:
 	lda #$90
 	sta VIC.VICCRC 
 	dec $18 
@@ -1657,27 +1603,25 @@ BRANCH_LOOP__2AE1_2ADE_OK:
 	cmp #$08
 	bne BRANCH_LOOP__2AFB_2AF4_OK
 
-BRANCH_LOOP__2AF6_2AFD_OK:
-BRANCH_LOOP__2AF6_2B01_OK:
-BRANCH_LOOP__2AF6_2B05_OK:
+	BRANCH_LOOP__2AF6_2AFD_OK:
+	BRANCH_LOOP__2AF6_2B01_OK:
+	BRANCH_LOOP__2AF6_2B05_OK:
+		lda #$06
+		sta $20 
+		rts 
 
-	lda #$06
-	sta $20 
-	rts 
-
-BRANCH_LOOP__2AFB_2AF4_OK:
-
-	cmp #$06
-	beq BRANCH_LOOP__2AF6_2AFD_OK
-	cmp #$04
-	beq BRANCH_LOOP__2AF6_2B01_OK
-	cmp #$02
-	beq BRANCH_LOOP__2AF6_2B05_OK
+		BRANCH_LOOP__2AFB_2AF4_OK:
+		cmp #$06
+		beq BRANCH_LOOP__2AF6_2AFD_OK
+		cmp #$04
+		beq BRANCH_LOOP__2AF6_2B01_OK
+		cmp #$02
+		beq BRANCH_LOOP__2AF6_2B05_OK
 	cmp #$01
 	beq BRANCH_LOOP__2B0C_2B09_OK
 	rts 
 
-BRANCH_LOOP__2B0C_2B09_OK:
+	BRANCH_LOOP__2B0C_2B09_OK:
 
 	lda #$FF
 	sta $18 
@@ -1690,22 +1634,18 @@ SUBROUTINE__2B11_225F_OK:
 	beq BRANCH_LOOP__2B19_2B16_OK
 	rts 
 
-BRANCH_LOOP__2B19_2B16_OK:
-
+	BRANCH_LOOP__2B19_2B16_OK:
 	jmp JUMP_BRANCH_2AB6_2B19_OK
 	lda $08 
 	cmp #$01
 	beq BRANCH_LOOP__2B23_2B20_OK
 	rts 
 
-BRANCH_LOOP__2B23_2B20_OK:
-
+	BRANCH_LOOP__2B23_2B20_OK:
 	lda $18 
 	beq BRANCH_LOOP__2B28_2B25_OK
 	rts 
-
-BRANCH_LOOP__2B28_2B25_OK:
-
+	BRANCH_LOOP__2B28_2B25_OK:
 	jmp JUMP_BRANCH_29E8_2B28_OK
 
 SUBROUTINE__2B2B_2AD6_OK:
@@ -1717,80 +1657,77 @@ SUBROUTINE__2B2B_2AD6_OK:
 	sta $10 
 	rts 
 
-BRANCH_LOOP__2B38_2B95_OK:
+	BRANCH_LOOP__2B38_2B95_OK:
 
-	lda $18 
-	beq BRANCH_LOOP__2B52_2B3A_OK
-	jsr SUBROUTINE__2FD2_2B3C_OK
-	nop 
-	beq BRANCH_LOOP__2B45_2B40_OK
-	asl  
-	sta $22 
+		lda $18 
+		beq BRANCH_LOOP__2B52_2B3A_OK
+		jsr SUBROUTINE__2FD2_2B3C_OK
+		nop 
+		beq BRANCH_LOOP__2B45_2B40_OK
+		asl  
+		sta $22 
+		BRANCH_LOOP__2B45_2B40_OK:
+		ldx $22 
+		ldy #$02
+		jsr SUBROUTINE__2A60_2B49_OK
+		lda #$C3
+		jmp JUMP_BRANCH_2BB7_2B4E_OK
+		rts 
 
-BRANCH_LOOP__2B45_2B40_OK:
+		BRANCH_LOOP__2B52_2B3A_OK:
+		JUMP_BRANCH_2B52_2B97_OK:
 
-	ldx $22 
-	ldy #$02
-	jsr SUBROUTINE__2A60_2B49_OK
-	lda #$C3
-	jmp JUMP_BRANCH_2BB7_2B4E_OK
-	rts 
+		lda #$00
+		jsr SUBROUTINE__2EDB_2B54_OK
+		lda #$80
+		sta VIC.VICCRD 
+		lda #$0F
+		sta VIC.VICCRE 
+		sta VIC.VICCRE 
 
-BRANCH_LOOP__2B52_2B3A_OK:
-JUMP_BRANCH_2B52_2B97_OK:
+		BRANCH_LOOP__2B64_2B6D_OK:
 
-	lda #$00
-	jsr SUBROUTINE__2EDB_2B54_OK
-	lda #$80
-	sta VIC.VICCRD 
-	lda #$0F
-	sta VIC.VICCRE 
-	sta VIC.VICCRE 
+			ldy #$50
 
-BRANCH_LOOP__2B64_2B6D_OK:
+			BRANCH_LOOP__2B66_2B67_OK:
+			BRANCH_LOOP__2B66_2B8C_OK:
 
-	ldy #$50
+				dey 
+				bne BRANCH_LOOP__2B66_2B67_OK
+			nop 
+			nop 
+			dec $1F 
+			bne BRANCH_LOOP__2B64_2B6D_OK
+		nop 
+		lda $2600 
+		sta $01 
+		lda $2601 
+		sta $02 
+		lda VIC.VICCRE 
+		and #$03
+		tax 
 
-BRANCH_LOOP__2B66_2B67_OK:
-BRANCH_LOOP__2B66_2B8C_OK:
+		BRANCH_LOOP__2B80_2B87_OK:
 
-	dey 
-	bne BRANCH_LOOP__2B66_2B67_OK
-	nop 
-	nop 
-	dec $1F 
-	bne BRANCH_LOOP__2B64_2B6D_OK
-	nop 
-	lda $2600 
-	sta $01 
-	lda $2601 
-	sta $02 
-	lda VIC.VICCRE 
-	and #$03
-	tax 
+		lda $2609,X 
+		sta ($01),Y 
+		dec $1F 
+		bne BRANCH_LOOP__2B80_2B87_OK
+		dec VIC.VICCRE 
+		bne BRANCH_LOOP__2B66_2B8C_OK
+		jmp JUMP_BRANCH_2D3A_2B8E_OK
 
-BRANCH_LOOP__2B80_2B87_OK:
+		JUMP_BRANCH_2B91_2636_OK:
+		JUMP_BRANCH_2B91_2743_OK:
+		JUMP_BRANCH_2B91_2C19_OK:
 
-	lda $2609,X 
-	sta ($01),Y 
-	dec $1F 
-	bne BRANCH_LOOP__2B80_2B87_OK
-	dec VIC.VICCRE 
-	bne BRANCH_LOOP__2B66_2B8C_OK
-	jmp JUMP_BRANCH_2D3A_2B8E_OK
-
-JUMP_BRANCH_2B91_2636_OK:
-JUMP_BRANCH_2B91_2743_OK:
-JUMP_BRANCH_2B91_2C19_OK:
-
-	lda $18 
-	cmp #$FF
-	bne BRANCH_LOOP__2B38_2B95_OK
+		lda $18 
+		cmp #$FF
+		bne BRANCH_LOOP__2B38_2B95_OK
 	jmp JUMP_BRANCH_2B52_2B97_OK
 	.byte $FF,$FF,$FF,$FF,$FF,$FF
 
-JUMP_BRANCH_2BA0_2BF5_OK:
-
+	JUMP_BRANCH_2BA0_2BF5_OK:
 	jsr SUBROUTINE__2841_2BA0_OK
 	jsr DrawGrid
 	jmp JUMP_BRANCH_25A0_2BA6_OK
@@ -1800,9 +1737,7 @@ JUMP_BRANCH_2BA0_2BF5_OK:
 	ldy #$00
 	sta ($01),Y 
 	jmp JUMP_BRANCH_2620_2BB4_OK
-
-JUMP_BRANCH_2BB7_2B4E_OK:
-
+	JUMP_BRANCH_2BB7_2B4E_OK:
 	ldx $22 
 	lda $2600 
 	sta $01 
@@ -1819,45 +1754,36 @@ JUMP_BRANCH_2BB7_2B4E_OK:
 	sta $02 
 	lda #$80
 	sta $1F 
+	BRANCH_LOOP__2BD7_2BEE_OK:
 
-BRANCH_LOOP__2BD7_2BEE_OK:
-
-	ldx #$08
-	ldy #$00
-
-BRANCH_LOOP__2BDB_2BDC_OK:
-BRANCH_LOOP__2BDB_2BDF_OK:
-
-	dey 
-	bne BRANCH_LOOP__2BDB_2BDC_OK
-	dex 
-	bne BRANCH_LOOP__2BDB_2BDF_OK
-	lda $1F 
-	and #$07
-	sta ($01),Y 
-	lda $1F 
-	sta VIC.VICCRC 
-	inc $1F 
-	bne BRANCH_LOOP__2BD7_2BEE_OK
+		ldx #$08
+		ldy #$00
+		BRANCH_LOOP__2BDB_2BDC_OK:
+			BRANCH_LOOP__2BDB_2BDF_OK:
+				dey 
+				bne BRANCH_LOOP__2BDB_2BDC_OK
+			dex 
+			bne BRANCH_LOOP__2BDB_2BDF_OK
+		lda $1F 
+		and #$07
+		sta ($01),Y 
+		lda $1F 
+		sta VIC.VICCRC 
+		inc $1F 
+		bne BRANCH_LOOP__2BD7_2BEE_OK
 	lda #$90
 	sta VIC.VICCRC 
 	jmp JUMP_BRANCH_2BA0_2BF5_OK
-
-JUMP_BRANCH_2BF8_2508_OK:
-
+	JUMP_BRANCH_2BF8_2508_OK:
 	lda $04 
 	ldx #$04
-
-BRANCH_LOOP__2BFC_2C02_OK:
-
-	cmp $2608,X 
-	beq BRANCH_LOOP__2C07_2BFF_OK
-	dex 
-	bne BRANCH_LOOP__2BFC_2C02_OK
+	BRANCH_LOOP__2BFC_2C02_OK:
+		cmp $2608,X 
+		beq BRANCH_LOOP__2C07_2BFF_OK
+		dex 
+		bne BRANCH_LOOP__2BFC_2C02_OK
 	jmp JUMP_BRANCH_2543_2C04_OK
-
-BRANCH_LOOP__2C07_2BFF_OK:
-
+	BRANCH_LOOP__2C07_2BFF_OK:
 	pla 
 	tax 
 	lda $2602 
@@ -1871,22 +1797,19 @@ BRANCH_LOOP__2C07_2BFF_OK:
 	jmp JUMP_BRANCH_2B91_2C19_OK
 
 SUBROUTINE__2C1C_2212_OK:
-
 	ldx #$00
-
-BRANCH_LOOP__2C1E_2C3A_OK:
-
-	lda $9400,X 
-	sta $3500,X 
-	sta $3900,X 
-	lda $9500,X 
-	sta $3600,X 
-	sta $3A00,X 
-	lda $9600,X 
-	sta $3700,X 
-	sta $3B00,X 
-	inx 
-	bne BRANCH_LOOP__2C1E_2C3A_OK
+	BRANCH_LOOP__2C1E_2C3A_OK:
+		lda $9400,X 
+		sta $3500,X 
+		sta $3900,X 
+		lda $9500,X 
+		sta $3600,X 
+		sta $3A00,X 
+		lda $9600,X 
+		sta $3700,X 
+		sta $3B00,X 
+		inx 
+		bne BRANCH_LOOP__2C1E_2C3A_OK
 	lda $26 
 	sta $26 
 	lda #$01
@@ -1899,14 +1822,11 @@ BRANCH_LOOP__2C1E_2C3A_OK:
 	sta $3C11 
 
 SUBROUTINE__2C54_2D64_OK:
-
 	lda $29 
 	cmp #$02
 	bne BRANCH_LOOP__2C5C_2C58_OK
 	ldx #$10
-
-BRANCH_LOOP__2C5C_2C58_OK:
-
+	BRANCH_LOOP__2C5C_2C58_OK:
 	lda $3C00,X 
 	bne BRANCH_LOOP__2C7B_2C5F_OK
 	cpx #$10
@@ -1914,19 +1834,15 @@ BRANCH_LOOP__2C5C_2C58_OK:
 	ldx #$10
 	jmp JUMP_BRANCH_2C6C_2C67_OK
 
-BRANCH_LOOP__2C6A_2C63_OK:
-
+	BRANCH_LOOP__2C6A_2C63_OK:
 	ldx #$00
-
-JUMP_BRANCH_2C6C_2C67_OK:
-
+	JUMP_BRANCH_2C6C_2C67_OK:
 	lda $3C00,X 
 	beq BRANCH_LOOP__2C72_2C6F_OK
 	rts 
 
-BRANCH_LOOP__2C72_2C6F_OK:
-JUMP_BRANCH_2C72_2E35_OK:
-
+	BRANCH_LOOP__2C72_2C6F_OK:
+	JUMP_BRANCH_2C72_2E35_OK:
 	jmp JUMP_BRANCH_2EFB_2C72_OK
 	pla 
 	nop 
@@ -1935,8 +1851,7 @@ JUMP_BRANCH_2C72_2E35_OK:
 	nop 
 	rts 
 
-BRANCH_LOOP__2C7B_2C5F_OK:
-
+	BRANCH_LOOP__2C7B_2C5F_OK:
 	lda #$10
 	sta $24 
 	ldy #$00
@@ -1944,9 +1859,7 @@ BRANCH_LOOP__2C7B_2C5F_OK:
 	cmp #$02
 	bne BRANCH_LOOP__2C89_2C85_OK
 	ldy #$15
-
-BRANCH_LOOP__2C89_2C85_OK:
-
+	BRANCH_LOOP__2C89_2C85_OK:
 	sty $23 
 	lda $29 
 	cmp #$01
@@ -1954,35 +1867,28 @@ BRANCH_LOOP__2C89_2C85_OK:
 	lda #$35
 	sta $2B 
 	jmp JUMP_BRANCH_2C9C_2C95_OK
-
-BRANCH_LOOP__2C98_2C8F_OK:
-
+	BRANCH_LOOP__2C98_2C8F_OK:
 	lda #$39
 	sta $2B 
-
-JUMP_BRANCH_2C9C_2C95_OK:
-
+	JUMP_BRANCH_2C9C_2C95_OK:
 	lda #$00
 	sta $2A 
 	sta $27 
 	lda #$94
 	sta $28 
 	ldx #$03
+	BRANCH_LOOP__2CA8_2CB6_OK:
+		ldy #$00
+		BRANCH_LOOP__2CAA_2CAF_OK:
 
-BRANCH_LOOP__2CA8_2CB6_OK:
-
-	ldy #$00
-
-BRANCH_LOOP__2CAA_2CAF_OK:
-
-	lda ($2A),Y 
-	sta ($27),Y 
-	iny 
-	bne BRANCH_LOOP__2CAA_2CAF_OK
-	inc $28 
-	inc $2B 
-	dex 
-	bne BRANCH_LOOP__2CA8_2CB6_OK
+			lda ($2A),Y 
+			sta ($27),Y 
+			iny 
+			bne BRANCH_LOOP__2CAA_2CAF_OK
+		inc $28 
+		inc $2B 
+		dex 
+		bne BRANCH_LOOP__2CA8_2CB6_OK
 	ldy #$05
 	lda #$35
 	sta $1A 
@@ -1992,82 +1898,70 @@ BRANCH_LOOP__2CAA_2CAF_OK:
 	ldy #$04
 	lda #$46
 	sta $1A 
-
-BRANCH_LOOP__2CCA_2CC2_OK:
-
+	BRANCH_LOOP__2CCA_2CC2_OK:
 	sty $09 
 	rts 
-
 	nop 
 	nop 
 	nop 
 
-JUMP_BRANCH_2CD0_2D89_OK:
-
+	JUMP_BRANCH_2CD0_2D89_OK:
 	ldx #$05
 	lda $00 
 	sta $1F 
 	ldy #$00
 
-BRANCH_LOOP__2CD8_2CF1_OK:
+	BRANCH_LOOP__2CD8_2CF1_OK:
+		lda $2300,X 
+		sta $01 
+		lda $2301,X 
+		clc 
+		adc #$84
+		sta $02 
+		lda $2303,X 
+		sta ($01),Y 
+		inx 
+		inx 
+		inx 
+		inx 
+		inx 
+		dec $1F 
+		bne BRANCH_LOOP__2CD8_2CF1_OK
 
-	lda $2300,X 
-	sta $01 
-	lda $2301,X 
-	clc 
-	adc #$84
-	sta $02 
-	lda $2303,X 
-	sta ($01),Y 
-	inx 
-	inx 
-	inx 
-	inx 
-	inx 
-	dec $1F 
-	bne BRANCH_LOOP__2CD8_2CF1_OK
 	lda $29 
 	cmp #$01
 	bne BRANCH_LOOP__2D00_2CF7_OK
 	lda #$35
 	sta $2B 
 	jmp JUMP_BRANCH_2D04_2CFD_OK
-
-BRANCH_LOOP__2D00_2CF7_OK:
-
+	BRANCH_LOOP__2D00_2CF7_OK:
 	lda #$39
 	sta $2B 
-
-JUMP_BRANCH_2D04_2CFD_OK:
-
+	JUMP_BRANCH_2D04_2CFD_OK:
 	lda #$00
 	sta $2A 
 	sta $27 
 	lda #$94
 	sta $28 
 	ldx #$03
+	BRANCH_LOOP__2D10_2D1E_OK:
+		ldy #$00
+		BRANCH_LOOP__2D12_2D17_OK:
+			lda ($27),Y 
+			sta ($2A),Y 
+			iny 
+			bne BRANCH_LOOP__2D12_2D17_OK
 
-BRANCH_LOOP__2D10_2D1E_OK:
+		inc $2B 
+		inc $28 
+		dex 
+		bne BRANCH_LOOP__2D10_2D1E_OK
 
-	ldy #$00
-
-BRANCH_LOOP__2D12_2D17_OK:
-
-	lda ($27),Y 
-	sta ($2A),Y 
-	iny 
-	bne BRANCH_LOOP__2D12_2D17_OK
-	inc $2B 
-	inc $28 
-	dex 
-	bne BRANCH_LOOP__2D10_2D1E_OK
 	lda $29 
 	cmp #$02
 	bne BRANCH_LOOP__2D28_2D24_OK
 	ldx #$10
-
-BRANCH_LOOP__2D28_2D24_OK:
-
+	BRANCH_LOOP__2D28_2D24_OK:
 	lda $3C00,X 
 	tay 
 	dey 
@@ -2090,70 +1984,54 @@ JUMP_BRANCH_2D3A_2B8E_OK:
 	cmp #$01
 	bne BRANCH_LOOP__2D4F_2D44_OK
 
-BRANCH_LOOP__2D46_2D55_OK:
-JUMP_BRANCH_2D46_2D5B_OK:
+	BRANCH_LOOP__2D46_2D55_OK:
+	JUMP_BRANCH_2D46_2D5B_OK:
 
-	jsr DrawGrid
-	jmp JUMP_BRANCH_2D5E_2D49_OK
-	nop 
-	nop 
-	nop 
+		jsr DrawGrid
+		jmp JUMP_BRANCH_2D5E_2D49_OK
+		nop 
+		nop 
+		nop 
 
-BRANCH_LOOP__2D4F_2D44_OK:
-BRANCH_LOOP__2D50_2DB4_BAD:
+	BRANCH_LOOP__2D4F_2D44_OK:
+	BRANCH_LOOP__2D50_2DB4_BAD:
 
-	inc $29 
-	lda $29 
-	cmp #$03
-	bne BRANCH_LOOP__2D46_2D55_OK
+		inc $29 
+		lda $29 
+		cmp #$03
+		bne BRANCH_LOOP__2D46_2D55_OK
+	
 	lda #$01
-
-BRANCH_LOOP__2D59_2DB9_OK:
-
+	BRANCH_LOOP__2D59_2DB9_OK:
 	sta $29 
 	jmp JUMP_BRANCH_2D46_2D5B_OK
-
-JUMP_BRANCH_2D5E_2D49_OK:
-
+	JUMP_BRANCH_2D5E_2D49_OK:
 	jsr SUBROUTINE__25A0_2D5E_OK
-
-BRANCH_LOOP__2D62_2DBE_BAD:
-
+	BRANCH_LOOP__2D62_2DBE_BAD:
 	jsr SUBROUTINE__25A0_2D61_OK
 	jsr SUBROUTINE__2C54_2D64_OK
 	lda #$02
 
-BRANCH_LOOP__2D6B_2DC3_BAD:
-
+	BRANCH_LOOP__2D6B_2DC3_BAD:
 	sta VIC.VICCRE 
 	jmp JUMP_BRANCH_2D8D_2D6C_OK
 	nop 
 
 SUBROUTINE__2D70_2D3D_OK:
-JUMP_BRANCH_2D70_2ED1_OK:
-
+	JUMP_BRANCH_2D70_2ED1_OK:
 	ldx #$00
 	lda $29 
-
-BRANCH_LOOP__2D74_2DC8_OK:
-
+	BRANCH_LOOP__2D74_2DC8_OK:
 	cmp #$02
 	bne BRANCH_LOOP__2D7A_2D76_OK
 	ldx #$10
-
-BRANCH_LOOP__2D7A_2D76_OK:
-
+	BRANCH_LOOP__2D7A_2D76_OK:
 	lda $17 
-
-BRANCH_LOOP__2D7D_2DCD_BAD:
-
+	BRANCH_LOOP__2D7D_2DCD_BAD:
 	sta $3C03,X 
-
-BRANCH_LOOP__2D80_2DDC_BAD:
-
+	BRANCH_LOOP__2D80_2DDC_BAD:
 	lda $19 
-
-BRANCH_LOOP__2D83_2DD2_BAD:
+	BRANCH_LOOP__2D83_2DD2_BAD:
 
 	sta $3C02,X 
 	lda $18 
@@ -2169,13 +2047,13 @@ JUMP_BRANCH_2D8D_2D6C_OK:
 	bne BRANCH_LOOP__2D97_2D93_OK
 	ldx #$10
 
-BRANCH_LOOP__2D97_2D93_OK:
+	BRANCH_LOOP__2D97_2D93_OK:
 
 	lda $3C02,X 
 	sta $19 
 	lda $3C03,X 
 
-BRANCH_LOOP__2DA0_2DD7_BAD:
+	BRANCH_LOOP__2DA0_2DD7_BAD:
 
 	sta $17 
 	lda $3C04,X 
@@ -2189,46 +2067,45 @@ BRANCH_LOOP__2DA0_2DD7_BAD:
 	nop 
 	rts 
 
-// $2DB0
-
-.byte $96,$10,$00,$07,$50,$9a,$10,$00
-.byte $07,$50,$9e,$10,$00,$07,$50,$a2
-.byte $10,$00,$07,$50,$a6,$10,$00,$07
-.byte $50,$aa,$10,$00,$07,$50,$ae,$10
-.byte $00,$07,$50,$af,$10,$02,$07,$50
-.byte $c7,$10,$02,$07,$50
+// $2DB0 Data block
+	.byte $96,$10,$00,$07,$50,$9a,$10,$00
+	.byte $07,$50,$9e,$10,$00,$07,$50,$a2
+	.byte $10,$00,$07,$50,$a6,$10,$00,$07
+	.byte $50,$aa,$10,$00,$07,$50,$ae,$10
+	.byte $00,$07,$50,$af,$10,$02,$07,$50
+	.byte $c7,$10,$02,$07,$50
 
 SUBROUTINE__2DDD_2215_OK:
 SUBROUTINE__2DDD_2DA6_OK:
 SUBROUTINE__2DDD_2E92_OK:
 	ldx #$2D
-BRANCH_LOOP__2DDF_2DE6_OK:
-	lda $2DAF,X
-	sta $2304,X
-	dex
-	bne BRANCH_LOOP__2DDF_2DE6_OK
+	BRANCH_LOOP__2DDF_2DE6_OK:
+		lda $2DAF,X
+		sta $2304,X
+		dex
+		bne BRANCH_LOOP__2DDF_2DE6_OK
 	ldx #$05
 	ldy #$00
 	lda #$09
 	sta $1F 
 
-BRANCH_LOOP__2DF0_2E09_OK:
+	BRANCH_LOOP__2DF0_2E09_OK:
 
-	lda $2300,X 
-	sta $01 
-	lda $2301,X 
-	clc 
-	adc #$84
-	sta $02 
-	lda ($01),Y 
-	sta $2303,X 
-	inx 
-	inx 
-	inx 
-	inx 
-	inx 
-	dec $1F 
-	bne BRANCH_LOOP__2DF0_2E09_OK
+		lda $2300,X 
+		sta $01 
+		lda $2301,X 
+		clc 
+		adc #$84
+		sta $02 
+		lda ($01),Y 
+		sta $2303,X 
+		inx 
+		inx 
+		inx 
+		inx 
+		inx 
+		dec $1F 
+		bne BRANCH_LOOP__2DF0_2E09_OK
 	jmp JUMP_BRANCH_2ED4_2E0B_OK
 
 SUBROUTINE__2E0E_220F_OK:
@@ -2246,54 +2123,45 @@ SUBROUTINE__2E0E_220F_OK:
 	cpx #$10
 	bne BRANCH_LOOP__2E28_2E25_OK
 
-BRANCH_LOOP__2E27_2E2C_OK:
-BRANCH_LOOP__2E27_2E33_OK:
+	BRANCH_LOOP__2E27_2E2C_OK:
+	BRANCH_LOOP__2E27_2E33_OK:
+		rts 
+		BRANCH_LOOP__2E28_2E25_OK:
 
-	rts 
-
-BRANCH_LOOP__2E28_2E25_OK:
-
-	lda $26 
-	cmp #$01
-	bne BRANCH_LOOP__2E27_2E2C_OK
-	lda $2C00 
-	cmp #$00
-	bne BRANCH_LOOP__2E27_2E33_OK
+		lda $26 
+		cmp #$01
+		bne BRANCH_LOOP__2E27_2E2C_OK
+		lda $2C00 
+		cmp #$00
+		bne BRANCH_LOOP__2E27_2E33_OK
 	jmp JUMP_BRANCH_2C72_2E35_OK
 
 JUMP_BRANCH_2E38_2AB3_OK:
-
 	lda #$01
 	sta $22 
 	jmp JUMP_BRANCH_282E_2E3C_OK
 	.byte $00
 
 JUMP_BRANCH_2E40_2EF1_OK:
-
 	ldx #$10
+	BRANCH_LOOP__2E42_2E5E_OK:
+		lda #$E0
+		sta $1F 
+		BRANCH_LOOP__2E46_2E5B_OK:
+			ldy #$00
+			BRANCH_LOOP__2E48_2E52_OK:
+				sta $9464,Y 
+				sta $9500,Y 
+				sta $9600,Y 
+				iny 
+				bne BRANCH_LOOP__2E48_2E52_OK
+			lda $1F 
+			sta VIC.VICCRC 
+			inc $1F 
+			bne BRANCH_LOOP__2E46_2E5B_OK
 
-BRANCH_LOOP__2E42_2E5E_OK:
-
-	lda #$E0
-	sta $1F 
-
-BRANCH_LOOP__2E46_2E5B_OK:
-
-	ldy #$00
-
-BRANCH_LOOP__2E48_2E52_OK:
-
-	sta $9464,Y 
-	sta $9500,Y 
-	sta $9600,Y 
-	iny 
-	bne BRANCH_LOOP__2E48_2E52_OK
-	lda $1F 
-	sta VIC.VICCRC 
-	inc $1F 
-	bne BRANCH_LOOP__2E46_2E5B_OK
-	dex 
-	bne BRANCH_LOOP__2E42_2E5E_OK
+		dex 
+		bne BRANCH_LOOP__2E42_2E5E_OK
 	inc $19 
 	lda #$00
 	sta $18 
@@ -2307,9 +2175,7 @@ BRANCH_LOOP__2E48_2E52_OK:
 	bne BRANCH_LOOP__2E7A_2E74_OK
 	lda #$09
 	sta $19 
-
-BRANCH_LOOP__2E7A_2E74_OK:
-
+	BRANCH_LOOP__2E7A_2E74_OK:
 	lda $19 
 	sta $00 
 	lda #$00
@@ -2324,20 +2190,15 @@ BRANCH_LOOP__2E7A_2E74_OK:
 	jmp MainGameLoop
 
 SUBROUTINE__2E9B_2262_OK:
-
 	lda $08 
 	cmp #$01
 	beq BRANCH_LOOP__2EA2_2E9F_OK
 	rts 
-
-BRANCH_LOOP__2EA2_2E9F_OK:
-
+	BRANCH_LOOP__2EA2_2E9F_OK:
 	dec $2A 
 	beq BRANCH_LOOP__2EA7_2EA4_OK
 	rts 
-
-BRANCH_LOOP__2EA7_2EA4_OK:
-
+	BRANCH_LOOP__2EA7_2EA4_OK:
 	lda #$05
 	sta $2A 
 	ldx #$00
@@ -2345,9 +2206,7 @@ BRANCH_LOOP__2EA7_2EA4_OK:
 	cmp #$02
 	bne BRANCH_LOOP__2EB5_2EB1_OK
 	ldx #$10
-
-BRANCH_LOOP__2EB5_2EB1_OK:
-
+	BRANCH_LOOP__2EB5_2EB1_OK:
 	ldy $3C00,X 
 	dey 
 	lda ($23),Y 
@@ -2356,15 +2215,11 @@ BRANCH_LOOP__2EB5_2EB1_OK:
 	lda #$20
 	sta ($23),Y 
 	rts 
-
-BRANCH_LOOP__2EC4_2EBD_OK:
-
+	BRANCH_LOOP__2EC4_2EBD_OK:
 	lda #$4B
 	sta ($23),Y 
 	rts 
-
 	rti 
-
 	lda #$05
 	sta $2A 
 	nop 
@@ -2414,39 +2269,39 @@ JUMP_BRANCH_2EFB_2C72_OK:
 	jsr ClearPlayScreen
 	ldx #$09
 
-BRANCH_LOOP__2F08_2F0F_OK:
+	BRANCH_LOOP__2F08_2F0F_OK:
 
-	lda $2F36,X 
-	sta $1101,X 
-	dex 
-	bne BRANCH_LOOP__2F08_2F0F_OK
+		lda $2F36,X 
+		sta $1101,X 
+		dex 
+		bne BRANCH_LOOP__2F08_2F0F_OK
+
 	lda #$FF
 	sta $1F 
+	BRANCH_LOOP__2F15_2F2E_OK:
+		ldy $1F 
+		BRANCH_LOOP__2F17_2F18_OK:
+			BRANCH_LOOP__2F17_2F26_OK:
+				dex 
+				bne BRANCH_LOOP__2F17_2F18_OK
 
-BRANCH_LOOP__2F15_2F2E_OK:
+			sty VIC.VICCRA 
+			sty VIC.VICCRB 
+			sty VIC.VICCRC 
+			dey 
+			cpy #$80
+			bne BRANCH_LOOP__2F17_2F26_OK
 
-	ldy $1F 
+		dec $1F 
+		lda $1F 
+		cmp #$C0
+		bne BRANCH_LOOP__2F15_2F2E_OK
 
-BRANCH_LOOP__2F17_2F18_OK:
-BRANCH_LOOP__2F17_2F26_OK:
-
-	dex 
-	bne BRANCH_LOOP__2F17_2F18_OK
-	sty VIC.VICCRA 
-	sty VIC.VICCRB 
-	sty VIC.VICCRC 
-	dey 
-	cpy #$80
-	bne BRANCH_LOOP__2F17_2F26_OK
-	dec $1F 
-	lda $1F 
-	cmp #$C0
-	bne BRANCH_LOOP__2F15_2F2E_OK
 	jmp JUMP_BRANCH_2F55_2F30_OK
 	pla 
 	rts 
 
-// $2F35
+// $2F35 Small data block
 	.byte $0D,$05,$07,$01
 	.byte $0D,$05,$20,$0F
 	.byte $16,$05,$12
@@ -2471,77 +2326,77 @@ JUMP_BRANCH_2F55_2F30_OK:
 	ldy #$00
 	ldx #$05
 
-BRANCH_LOOP__2F59_2F67_OK:
+	BRANCH_LOOP__2F59_2F67_OK:
 
-	lda $1035,Y 
-	cmp $207B,Y 
-	beq BRANCH_LOOP__2F65_2F5F_OK
-	bpl BRANCH_LOOP__2F69_2F61_OK
-	bmi BRANCH_LOOP__2F77_2F63_OK
+		lda $1035,Y 
+		cmp $207B,Y 
+		beq BRANCH_LOOP__2F65_2F5F_OK
+		bpl BRANCH_LOOP__2F69_2F61_OK
+		bmi BRANCH_LOOP__2F77_2F63_OK
 
-BRANCH_LOOP__2F65_2F5F_OK:
+		BRANCH_LOOP__2F65_2F5F_OK:
 
-	iny 
-	dex 
-	bne BRANCH_LOOP__2F59_2F67_OK
+		iny 
+		dex 
+		bne BRANCH_LOOP__2F59_2F67_OK
 
-BRANCH_LOOP__2F69_2F61_OK:
+		BRANCH_LOOP__2F69_2F61_OK:
 
-	ldx #$05
+		ldx #$05
 
-BRANCH_LOOP__2F6B_2F75_OK:
+		BRANCH_LOOP__2F6B_2F75_OK:
 
-	lda $1034,X 
-	sta $207A,X 
-	sta $1055,X 
-	dex 
-	bne BRANCH_LOOP__2F6B_2F75_OK
+			lda $1034,X 
+			sta $207A,X 
+			sta $1055,X 
+			dex 
+			bne BRANCH_LOOP__2F6B_2F75_OK
 
-BRANCH_LOOP__2F77_2F63_OK:
+		BRANCH_LOOP__2F77_2F63_OK:
 
-	ldy #$00
-	ldx #$05
+		ldy #$00
+		ldx #$05
 
-BRANCH_LOOP__2F7B_2F89_OK:
+		BRANCH_LOOP__2F7B_2F89_OK:
 
-	lda $1046,Y 
-	cmp $207B,Y 
-	beq BRANCH_LOOP__2F87_2F81_OK
-	bpl BRANCH_LOOP__2F8B_2F83_OK
-	bmi BRANCH_LOOP__2F99_2F85_OK
+			lda $1046,Y 
+			cmp $207B,Y 
+			beq BRANCH_LOOP__2F87_2F81_OK
+			bpl BRANCH_LOOP__2F8B_2F83_OK
+			bmi BRANCH_LOOP__2F99_2F85_OK
 
-BRANCH_LOOP__2F87_2F81_OK:
+			BRANCH_LOOP__2F87_2F81_OK:
 
-	iny 
-	dex 
-	bne BRANCH_LOOP__2F7B_2F89_OK
+			iny 
+			dex 
+			bne BRANCH_LOOP__2F7B_2F89_OK
 
-BRANCH_LOOP__2F8B_2F83_OK:
+		BRANCH_LOOP__2F8B_2F83_OK:
 
-	ldx #$05
+		ldx #$05
 
-BRANCH_LOOP__2F8D_2F97_OK:
+		BRANCH_LOOP__2F8D_2F97_OK:
 
-	lda $1045,X 
-	sta $207A,X 
-	sta $1055,X 
-	dex 
-	bne BRANCH_LOOP__2F8D_2F97_OK
+			lda $1045,X 
+			sta $207A,X 
+			sta $1055,X 
+			dex 
+			bne BRANCH_LOOP__2F8D_2F97_OK
 
-BRANCH_LOOP__2F99_2F85_OK:
+		BRANCH_LOOP__2F99_2F85_OK:
 
-	jsr SUBROUTINE__2EDB_2F99_OK
-	nop 
-	nop 
-	nop 
-	pla 
-	pla 
-	pla 
-	pla 
-	jmp RunTitleScreen
+		jsr SUBROUTINE__2EDB_2F99_OK
+		nop 
+		nop 
+		nop 
+		pla 
+		pla 
+		pla 
+		pla 
+		jmp RunTitleScreen
 
-SUBROUTINE__2FA6_2FD2_OK:
-SUBROUTINE__2FA6_2FDA_OK:
+	SUBROUTINE__2FA6_2FD2_OK:
+	SUBROUTINE__2FA6_2FDA_OK:
 
 	txa 
 	pha 
@@ -2552,23 +2407,23 @@ SUBROUTINE__2FA6_2FDA_OK:
 	ldx #$05
 	ldy #$00
 
-BRANCH_LOOP__2FB2_2FCB_OK:
+	BRANCH_LOOP__2FB2_2FCB_OK:
 
-	lda $2300,X 
-	sta $01 
-	lda $2301,X 
-	clc 
-	adc #$84
-	sta $02 
-	lda $2303,X 
-	sta ($01),Y 
-	inx 
-	inx 
-	inx 
-	inx 
-	inx 
-	dec $1F 
-	bne BRANCH_LOOP__2FB2_2FCB_OK
+		lda $2300,X 
+		sta $01 
+		lda $2301,X 
+		clc 
+		adc #$84
+		sta $02 
+		lda $2303,X 
+		sta ($01),Y 
+		inx 
+		inx 
+		inx 
+		inx 
+		inx 
+		dec $1F 
+		bne BRANCH_LOOP__2FB2_2FCB_OK
 	pla 
 	tay 
 	pla 
@@ -2673,7 +2528,7 @@ RunTitleScreen:
 		beq BRANCH_LOOP__3085_3080_OK
 		jmp JUMP_BRANCH_3200_3082_OK
 
-BRANCH_LOOP__3085_3080_OK:
+	BRANCH_LOOP__3085_3080_OK:
 
 	lda $C5 
 	cmp #$40
@@ -2689,7 +2544,7 @@ BRANCH_LOOP__3085_3080_OK:
 	sta $3156 
 	jmp JUMP_BRANCH_30CA_309E_OK
 
-BRANCH_LOOP__30A1_308D_OK:
+	BRANCH_LOOP__30A1_308D_OK:
 
 	cmp #$2F
 	bne BRANCH_LOOP__30B7_30A3_OK
@@ -2701,7 +2556,7 @@ BRANCH_LOOP__30A1_308D_OK:
 	sta $316A 
 	jmp JUMP_BRANCH_30CA_30B4_OK
 
-BRANCH_LOOP__30B7_30A3_OK:
+	BRANCH_LOOP__30B7_30A3_OK:
 
 	cmp #$37
 	bne FlashTitleScreenText
@@ -2711,197 +2566,227 @@ BRANCH_LOOP__30B7_30A3_OK:
 	lda #$31
 	sta $317E 
 
-BRANCH_LOOP__30CA_3097_OK:
-JUMP_BRANCH_30CA_309E_OK:
-BRANCH_LOOP__30CA_30AD_OK:
-JUMP_BRANCH_30CA_30B4_OK:
-BRANCH_LOOP__30CA_30C3_OK:
+	BRANCH_LOOP__30CA_3097_OK:
+	JUMP_BRANCH_30CA_309E_OK:
+	BRANCH_LOOP__30CA_30AD_OK:
+	JUMP_BRANCH_30CA_30B4_OK:
+	BRANCH_LOOP__30CA_30C3_OK:
 
 	jsr DrawOptionsTitleScreen
 
-BRANCH_LOOP__30CD_30D1_OK:
+	BRANCH_LOOP__30CD_30D1_OK:
 
-	lda $C5 
-	cmp #$40
-	bne BRANCH_LOOP__30CD_30D1_OK
+		lda $C5 
+		cmp #$40
+		bne BRANCH_LOOP__30CD_30D1_OK
 	jmp FlashTitleScreenText
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-// $3100
+	//nop?
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
 
-.byte $0c,$0c,$01,$0d,$01,$13,$0f,$06
-.byte $14,$20,$10,$12,$05,$13,$05,$0e
-.byte $14,$13,$41,$42,$43,$44,$45,$46
-.byte $47,$48,$49,$4a,$01,$04,$16,$01
-.byte $0e,$03,$05,$04,$20,$07,$01,$0d
-.byte $05,$20,$13,$0f,$06,$14,$17,$01
-.byte $12,$05,$20,$02,$19,$81,$82,$83
-.byte $84,$85,$86,$87,$88,$89,$20,$8a
-.byte $8b,$8c,$8d,$06,$31,$3a,$20,$0e
-.byte $0f,$2e,$20,$10,$15,$12,$13,$15
-.byte $05,$12,$13,$3a,$20,$20,$33,$06
-.byte $33,$3a,$20,$13,$10,$05,$05,$04
-.byte $20,$20,$20,$20,$20,$20,$20,$3a
-.byte $20,$20,$31,$06,$35,$3a,$20,$0e
-.byte $0f,$2e,$20,$10,$0c,$01,$19,$05
-.byte $12,$13,$20,$3a,$20,$20,$31,$10
-.byte $12,$05,$13,$13,$20,$06,$09,$12
-.byte $05,$20,$14,$0f,$20,$02,$05,$07
-.byte $09,$0e,$2e
 
- nop
- nop
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
+// 	Title Screen Data    // $3100
+	llamasoftPresents:   // $3100
+		//18 chars		llamasoft presents
+		.byte $0c,$0c,$01,$0d,$01,$13,$0f,$06,$14,$20,$10,$12,$05,$13,$05,$0e,$14,$13
+
+	traxxTop: 		//3112 	
+		// 5chars x2	TRAXX gfx
+		.byte  	$41,$42,$43,$44,$45														
+	traxxBotton: 	//3117
+		.byte 	$46,$47,$48,$49,$4a
+	
+	advancedGameSoftware:	//311c			
+		//19 char		Advanced game software by											
+		.byte $01,$04,$16,$01,$0e,$03,$05,$04,$20,$07,$01,$0d,$05,$20,$13,$0f,$06,$14,$17,$01,$12,$05,$20,$02,$19
+
+	geoffMinterTop: //3135
+		//7 chars x2 		GEOFF MINTER gfx
+		.byte $81,$82,$83,$84,$85,$86,$87
+	geoffMinterBottom: //3143
+		.byte $88,$89,$20,$8a,$8b,$8c,$8d
+
+	f1Pursures: //314A
+		//20 chars	f1: No. pursurs:  3
+		.byte $06,$31,$3a,$20,$0e,$0f,$2e,$20,$10,$15,$12,$13,$15,$05,$12,$13,$3a,$20,$20
+	
+	noOfPursures:  //3157
+		.byte $33
+	
+	f3Speed:
+		//20 chars	f3: speed      :  3
+		.byte $06,$33,$3a,$20,$13,$10,$05,$05,$04,$20,$20,$20,$20,$20,$20,$20,$3a,$20,$20
+	
+	gameSpeed:  //316a
+	.byte $31
+
+	f5Players:  
+		//20 chars	f5: no. players:  1
+		.byte $06,$35,$3a,$20,$0e,$0f,$2e,$20,$10,$0c,$01,$19,$05,$12,$13,$20,$3a,$20,$20
+	
+	noOfPlayers:
+	.byte $31
+	
+	pressFireToStart: //317f
+		//	press fire to begin
+		.byte $10,$12,$05,$13,$13,$20,$06,$09,$12,$05,$20,$14,$0f,$20,$02,$05,$07,$09,$0e,$2e
+
+
+	//NOP?
+		nop
+		nop
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
 
 JUMP_BRANCH_31B2_1B6C_OK:
 JUMP_BRANCH_31B2_1BEE_OK:
 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
-	nop 
+	//NOP?
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
+		nop 
 
 JUMP_BRANCH_3200_3082_OK:
 
@@ -2909,483 +2794,483 @@ JUMP_BRANCH_3200_3082_OK:
 	lda $317E 
 	sta $26 
 
-BRANCH_LOOP__3207_320A_OK:
+	BRANCH_LOOP__3207_320A_OK:
 
-	dec $26 
-	dey 
-	bne BRANCH_LOOP__3207_320A_OK
+		dec $26 
+		dey 
+		bne BRANCH_LOOP__3207_320A_OK
 	ldy #$30
 	lda $3156 
 	sta $19 
 
-BRANCH_LOOP__3213_3216_OK:
+	BRANCH_LOOP__3213_3216_OK:
 
-	dec $19 
-	dey 
-	bne BRANCH_LOOP__3213_3216_OK
+		dec $19 
+		dey 
+		bne BRANCH_LOOP__3213_3216_OK
 	lda #$AA
 	sta $0D 
 	lda $316A 
 	sta $1F 
 	ldy #$30
 
-BRANCH_LOOP__3223_3226_OK:
+	BRANCH_LOOP__3223_3226_OK:
 
-	dec $1F 
-	dey 
-	bne BRANCH_LOOP__3223_3226_OK
+		dec $1F 
+		dey 
+		bne BRANCH_LOOP__3223_3226_OK
 
-BRANCH_LOOP__3228_3231_OK:
+	BRANCH_LOOP__3228_3231_OK:
 
-	lda $0D 
-	sec 
-	sbc #$0A
-	sta $0D 
-	dec $1F 
-	bne BRANCH_LOOP__3228_3231_OK
+		lda $0D 
+		sec 
+		sbc #$0A
+		sta $0D 
+		dec $1F 
+		bne BRANCH_LOOP__3228_3231_OK
 	jsr DrawScreenHeader
 	jmp JUMP_BRANCH_2200_3236_OK
 
-// $3239
+// $3239 Data Block
 
-.byte $02,$02,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
-.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$cb
-.byte $f0,$00,$7f,$00,$7f,$24,$3f,$30
-.byte $7f,$00,$ff,$20,$ff,$34,$7f,$14
-.byte $9f,$00,$ff,$00,$ff,$14,$5f,$34
-.byte $3f,$00,$ff,$00,$ff,$10,$6f,$14
-.byte $bf,$00,$ff,$00,$ff,$30,$7f,$04
-.byte $3f,$00,$ff,$00,$ff,$10,$3f,$14
-.byte $7f,$00,$ff,$00,$ff,$34,$7f,$30
-.byte $ff,$00,$ff,$00,$ff,$30,$7f,$30
-.byte $ff,$00,$ff,$00,$ff,$30,$7d,$14
-.byte $bf,$00,$ff,$00,$ff,$10,$7f,$34
-.byte $3f,$00,$ff,$00,$ff,$10,$7f,$04
-.byte $5f,$00,$ff,$00,$ff,$30,$3f,$20
-.byte $eb,$00,$ff,$00,$ff,$10,$3f,$30
-.byte $bf,$00,$ff,$00,$ff,$90,$3f,$04
-.byte $3f,$00,$ff,$00,$ff,$20,$3f,$34
-.byte $bf,$20,$ff,$20,$ff,$34,$3f,$30
-.byte $7f,$00,$ff,$20,$ff,$24,$ff,$70
-.byte $bf,$00,$ff,$10,$ff,$34,$bf,$30
-.byte $7f,$20,$ff,$20,$ff,$32,$7f,$a4
-.byte $3f,$00,$ff,$00,$ff,$30,$1f,$30
-.byte $bf,$00,$ff,$00,$ff,$30,$ff,$34
-.byte $3f,$00,$ff,$04,$ff,$10,$3f,$34
-.byte $fb,$00,$7f,$00,$ff,$30,$3f,$34
-.byte $ff,$10,$bf,$00,$ff,$30,$ff,$30
-.byte $3f,$00,$ff,$10,$ff,$34,$bf,$20
-.byte $7f,$00,$ff,$00,$ff,$34,$ff,$34
-.byte $7f,$00,$ff,$00,$ff,$30,$bf,$10
-.byte $3f,$00,$ff,$10,$ff,$30,$3f,$20
-.byte $7f,$00,$bf,$00,$ff,$34,$7f,$30
-.byte $3f,$00,$ff,$00,$ff,$30,$3f,$30
-.byte $3f,$20,$ff,$10,$ff,$30,$1f,$44
-.byte $3f,$20,$ff,$20,$ff,$30,$6f,$fc
-.byte $08,$00,$ff,$00,$ff,$02,$ff,$01
-.byte $ff,$00,$ff,$00,$ff,$00,$f7,$01
-.byte $ff,$00,$ff,$00,$ff,$83,$ff,$13
-.byte $3f,$00,$ff,$00,$ff,$02,$7f,$00
-.byte $ff,$00,$ff,$00,$ff,$01,$f7,$00
-.byte $ff,$00,$ff,$00,$ff,$42,$f7,$00
-.byte $ff,$00,$ff,$00,$ff,$11,$ff,$02
-.byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
-.byte $bf,$00,$f7,$00,$ff,$21,$f7,$02
-.byte $f7,$00,$ff,$00,$ff,$02,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$01,$f7,$01
-.byte $ff,$00,$ff,$00,$ff,$02,$ef,$13
-.byte $b7,$00,$ff,$00,$ff,$02,$f7,$01
-.byte $ff,$00,$ff,$02,$ff,$00,$f7,$41
-.byte $f7,$02,$ff,$00,$ff,$22,$ff,$00
-.byte $ff,$00,$bf,$00,$ff,$02,$df,$01
-.byte $ff,$00,$f7,$00,$ff,$02,$f7,$01
-.byte $ff,$00,$ff,$00,$ff,$82,$f7,$02
-.byte $df,$00,$ff,$02,$ff,$02,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$df,$03
-.byte $ff,$00,$ff,$01,$ff,$00,$df,$02
-.byte $ff,$00,$ff,$00,$ff,$00,$7f,$01
-.byte $ff,$00,$ff,$01,$ff,$00,$ff,$01
-.byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
-.byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$01,$f7,$02
-.byte $ff,$00,$ff,$02,$ff,$21,$ff,$01
-.byte $bf,$00,$ff,$00,$ff,$02,$f7,$00
-.byte $f7,$00,$ff,$00,$f7,$06,$ef,$02
-.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
-.byte $ff,$00,$ff,$00,$ff,$03,$ff,$55
-.byte $05,$05,$c0,$20,$20,$c0,$00,$00
-.byte $c0,$20,$23,$c3,$03,$03,$c3,$20
-.byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
-.byte $00,$00,$c0,$20,$20,$c0,$10,$20
-.byte $c0,$50,$50,$c3,$83,$83,$c3,$53
-.byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
-.byte $00,$03,$c3,$20,$21,$c1,$01,$01
-.byte $c1,$20,$20,$c0,$00,$00,$c0,$20
-.byte $20,$00,$f3,$83,$50,$51,$51,$01
-.byte $01,$c1,$20,$20,$c0,$00,$10,$c0
-.byte $50,$50,$c0,$91,$80,$c3,$53,$53
-.byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
-.byte $00,$c0,$20,$27,$c7,$07,$07,$c7
-.byte $27,$27,$c7,$07,$07,$c7,$27,$27
-.byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-.byte $57,$57,$c7,$97,$87,$c7,$57,$57
-.byte $97,$07,$f7,$57,$57,$57,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$c7,$07,$07,$c7,$27,$27,$c7
-.byte $c7,$07,$c7,$57,$57,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-.byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
-.byte $97,$07,$c7,$57,$57,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$c7,$07,$07,$c7,$27,$27,$d7
-.byte $87,$07,$57,$57,$57,$07,$07,$c7
-.byte $27,$27,$c7,$07,$07,$c7,$27,$57
-.byte $c7,$67,$47,$c7,$57,$57,$c7,$37
-.byte $97,$c7,$47,$57,$c7,$07,$07,$c7
-.byte $27,$27,$c7,$07,$07,$c7,$27,$27
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$27
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$87,$87,$c7
-.byte $57,$57,$c7,$07,$07,$c7,$27,$27
-.byte $c7,$07,$07,$c7,$27,$57,$c7,$37
-.byte $47,$c7,$57,$57,$57,$17,$17,$57
-.byte $47,$57,$07,$07,$c7,$27,$27,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$87,$87,$c7,$57
-.byte $57,$c7,$07,$07,$c7,$27,$27,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$17,$37
-.byte $c7,$57,$57,$c7,$47,$17,$c7,$47
-.byte $47,$c7,$07,$07,$c7,$27,$27,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$77,$87,$87,$57,$57
-.byte $57,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-.byte $57,$57,$c7,$c7,$47,$c7,$47,$47
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$07,$c7
-.byte $27,$27,$c7,$57,$87,$c7,$57,$57
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-.byte $57,$57,$97,$c7,$47,$57,$47,$57
-.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$c7,$87,$77,$c7,$57,$57,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-.byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
-.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$87,$87,$57,$57,$57,$57,$27
-.byte $27,$a7,$47,$07,$a7,$27,$27,$57
-.byte $57,$57,$57,$57,$57,$27,$47,$a7
-.byte $27,$27,$a7,$07,$27,$a7,$27,$27
-.byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
-.byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
-.byte $57,$27,$a7,$47,$27,$a7,$27,$27
-.byte $a7,$07,$47,$a7,$27,$27,$a7,$57
-.byte $57,$a7,$57,$57,$a7,$27,$47,$a7
-.byte $27,$27,$a7,$07,$27,$a7,$27,$27
-.byte $a7,$27,$47,$a7,$27,$57,$57,$d7
-.byte $57,$57,$47,$57,$f7,$07,$a7,$57
-.byte $57,$a7,$47,$07,$a7,$27,$27,$a7
-.byte $e7,$07,$a7,$27,$27,$a7,$57,$57
-.byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
-.byte $27,$a7,$47,$07,$a7,$27,$27,$a7
-.byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
-.byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
-.byte $57,$a7,$47,$47,$a7,$27,$27,$a7
-.byte $e7,$07,$a7,$27,$27,$57,$57,$57
-.byte $57,$57,$57,$07,$e7,$a7,$27,$27
-.byte $a7,$47,$47,$a7,$27,$27,$a7,$07
-.byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
-.byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
-.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-.byte $67,$a7,$27,$27,$a7,$57,$57,$a2
-.byte $52,$52,$a2,$02,$e7,$a7,$27,$27
-.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-.byte $67,$a7,$27,$27,$57,$57,$57,$57
-.byte $47,$57,$07,$f7,$a7,$57,$57,$a7
-.byte $f7,$07,$a7,$27,$27,$a7,$77,$07
-.byte $a7,$27,$27,$a7,$57,$57,$a7,$57
-.byte $57,$a7,$77,$07,$a7,$27,$27,$5f
-.byte $93,$00,$ff,$00,$ff,$80,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$a0,$f7,$80
-.byte $ff,$00,$ff,$00,$ff,$a1,$df,$00
-.byte $ff,$00,$ff,$00,$ff,$20,$fe,$08
-.byte $d6,$00,$ff,$00,$ff,$21,$fe,$00
-.byte $ff,$00,$ff,$00,$ff,$20,$fe,$84
-.byte $fe,$00,$ff,$00,$ff,$24,$ff,$00
-.byte $fe,$00,$ff,$00,$ff,$00,$fe,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$fe,$a1
-.byte $f7,$00,$ff,$00,$ff,$04,$bf,$00
-.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$20,$ff,$88
-.byte $be,$00,$ff,$00,$ff,$00,$bf,$a0
-.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-.byte $7e,$00,$ff,$00,$ff,$a4,$fe,$80
-.byte $fe,$00,$ff,$00,$ff,$80,$df,$80
-.byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
-.byte $df,$00,$ff,$00,$ff,$00,$fe,$20
-.byte $7e,$00,$ff,$00,$ff,$20,$fc,$88
-.byte $fe,$00,$ff,$00,$ff,$08,$fe,$22
-.byte $fe,$00,$ff,$00,$ff,$80,$fe,$90
-.byte $fe,$00,$ff,$00,$ff,$01,$bf,$00
-.byte $7f,$00,$ff,$00,$ff,$20,$ff,$b2
-.byte $fe,$00,$ff,$00,$ff,$91,$ee,$80
-.byte $ff,$00,$ff,$00,$ff,$80,$fe,$20
-.byte $ff,$00,$ff,$00,$ff,$80,$ef,$20
-.byte $ff,$00,$ff,$00,$ff,$80,$ef,$00
-.byte $df,$00,$ff,$00,$ff,$80,$fe,$00
-.byte $ff,$00,$ff,$00,$ff,$08,$de,$20
-.byte $ff,$00,$ff,$00,$ff,$80,$fe,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$6f,$55
-.byte $05,$05,$c0,$20,$20,$c0,$00,$00
-.byte $c0,$20,$23,$c3,$03,$03,$c3,$20
-.byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
-.byte $00,$00,$c0,$20,$20,$c0,$10,$20
-.byte $c0,$50,$50,$c3,$83,$83,$c3,$53
-.byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
-.byte $00,$03,$c3,$20,$21,$c1,$01,$01
-.byte $c1,$20,$20,$c0,$00,$00,$c0,$20
-.byte $20,$00,$f3,$83,$50,$51,$51,$01
-.byte $01,$c1,$20,$20,$c0,$00,$10,$c0
-.byte $50,$50,$c0,$91,$80,$c3,$53,$53
-.byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
-.byte $00,$c0,$20,$27,$c7,$07,$07,$c7
-.byte $27,$27,$c7,$07,$07,$c7,$27,$27
-.byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-.byte $57,$57,$c7,$97,$87,$c7,$57,$57
-.byte $97,$07,$f7,$57,$57,$57,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$c7,$07,$07,$c7,$27,$27,$c7
-.byte $c7,$07,$c7,$57,$57,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-.byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
-.byte $97,$07,$c7,$57,$57,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$c7,$07,$07,$c7,$27,$27,$d7
-.byte $87,$07,$57,$57,$57,$07,$07,$c7
-.byte $27,$27,$c7,$07,$07,$c7,$27,$57
-.byte $c7,$67,$47,$c7,$57,$57,$c7,$37
-.byte $97,$c7,$47,$57,$c7,$07,$07,$c7
-.byte $27,$27,$c7,$07,$07,$c7,$27,$27
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$27
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$87,$87,$c7
-.byte $57,$57,$c7,$07,$07,$c7,$27,$27
-.byte $c7,$07,$07,$c7,$27,$57,$c7,$37
-.byte $47,$c7,$57,$57,$57,$17,$17,$57
-.byte $47,$57,$07,$07,$c7,$27,$27,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$87,$87,$c7,$57
-.byte $57,$c7,$07,$07,$c7,$27,$27,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$17,$37
-.byte $c7,$57,$57,$c7,$47,$17,$c7,$47
-.byte $47,$c7,$07,$07,$c7,$27,$27,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$77,$87,$87,$57,$57
-.byte $57,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-.byte $57,$57,$c7,$c7,$47,$c7,$47,$47
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$07,$c7
-.byte $27,$27,$c7,$57,$87,$c7,$57,$57
-.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
-.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
-.byte $57,$57,$97,$c7,$47,$57,$47,$57
-.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$c7,$87,$77,$c7,$57,$57,$c7
-.byte $07,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
-.byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
-.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
-.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
-.byte $27,$87,$87,$57,$57,$57,$57,$27
-.byte $27,$a7,$47,$07,$a7,$27,$27,$57
-.byte $57,$57,$57,$57,$57,$27,$47,$a7
-.byte $27,$27,$a7,$07,$27,$a7,$27,$27
-.byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
-.byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
-.byte $57,$27,$a7,$47,$27,$a7,$27,$27
-.byte $a7,$07,$47,$a7,$27,$27,$a7,$57
-.byte $57,$a7,$57,$57,$a7,$27,$47,$a7
-.byte $27,$27,$a7,$07,$27,$a7,$27,$27
-.byte $a7,$27,$47,$a7,$27,$57,$57,$d7
-.byte $57,$57,$47,$57,$f7,$07,$a7,$57
-.byte $57,$a7,$47,$07,$a7,$27,$27,$a7
-.byte $e7,$07,$a7,$27,$27,$a7,$57,$57
-.byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
-.byte $27,$a7,$47,$07,$a7,$27,$27,$a7
-.byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
-.byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
-.byte $57,$a7,$47,$47,$a7,$27,$27,$a7
-.byte $e7,$07,$a7,$27,$27,$57,$57,$57
-.byte $57,$57,$57,$07,$e7,$a7,$27,$27
-.byte $a7,$47,$47,$a7,$27,$27,$a7,$07
-.byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
-.byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
-.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-.byte $67,$a7,$27,$27,$a7,$57,$57,$a2
-.byte $52,$52,$a2,$02,$e7,$a7,$27,$27
-.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
-.byte $67,$a7,$27,$27,$57,$57,$57,$57
-.byte $47,$57,$07,$f7,$a7,$57,$57,$a7
-.byte $f7,$07,$a7,$27,$27,$a7,$77,$07
-.byte $a7,$27,$27,$a7,$57,$57,$a7,$57
-.byte $57,$a7,$77,$07,$a7,$27,$27,$03
-.byte $00,$03,$06,$00,$ff,$00,$ef,$20
-.byte $9f,$00,$ff,$00,$ff,$20,$f7,$03
-.byte $00,$03,$00,$00,$ff,$00,$a5,$06
-.byte $ff,$00,$ff,$00,$ff,$00,$af,$20
-.byte $ff,$00,$ff,$00,$ff,$00,$a7,$20
-.byte $f7,$00,$ff,$00,$ff,$00,$b7,$20
-.byte $ff,$00,$ff,$00,$ff,$91,$af,$40
-.byte $af,$00,$ff,$00,$ff,$00,$b7,$01
-.byte $ff,$00,$ff,$00,$ff,$82,$f7,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$bf,$00
-.byte $f7,$00,$ff,$00,$ff,$20,$df,$80
-.byte $af,$00,$ff,$00,$ff,$00,$ff,$00
-.byte $f7,$00,$ff,$00,$ff,$10,$ef,$00
-.byte $f7,$00,$ff,$00,$ff,$02,$ef,$40
-.byte $e7,$00,$ff,$00,$ff,$a0,$fd,$02
-.byte $ff,$00,$ff,$00,$ff,$00,$f6,$09
-.byte $bf,$00,$ff,$00,$ff,$10,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$e9,$20
-.byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$f7,$00
-.byte $bf,$00,$ff,$00,$ff,$00,$ad,$00
-.byte $bf,$00,$ff,$00,$ff,$00,$8f,$00
-.byte $bf,$00,$ff,$00,$ff,$00,$ff,$02
-.byte $b7,$00,$ff,$00,$ff,$81,$a7,$00
-.byte $ff,$00,$ff,$00,$ff,$80,$ed,$00
-.byte $ba,$00,$ff,$00,$ff,$00,$f7,$00
-.byte $e7,$00,$ff,$00,$ff,$80,$ff,$42
-.byte $ef,$00,$ff,$00,$ff,$00,$af,$52
-.byte $e5,$00,$ff,$00,$ff,$20,$bf,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$ff,$1a
-.byte $af,$00,$ff,$00,$ff,$00,$f7,$01
-.byte $e6,$00,$ff,$00,$ff,$0a,$ff,$ec
-.byte $86,$00,$ff,$00,$ff,$00,$ff,$19
-.byte $f9,$00,$ff,$00,$ff,$12,$ff,$16
-.byte $fd,$00,$ff,$00,$ff,$12,$fe,$00
-.byte $f6,$00,$ff,$00,$ff,$10,$ff,$00
-.byte $fb,$00,$ff,$00,$ff,$20,$f5,$01
-.byte $ff,$00,$ff,$00,$ff,$52,$ff,$10
-.byte $fd,$00,$ff,$00,$ff,$90,$ff,$00
-.byte $fb,$00,$ff,$00,$ff,$18,$bd,$10
-.byte $7b,$00,$ff,$00,$ff,$10,$ff,$10
-.byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
-.byte $ff,$00,$ff,$00,$ff,$00,$fd,$10
-.byte $fb,$00,$ff,$00,$ff,$02,$cf,$00
-.byte $ff,$00,$ff,$00,$ff,$18,$fd,$00
-.byte $ff,$00,$ff,$00,$ff,$02,$ff,$10
-.byte $ff,$00,$ff,$00,$ff,$01,$ef,$12
-.byte $ff,$00,$ff,$00,$ff,$02,$f9,$12
-.byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
-.byte $ff,$00,$ff,$00,$ff,$0a,$ff,$12
-.byte $ff,$00,$ff,$00,$ff,$10,$ff,$06
-.byte $fc,$00,$ff,$00,$ff,$00,$f3,$00
-.byte $f9,$00,$ff,$00,$ff,$20,$fd,$12
-.byte $f3,$00,$ff,$00,$ff,$90,$ff,$12
-.byte $f9,$00,$ff,$00,$ff,$12,$ff,$10
-.byte $fd,$00,$ff,$00,$ff,$02,$fb,$12
-.byte $fb,$00,$ff,$00,$ff,$00,$fb,$12
-.byte $fe,$00,$ff,$00,$ff,$02,$f7,$00
-.byte $fa,$00,$ff,$00,$ff,$13,$fb,$10
-.byte $ff,$00,$ff,$00,$ff,$10,$f9,$10
-.byte $fb,$00,$ff,$00,$ff,$10,$fd,$12
-.byte $fa,$00,$ff,$00,$ff,$11,$f7,$80
-.byte $ff,$00,$ff,$00,$ff,$04,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$7a,$ef
-.byte $ca,$00,$ff,$00,$ff,$00,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$7f,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
-.byte $ff,$00,$ff,$00,$ff,$02,$fd,$08
-.byte $ff,$00,$ff,$00,$ff,$00,$fd,$02
-.byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$f3,$00
-.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
-.byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
-.byte $f7,$00,$ff,$00,$ff,$02,$f7,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$f5,$00
-.byte $bf,$00,$ff,$00,$ff,$00,$ff,$10
-.byte $f7,$00,$ff,$00,$ff,$00,$fd,$00
-.byte $67,$00,$ff,$00,$ff,$08,$f5,$00
-.byte $b7,$00,$ff,$00,$ff,$a5,$ff,$00
-.byte $f5,$00,$ff,$00,$ff,$00,$f5,$00
-.byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
-.byte $fd,$00,$ff,$00,$ff,$02,$f7,$00
-.byte $f7,$00,$ff,$00,$ff,$00,$f7,$00
-.byte $f7,$00,$ff,$00,$ff,$00,$f7,$10
-.byte $ff,$00,$ff,$00,$ff,$00,$bf,$80
-.byte $ff,$00,$ff,$00,$ff,$00,$fd,$40
-.byte $f5,$00,$ff,$00,$ff,$14,$fd,$00
-.byte $f7,$00,$ff,$00,$ff,$08,$f7,$01
-.byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
-.byte $ff,$00,$ff,$00,$ff,$10,$f7,$01
-.byte $ff,$00,$ff,$00,$ff,$00,$f5,$50
-.byte $fd,$00,$ff,$00,$ff,$01,$f7,$00
-.byte $fd,$00,$ff,$00,$ff,$04,$fd,$00
-.byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
-.byte $7f,$00,$ff,$00,$ff,$92,$ff,$ff
-.byte $d5,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$20
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$20,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $20,$00,$ff,$00,$ff,$40,$00,$00
-.byte $00,$00,$fb,$00,$ff,$40,$00,$80
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$80,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $02,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$60,$01,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$08
-.byte $00,$00,$ff,$00,$ff,$04,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$08
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$11
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$00,$00
-.byte $02,$00,$ff,$00,$ff,$01,$00,$00
-.byte $00,$00,$ff,$00,$ff,$00,$ff
+	.byte $02,$02,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff
+	.byte $ff,$ff,$ff,$ff,$ff,$ff,$ff,$cb
+	.byte $f0,$00,$7f,$00,$7f,$24,$3f,$30
+	.byte $7f,$00,$ff,$20,$ff,$34,$7f,$14
+	.byte $9f,$00,$ff,$00,$ff,$14,$5f,$34
+	.byte $3f,$00,$ff,$00,$ff,$10,$6f,$14
+	.byte $bf,$00,$ff,$00,$ff,$30,$7f,$04
+	.byte $3f,$00,$ff,$00,$ff,$10,$3f,$14
+	.byte $7f,$00,$ff,$00,$ff,$34,$7f,$30
+	.byte $ff,$00,$ff,$00,$ff,$30,$7f,$30
+	.byte $ff,$00,$ff,$00,$ff,$30,$7d,$14
+	.byte $bf,$00,$ff,$00,$ff,$10,$7f,$34
+	.byte $3f,$00,$ff,$00,$ff,$10,$7f,$04
+	.byte $5f,$00,$ff,$00,$ff,$30,$3f,$20
+	.byte $eb,$00,$ff,$00,$ff,$10,$3f,$30
+	.byte $bf,$00,$ff,$00,$ff,$90,$3f,$04
+	.byte $3f,$00,$ff,$00,$ff,$20,$3f,$34
+	.byte $bf,$20,$ff,$20,$ff,$34,$3f,$30
+	.byte $7f,$00,$ff,$20,$ff,$24,$ff,$70
+	.byte $bf,$00,$ff,$10,$ff,$34,$bf,$30
+	.byte $7f,$20,$ff,$20,$ff,$32,$7f,$a4
+	.byte $3f,$00,$ff,$00,$ff,$30,$1f,$30
+	.byte $bf,$00,$ff,$00,$ff,$30,$ff,$34
+	.byte $3f,$00,$ff,$04,$ff,$10,$3f,$34
+	.byte $fb,$00,$7f,$00,$ff,$30,$3f,$34
+	.byte $ff,$10,$bf,$00,$ff,$30,$ff,$30
+	.byte $3f,$00,$ff,$10,$ff,$34,$bf,$20
+	.byte $7f,$00,$ff,$00,$ff,$34,$ff,$34
+	.byte $7f,$00,$ff,$00,$ff,$30,$bf,$10
+	.byte $3f,$00,$ff,$10,$ff,$30,$3f,$20
+	.byte $7f,$00,$bf,$00,$ff,$34,$7f,$30
+	.byte $3f,$00,$ff,$00,$ff,$30,$3f,$30
+	.byte $3f,$20,$ff,$10,$ff,$30,$1f,$44
+	.byte $3f,$20,$ff,$20,$ff,$30,$6f,$fc
+	.byte $08,$00,$ff,$00,$ff,$02,$ff,$01
+	.byte $ff,$00,$ff,$00,$ff,$00,$f7,$01
+	.byte $ff,$00,$ff,$00,$ff,$83,$ff,$13
+	.byte $3f,$00,$ff,$00,$ff,$02,$7f,$00
+	.byte $ff,$00,$ff,$00,$ff,$01,$f7,$00
+	.byte $ff,$00,$ff,$00,$ff,$42,$f7,$00
+	.byte $ff,$00,$ff,$00,$ff,$11,$ff,$02
+	.byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
+	.byte $bf,$00,$f7,$00,$ff,$21,$f7,$02
+	.byte $f7,$00,$ff,$00,$ff,$02,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$01,$f7,$01
+	.byte $ff,$00,$ff,$00,$ff,$02,$ef,$13
+	.byte $b7,$00,$ff,$00,$ff,$02,$f7,$01
+	.byte $ff,$00,$ff,$02,$ff,$00,$f7,$41
+	.byte $f7,$02,$ff,$00,$ff,$22,$ff,$00
+	.byte $ff,$00,$bf,$00,$ff,$02,$df,$01
+	.byte $ff,$00,$f7,$00,$ff,$02,$f7,$01
+	.byte $ff,$00,$ff,$00,$ff,$82,$f7,$02
+	.byte $df,$00,$ff,$02,$ff,$02,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$df,$03
+	.byte $ff,$00,$ff,$01,$ff,$00,$df,$02
+	.byte $ff,$00,$ff,$00,$ff,$00,$7f,$01
+	.byte $ff,$00,$ff,$01,$ff,$00,$ff,$01
+	.byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
+	.byte $ff,$00,$ff,$00,$ff,$02,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$01,$f7,$02
+	.byte $ff,$00,$ff,$02,$ff,$21,$ff,$01
+	.byte $bf,$00,$ff,$00,$ff,$02,$f7,$00
+	.byte $f7,$00,$ff,$00,$f7,$06,$ef,$02
+	.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$02,$ff,$01
+	.byte $ff,$00,$ff,$00,$ff,$03,$ff,$55
+	.byte $05,$05,$c0,$20,$20,$c0,$00,$00
+	.byte $c0,$20,$23,$c3,$03,$03,$c3,$20
+	.byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
+	.byte $00,$00,$c0,$20,$20,$c0,$10,$20
+	.byte $c0,$50,$50,$c3,$83,$83,$c3,$53
+	.byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
+	.byte $00,$03,$c3,$20,$21,$c1,$01,$01
+	.byte $c1,$20,$20,$c0,$00,$00,$c0,$20
+	.byte $20,$00,$f3,$83,$50,$51,$51,$01
+	.byte $01,$c1,$20,$20,$c0,$00,$10,$c0
+	.byte $50,$50,$c0,$91,$80,$c3,$53,$53
+	.byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
+	.byte $00,$c0,$20,$27,$c7,$07,$07,$c7
+	.byte $27,$27,$c7,$07,$07,$c7,$27,$27
+	.byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+	.byte $57,$57,$c7,$97,$87,$c7,$57,$57
+	.byte $97,$07,$f7,$57,$57,$57,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$c7,$07,$07,$c7,$27,$27,$c7
+	.byte $c7,$07,$c7,$57,$57,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+	.byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
+	.byte $97,$07,$c7,$57,$57,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$c7,$07,$07,$c7,$27,$27,$d7
+	.byte $87,$07,$57,$57,$57,$07,$07,$c7
+	.byte $27,$27,$c7,$07,$07,$c7,$27,$57
+	.byte $c7,$67,$47,$c7,$57,$57,$c7,$37
+	.byte $97,$c7,$47,$57,$c7,$07,$07,$c7
+	.byte $27,$27,$c7,$07,$07,$c7,$27,$27
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$27
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$87,$87,$c7
+	.byte $57,$57,$c7,$07,$07,$c7,$27,$27
+	.byte $c7,$07,$07,$c7,$27,$57,$c7,$37
+	.byte $47,$c7,$57,$57,$57,$17,$17,$57
+	.byte $47,$57,$07,$07,$c7,$27,$27,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$87,$87,$c7,$57
+	.byte $57,$c7,$07,$07,$c7,$27,$27,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$17,$37
+	.byte $c7,$57,$57,$c7,$47,$17,$c7,$47
+	.byte $47,$c7,$07,$07,$c7,$27,$27,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$77,$87,$87,$57,$57
+	.byte $57,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+	.byte $57,$57,$c7,$c7,$47,$c7,$47,$47
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$07,$c7
+	.byte $27,$27,$c7,$57,$87,$c7,$57,$57
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+	.byte $57,$57,$97,$c7,$47,$57,$47,$57
+	.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$c7,$87,$77,$c7,$57,$57,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+	.byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
+	.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$87,$87,$57,$57,$57,$57,$27
+	.byte $27,$a7,$47,$07,$a7,$27,$27,$57
+	.byte $57,$57,$57,$57,$57,$27,$47,$a7
+	.byte $27,$27,$a7,$07,$27,$a7,$27,$27
+	.byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
+	.byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
+	.byte $57,$27,$a7,$47,$27,$a7,$27,$27
+	.byte $a7,$07,$47,$a7,$27,$27,$a7,$57
+	.byte $57,$a7,$57,$57,$a7,$27,$47,$a7
+	.byte $27,$27,$a7,$07,$27,$a7,$27,$27
+	.byte $a7,$27,$47,$a7,$27,$57,$57,$d7
+	.byte $57,$57,$47,$57,$f7,$07,$a7,$57
+	.byte $57,$a7,$47,$07,$a7,$27,$27,$a7
+	.byte $e7,$07,$a7,$27,$27,$a7,$57,$57
+	.byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
+	.byte $27,$a7,$47,$07,$a7,$27,$27,$a7
+	.byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
+	.byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
+	.byte $57,$a7,$47,$47,$a7,$27,$27,$a7
+	.byte $e7,$07,$a7,$27,$27,$57,$57,$57
+	.byte $57,$57,$57,$07,$e7,$a7,$27,$27
+	.byte $a7,$47,$47,$a7,$27,$27,$a7,$07
+	.byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
+	.byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
+	.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+	.byte $67,$a7,$27,$27,$a7,$57,$57,$a2
+	.byte $52,$52,$a2,$02,$e7,$a7,$27,$27
+	.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+	.byte $67,$a7,$27,$27,$57,$57,$57,$57
+	.byte $47,$57,$07,$f7,$a7,$57,$57,$a7
+	.byte $f7,$07,$a7,$27,$27,$a7,$77,$07
+	.byte $a7,$27,$27,$a7,$57,$57,$a7,$57
+	.byte $57,$a7,$77,$07,$a7,$27,$27,$5f
+	.byte $93,$00,$ff,$00,$ff,$80,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$a0,$f7,$80
+	.byte $ff,$00,$ff,$00,$ff,$a1,$df,$00
+	.byte $ff,$00,$ff,$00,$ff,$20,$fe,$08
+	.byte $d6,$00,$ff,$00,$ff,$21,$fe,$00
+	.byte $ff,$00,$ff,$00,$ff,$20,$fe,$84
+	.byte $fe,$00,$ff,$00,$ff,$24,$ff,$00
+	.byte $fe,$00,$ff,$00,$ff,$00,$fe,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$fe,$a1
+	.byte $f7,$00,$ff,$00,$ff,$04,$bf,$00
+	.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$20,$ff,$88
+	.byte $be,$00,$ff,$00,$ff,$00,$bf,$a0
+	.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+	.byte $7e,$00,$ff,$00,$ff,$a4,$fe,$80
+	.byte $fe,$00,$ff,$00,$ff,$80,$df,$80
+	.byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
+	.byte $df,$00,$ff,$00,$ff,$00,$fe,$20
+	.byte $7e,$00,$ff,$00,$ff,$20,$fc,$88
+	.byte $fe,$00,$ff,$00,$ff,$08,$fe,$22
+	.byte $fe,$00,$ff,$00,$ff,$80,$fe,$90
+	.byte $fe,$00,$ff,$00,$ff,$01,$bf,$00
+	.byte $7f,$00,$ff,$00,$ff,$20,$ff,$b2
+	.byte $fe,$00,$ff,$00,$ff,$91,$ee,$80
+	.byte $ff,$00,$ff,$00,$ff,$80,$fe,$20
+	.byte $ff,$00,$ff,$00,$ff,$80,$ef,$20
+	.byte $ff,$00,$ff,$00,$ff,$80,$ef,$00
+	.byte $df,$00,$ff,$00,$ff,$80,$fe,$00
+	.byte $ff,$00,$ff,$00,$ff,$08,$de,$20
+	.byte $ff,$00,$ff,$00,$ff,$80,$fe,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$6f,$55
+	.byte $05,$05,$c0,$20,$20,$c0,$00,$00
+	.byte $c0,$20,$23,$c3,$03,$03,$c3,$20
+	.byte $20,$c0,$f0,$80,$c4,$54,$54,$c0
+	.byte $00,$00,$c0,$20,$20,$c0,$10,$20
+	.byte $c0,$50,$50,$c3,$83,$83,$c3,$53
+	.byte $50,$c0,$f0,$80,$c0,$50,$50,$c0
+	.byte $00,$03,$c3,$20,$21,$c1,$01,$01
+	.byte $c1,$20,$20,$c0,$00,$00,$c0,$20
+	.byte $20,$00,$f3,$83,$50,$51,$51,$01
+	.byte $01,$c1,$20,$20,$c0,$00,$10,$c0
+	.byte $50,$50,$c0,$91,$80,$c3,$53,$53
+	.byte $c3,$03,$f0,$c0,$50,$50,$c0,$00
+	.byte $00,$c0,$20,$27,$c7,$07,$07,$c7
+	.byte $27,$27,$c7,$07,$07,$c7,$27,$27
+	.byte $c7,$07,$f7,$c7,$57,$57,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+	.byte $57,$57,$c7,$97,$87,$c7,$57,$57
+	.byte $97,$07,$f7,$57,$57,$57,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$c7,$07,$07,$c7,$27,$27,$c7
+	.byte $c7,$07,$c7,$57,$57,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+	.byte $57,$c7,$47,$d7,$c7,$57,$57,$c7
+	.byte $97,$07,$c7,$57,$57,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$c7,$07,$07,$c7,$27,$27,$d7
+	.byte $87,$07,$57,$57,$57,$07,$07,$c7
+	.byte $27,$27,$c7,$07,$07,$c7,$27,$57
+	.byte $c7,$67,$47,$c7,$57,$57,$c7,$37
+	.byte $97,$c7,$47,$57,$c7,$07,$07,$c7
+	.byte $27,$27,$c7,$07,$07,$c7,$27,$27
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$27
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$87,$87,$c7
+	.byte $57,$57,$c7,$07,$07,$c7,$27,$27
+	.byte $c7,$07,$07,$c7,$27,$57,$c7,$37
+	.byte $47,$c7,$57,$57,$57,$17,$17,$57
+	.byte $47,$57,$07,$07,$c7,$27,$27,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$87,$87,$c7,$57
+	.byte $57,$c7,$07,$07,$c7,$27,$27,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$17,$37
+	.byte $c7,$57,$57,$c7,$47,$17,$c7,$47
+	.byte $47,$c7,$07,$07,$c7,$27,$27,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$77,$87,$87,$57,$57
+	.byte $57,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+	.byte $57,$57,$c7,$c7,$47,$c7,$47,$47
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$07,$c7
+	.byte $27,$27,$c7,$57,$87,$c7,$57,$57
+	.byte $c7,$07,$07,$c7,$27,$27,$c7,$07
+	.byte $07,$c7,$27,$27,$c7,$07,$17,$c7
+	.byte $57,$57,$97,$c7,$47,$57,$47,$57
+	.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$c7,$87,$77,$c7,$57,$57,$c7
+	.byte $07,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$57
+	.byte $57,$c7,$87,$c7,$c7,$47,$47,$c7
+	.byte $f7,$07,$c7,$27,$27,$c7,$07,$07
+	.byte $c7,$27,$27,$c7,$07,$07,$c7,$27
+	.byte $27,$87,$87,$57,$57,$57,$57,$27
+	.byte $27,$a7,$47,$07,$a7,$27,$27,$57
+	.byte $57,$57,$57,$57,$57,$27,$47,$a7
+	.byte $27,$27,$a7,$07,$27,$a7,$27,$27
+	.byte $a7,$27,$47,$a7,$27,$57,$a7,$d7
+	.byte $17,$a7,$47,$47,$a7,$07,$f7,$a7
+	.byte $57,$27,$a7,$47,$27,$a7,$27,$27
+	.byte $a7,$07,$47,$a7,$27,$27,$a7,$57
+	.byte $57,$a7,$57,$57,$a7,$27,$47,$a7
+	.byte $27,$27,$a7,$07,$27,$a7,$27,$27
+	.byte $a7,$27,$47,$a7,$27,$57,$57,$d7
+	.byte $57,$57,$47,$57,$f7,$07,$a7,$57
+	.byte $57,$a7,$47,$07,$a7,$27,$27,$a7
+	.byte $e7,$07,$a7,$27,$27,$a7,$57,$57
+	.byte $a7,$57,$57,$a7,$e7,$27,$a7,$27
+	.byte $27,$a7,$47,$07,$a7,$27,$27,$a7
+	.byte $e7,$07,$a7,$27,$27,$a7,$57,$d7
+	.byte $a7,$47,$47,$a7,$f7,$07,$a7,$57
+	.byte $57,$a7,$47,$47,$a7,$27,$27,$a7
+	.byte $e7,$07,$a7,$27,$27,$57,$57,$57
+	.byte $57,$57,$57,$07,$e7,$a7,$27,$27
+	.byte $a7,$47,$47,$a7,$27,$27,$a7,$07
+	.byte $e7,$a7,$27,$27,$a7,$57,$57,$a7
+	.byte $47,$47,$a7,$f7,$f7,$a7,$57,$57
+	.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+	.byte $67,$a7,$27,$27,$a7,$57,$57,$a2
+	.byte $52,$52,$a2,$02,$e7,$a7,$27,$27
+	.byte $a7,$07,$47,$a7,$27,$27,$a7,$07
+	.byte $67,$a7,$27,$27,$57,$57,$57,$57
+	.byte $47,$57,$07,$f7,$a7,$57,$57,$a7
+	.byte $f7,$07,$a7,$27,$27,$a7,$77,$07
+	.byte $a7,$27,$27,$a7,$57,$57,$a7,$57
+	.byte $57,$a7,$77,$07,$a7,$27,$27,$03
+	.byte $00,$03,$06,$00,$ff,$00,$ef,$20
+	.byte $9f,$00,$ff,$00,$ff,$20,$f7,$03
+	.byte $00,$03,$00,$00,$ff,$00,$a5,$06
+	.byte $ff,$00,$ff,$00,$ff,$00,$af,$20
+	.byte $ff,$00,$ff,$00,$ff,$00,$a7,$20
+	.byte $f7,$00,$ff,$00,$ff,$00,$b7,$20
+	.byte $ff,$00,$ff,$00,$ff,$91,$af,$40
+	.byte $af,$00,$ff,$00,$ff,$00,$b7,$01
+	.byte $ff,$00,$ff,$00,$ff,$82,$f7,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$bf,$00
+	.byte $f7,$00,$ff,$00,$ff,$20,$df,$80
+	.byte $af,$00,$ff,$00,$ff,$00,$ff,$00
+	.byte $f7,$00,$ff,$00,$ff,$10,$ef,$00
+	.byte $f7,$00,$ff,$00,$ff,$02,$ef,$40
+	.byte $e7,$00,$ff,$00,$ff,$a0,$fd,$02
+	.byte $ff,$00,$ff,$00,$ff,$00,$f6,$09
+	.byte $bf,$00,$ff,$00,$ff,$10,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$e9,$20
+	.byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$f7,$00
+	.byte $bf,$00,$ff,$00,$ff,$00,$ad,$00
+	.byte $bf,$00,$ff,$00,$ff,$00,$8f,$00
+	.byte $bf,$00,$ff,$00,$ff,$00,$ff,$02
+	.byte $b7,$00,$ff,$00,$ff,$81,$a7,$00
+	.byte $ff,$00,$ff,$00,$ff,$80,$ed,$00
+	.byte $ba,$00,$ff,$00,$ff,$00,$f7,$00
+	.byte $e7,$00,$ff,$00,$ff,$80,$ff,$42
+	.byte $ef,$00,$ff,$00,$ff,$00,$af,$52
+	.byte $e5,$00,$ff,$00,$ff,$20,$bf,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$ff,$1a
+	.byte $af,$00,$ff,$00,$ff,$00,$f7,$01
+	.byte $e6,$00,$ff,$00,$ff,$0a,$ff,$ec
+	.byte $86,$00,$ff,$00,$ff,$00,$ff,$19
+	.byte $f9,$00,$ff,$00,$ff,$12,$ff,$16
+	.byte $fd,$00,$ff,$00,$ff,$12,$fe,$00
+	.byte $f6,$00,$ff,$00,$ff,$10,$ff,$00
+	.byte $fb,$00,$ff,$00,$ff,$20,$f5,$01
+	.byte $ff,$00,$ff,$00,$ff,$52,$ff,$10
+	.byte $fd,$00,$ff,$00,$ff,$90,$ff,$00
+	.byte $fb,$00,$ff,$00,$ff,$18,$bd,$10
+	.byte $7b,$00,$ff,$00,$ff,$10,$ff,$10
+	.byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
+	.byte $ff,$00,$ff,$00,$ff,$00,$fd,$10
+	.byte $fb,$00,$ff,$00,$ff,$02,$cf,$00
+	.byte $ff,$00,$ff,$00,$ff,$18,$fd,$00
+	.byte $ff,$00,$ff,$00,$ff,$02,$ff,$10
+	.byte $ff,$00,$ff,$00,$ff,$01,$ef,$12
+	.byte $ff,$00,$ff,$00,$ff,$02,$f9,$12
+	.byte $fb,$00,$ff,$00,$ff,$10,$fb,$12
+	.byte $ff,$00,$ff,$00,$ff,$0a,$ff,$12
+	.byte $ff,$00,$ff,$00,$ff,$10,$ff,$06
+	.byte $fc,$00,$ff,$00,$ff,$00,$f3,$00
+	.byte $f9,$00,$ff,$00,$ff,$20,$fd,$12
+	.byte $f3,$00,$ff,$00,$ff,$90,$ff,$12
+	.byte $f9,$00,$ff,$00,$ff,$12,$ff,$10
+	.byte $fd,$00,$ff,$00,$ff,$02,$fb,$12
+	.byte $fb,$00,$ff,$00,$ff,$00,$fb,$12
+	.byte $fe,$00,$ff,$00,$ff,$02,$f7,$00
+	.byte $fa,$00,$ff,$00,$ff,$13,$fb,$10
+	.byte $ff,$00,$ff,$00,$ff,$10,$f9,$10
+	.byte $fb,$00,$ff,$00,$ff,$10,$fd,$12
+	.byte $fa,$00,$ff,$00,$ff,$11,$f7,$80
+	.byte $ff,$00,$ff,$00,$ff,$04,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$7a,$ef
+	.byte $ca,$00,$ff,$00,$ff,$00,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$7f,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$fd,$00
+	.byte $ff,$00,$ff,$00,$ff,$02,$fd,$08
+	.byte $ff,$00,$ff,$00,$ff,$00,$fd,$02
+	.byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$f3,$00
+	.byte $ff,$00,$ff,$00,$ff,$20,$ff,$00
+	.byte $ff,$00,$ff,$00,$ff,$01,$ff,$00
+	.byte $f7,$00,$ff,$00,$ff,$02,$f7,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$f5,$00
+	.byte $bf,$00,$ff,$00,$ff,$00,$ff,$10
+	.byte $f7,$00,$ff,$00,$ff,$00,$fd,$00
+	.byte $67,$00,$ff,$00,$ff,$08,$f5,$00
+	.byte $b7,$00,$ff,$00,$ff,$a5,$ff,$00
+	.byte $f5,$00,$ff,$00,$ff,$00,$f5,$00
+	.byte $f7,$00,$ff,$00,$ff,$00,$ff,$00
+	.byte $fd,$00,$ff,$00,$ff,$02,$f7,$00
+	.byte $f7,$00,$ff,$00,$ff,$00,$f7,$00
+	.byte $f7,$00,$ff,$00,$ff,$00,$f7,$10
+	.byte $ff,$00,$ff,$00,$ff,$00,$bf,$80
+	.byte $ff,$00,$ff,$00,$ff,$00,$fd,$40
+	.byte $f5,$00,$ff,$00,$ff,$14,$fd,$00
+	.byte $f7,$00,$ff,$00,$ff,$08,$f7,$01
+	.byte $ef,$00,$ff,$00,$ff,$00,$f7,$00
+	.byte $ff,$00,$ff,$00,$ff,$10,$f7,$01
+	.byte $ff,$00,$ff,$00,$ff,$00,$f5,$50
+	.byte $fd,$00,$ff,$00,$ff,$01,$f7,$00
+	.byte $fd,$00,$ff,$00,$ff,$04,$fd,$00
+	.byte $ff,$00,$ff,$00,$ff,$00,$ff,$00
+	.byte $7f,$00,$ff,$00,$ff,$92,$ff,$ff
+	.byte $d5,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$20
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$20,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $20,$00,$ff,$00,$ff,$40,$00,$00
+	.byte $00,$00,$fb,$00,$ff,$40,$00,$80
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$80,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $02,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$60,$01,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$08
+	.byte $00,$00,$ff,$00,$ff,$04,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$08
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$11
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
+	.byte $02,$00,$ff,$00,$ff,$01,$00,$00
+	.byte $00,$00,$ff,$00,$ff,$00,$ff

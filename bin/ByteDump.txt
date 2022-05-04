@@ -1,6 +1,6 @@
 ******************************* Segment: Default *******************************
 [Unnamed]
-1200: 00        - GAMESETTINGS,VIC,KERNAL:.byte %00000000			// ........
+1200: 00        - GAMESETTINGS,VIC,VIA,KEYBOARD,PAGEZERO,CHAR,KERNAL:.byte %00000000			// ........
 1201: 0b        -         .byte %00001011			// ....x.xx
 1202: 08        -         .byte %00001000			// ....x...
 1203: 0a        -         .byte %00001010			// ....x.x.
@@ -188,7 +188,7 @@
 12b9: 20        -         .byte %00100000			// ..x.....
 12ba: 20        -         .byte %00100000			// ..x.....
 12bb: 50        -         .byte %01010000			// .x.x....
-12bc: 55        -         .byte %01010101			// .x.x.x.x
+12bc: 55        - UNUSED_BASIC_RAM:.byte %01010101			// .x.x.x.x
 12bd: 51        -         .byte %01010001			// .x.x...x
 12be: 51        -         .byte %01010001			// .x.x...x
 12bf: 51        -         .byte %01010001			// .x.x...x
@@ -3628,59 +3628,59 @@
 20e1: 03 03 03 00 00 00 00 00                          -         .byte $03,$03,$03,$00,$00,$00,$00,$00
 20e9: 00 00 00 00                                      -         .byte $00,$00,$00,$00
 20ed: a0 64     - DrawScreenHeader:ldy #$64
-20ef: b9 25 20  -         lda ScreenHeader,Y 
+20ef: b9 24 20  -         lda ScreenHeader-1,Y 
 20f2: 99 ff 0f  -         sta GAMESETTINGS.Screen-1,Y 
-20f5: b9 89 20  -         lda ScreenHeaderColour,Y 
-20f8: 99 00 94  -         sta GAMESETTINGS.ScreenColour,Y 
+20f5: b9 88 20  -         lda ScreenHeaderColour-1,Y 
+20f8: 99 ff 93  -         sta GAMESETTINGS.ScreenColour -1,Y 
 20fb: 88        -         dey 
 20fc: d0 f1     -         bne !DrawLoop-
 20fe: 60        -         rts 
-20ff: ea        - SUBROUTINE__20FF_337A_OK,SUBROUTINE__20FF_3392_OK,SUBROUTINE__20FF_33FA_OK:nop 
-2100: a9 10     - SUBROUTINE__2100_2203_OK,SUBROUTINE__2100_2BA3_OK,SUBROUTINE__2100_2D46_OK,SUBROUTINE__2100_2E8C_OK:lda #$10
+20ff: ea        -         nop 
+2100: a9 10     - DrawGrid:lda #>GAMESETTINGS.GridStart
 2102: 85 03     -         sta $03 
 2104: 85 05     -         sta $05 
-2106: a9 64     -         lda #$64
+2106: a9 64     -         lda #<GAMESETTINGS.GridStart
 2108: 85 02     -         sta $02 
 210a: 85 04     -         sta $04 
-210c: a2 08     -         ldx #$08
-210e: a0 17     - BRANCH_LOOP__210E_2131_OK:ldy #$17
-2110: a9 51     -         lda #$51
-2112: 91 04     - BRANCH_LOOP__2112_2115_OK:sta ($04),Y 
+210c: a2 08     -         ldx #GAMESETTINGS.GridRows
+210e: a0 17     -         ldy #GAMESETTINGS.GridWidth-1
+2110: a9 51     -         lda #CHAR.grid_hori
+2112: 91 04     -         sta ($04),Y 
 2114: 88        -         dey 
-2115: d0 fb     -         bne BRANCH_LOOP__2112_2115_OK
-2117: a9 56     -         lda #$56
-2119: a0 00     -         ldy #$00
+2115: d0 fb     -         bne !Row_loop-
+2117: a9 56     -         lda #CHAR.grid_T_right
+2119: a0 00     -         ldy #$00						// left start of grid
 211b: 91 04     -         sta ($04),Y 
-211d: a9 57     -         lda #$57
-211f: a0 18     -         ldy #$18
-2121: 91 04     -         sta ($04),Y 
+211d: a9 57     -         lda #CHAR.grid_T_left
+211f: a0 18     -         ldy #GAMESETTINGS.GridWidth   	// right end of grid in chars
+2121: 91 04     -         sta ($04),Y
 2123: 18        -         clc 
 2124: a5 04     -         lda $04 
-2126: 69 64     -         adc #$64
+2126: 69 64     -         adc #GAMESETTINGS.ScreenRowsx_4   	//4 screen lines
 2128: 85 04     -         sta $04 
 212a: a5 05     -         lda $05 
-212c: 69 00     -         adc #$00
-212e: 85 05     -         sta $05 
+212c: 69 00     -         adc #$00   	// null for add carry
+212e: 85 05     -         sta $05
 2130: ca        -         dex 
-2131: d0 db     -         bne BRANCH_LOOP__210E_2131_OK
+2131: d0 db     -         bne !Col_Loop-
 2133: a5 02     -         lda $02 
 2135: 85 04     -         sta $04 
 2137: a5 03     -         lda $03 
 2139: 85 05     -         sta $05 
-213b: a0 00     -         ldy #$00
-213d: a9 58     - BRANCH_LOOP__213D_2178_OK:lda #$58
+213b: a0 00     -         ldy #$00		// reset loop counter
+213d: a9 58     -         lda #CHAR.grid_T_down
 213f: 91 04     -         sta ($04),Y 
-2141: a2 18     -         ldx #$18
-2143: a5 04     - BRANCH_LOOP__2143_2163_OK:lda $04 
+2141: a2 18     -         ldx #GAMESETTINGS.GridHeight		// Height of grid in chars
+2143: a5 04     -         lda $04 
 2145: 18        -         clc 
-2146: 69 19     -         adc #$19
+2146: 69 19     -         adc #GAMESETTINGS.MOVE_UP_DOWN
 2148: 85 04     -         sta $04 
 214a: a5 05     -         lda $05 
 214c: 69 00     -         adc #$00
 214e: 85 05     -         sta $05 
-2150: a9 50     -         lda #$50
+2150: a9 50     -         lda #CHAR.grid_vert
 2152: 85 06     -         sta $06 
-2154: 20 95 21  -         jsr SUBROUTINE__2195_2154_OK
+2154: 20 95 21  -         jsr DrawCrossJunctions
 2157: ea        -         nop 
 2158: ea        -         nop 
 2159: ea        -         nop 
@@ -3691,48 +3691,48 @@
 215e: a5 06     -         lda $06 
 2160: 91 04     -         sta ($04),Y 
 2162: ca        -         dex 
-2163: d0 de     -         bne BRANCH_LOOP__2143_2163_OK
-2165: a9 59     -         lda #$59
+2163: d0 de     -         bne !Row_loop-
+2165: a9 59     -         lda #CHAR.grid_T_up
 2167: 91 04     -         sta ($04),Y 
 2169: a5 02     -         lda $02 
 216b: 85 04     -         sta $04 
 216d: a5 03     -         lda $03 
-216f: 85 05     -         sta $05 
+216f: 85 05     -         sta $05
 2171: c8        -         iny 
 2172: c8        -         iny 
 2173: c8        -         iny 
 2174: c8        -         iny 
 2175: ea        -         nop 
 2176: c0 1c     -         cpy #$1C
-2178: d0 c3     -         bne BRANCH_LOOP__213D_2178_OK
-217a: a9 52     -         lda #$52
+2178: d0 c3     -         bne !Col_Loop-
+217a: a9 52     -         lda #CHAR.grid_trc
 217c: a0 00     -         ldy #$00
-217e: 91 02     -         sta ($02),Y 
-2180: a0 18     -         ldy #$18
-2182: a9 53     -         lda #$53
+217e: 91 02     -         sta ($02),Y
+2180: a0 18     -         ldy #GAMESETTINGS.GridWidth
+2182: a9 53     -         lda #CHAR.grid_tlc
 2184: 91 02     -         sta ($02),Y 
-2186: a9 55     -         lda #$55
+2186: a9 55     -         lda #CHAR.grid_blc
 2188: a0 00     -         ldy #$00
-218a: 99 bc 12  -         sta $12BC,Y 
+218a: 99 bc 12  -         sta GAMESETTINGS.GridStart + (GAMESETTINGS.GridWidth * (GAMESETTINGS.GridHeight+1)),y
 218d: a0 18     -         ldy #$18
-218f: a9 54     -         lda #$54
-2191: 99 bc 12  -         sta $12BC,Y 
+218f: a9 54     -         lda #CHAR.grid_brc
+2191: 99 bc 12  -         sta GAMESETTINGS.GridStart + (GAMESETTINGS.GridWidth * (GAMESETTINGS.GridHeight+1)),Y 
 2194: 60        -         rts 
-2195: b1 04     - SUBROUTINE__2195_2154_OK:lda ($04),Y 
-2197: c9 51     -         cmp #$51
-2199: d0 05     -         bne BRANCH_LOOP__21A0_2199_OK
-219b: a9 4f     -         lda #$4F
+2195: b1 04     - DrawCrossJunctions:lda ($04),Y 
+2197: c9 51     -         cmp #CHAR.grid_hori				// are we crossing a row?
+2199: d0 05     -         bne NotCrossingRow	
+219b: a9 4f     -         lda #CHAR.grid_cross
 219d: 85 06     -         sta $06 
 219f: 60        -         rts 
-21a0: c9 56     - BRANCH_LOOP__21A0_2199_OK:cmp #$56
-21a2: d0 03     -         bne BRANCH_LOOP__21A7_21A2_OK
+21a0: c9 56     - NotCrossingRow:cmp #CHAR.grid_T_right			// are we starting next horizontal row?
+21a2: d0 03     -         bne NotNextGridRow
 21a4: 85 06     -         sta $06 
 21a6: 60        -         rts 
-21a7: c9 57     - BRANCH_LOOP__21A7_21A2_OK:cmp #$57
-21a9: d0 02     -         bne BRANCH_LOOP__21AD_21A9_OK
+21a7: c9 57     - NotNextGridRow:cmp #CHAR.grid_T_left			// are we at end of grid row
+21a9: d0 02     -         bne NotEndGridRow
 21ab: 85 06     -         sta $06 
-21ad: 60        - BRANCH_LOOP__21AD_21A9_OK:rts 
-21ae: a9 10     - SUBROUTINE__21AE_2200_OK,SUBROUTINE__21AE_2E89_OK,SUBROUTINE__21AE_2F03_OK,SUBROUTINE__21AE_3000_OK:lda #$10
+21ad: 60        - NotEndGridRow:rts 
+21ae: a9 10     - ClearPlayScreen:lda #$10
 21b0: 85 05     -         sta $05 
 21b2: a9 64     -         lda #$64
 21b4: 85 04     -         sta $04 
@@ -3769,8 +3769,8 @@
 21f3: f5 f5 f5 f5 f5 f5                                -         .byte $F5,$F5,$F5,$F5,$F5,$F5
 21f9: f5 f5 f5 f5 f5 f5                                -         .byte $F5,$F5,$F5,$F5,$F5,$F5
 21ff: f5        -         .byte $F5
-2200: 20 ae 21  - JUMP_BRANCH_2200_3236_OK:jsr SUBROUTINE__21AE_2200_OK
-2203: 20 00 21  -         jsr SUBROUTINE__2100_2203_OK
+2200: 20 ae 21  - JUMP_BRANCH_2200_3236_OK:jsr ClearPlayScreen
+2203: 20 00 21  -         jsr DrawGrid
 2206: a5 19     -         lda $19
 2208: 85 19     -         sta $19
 220a: a9 0f     -         lda #$0F
@@ -4538,30 +4538,30 @@
 28db: 85 05     - SUBROUTINE__28DB_249B_OK:sta $05 
 28dd: ad 04 90  -         lda VIC.VICCR4 
 28e0: 60        -         rts 
-28e1: c6 0a     - SUBROUTINE__28E1_2256_OK:dec $0a 
-28e3: f0 01     -         beq BRANCH_LOOP__28E6_28E3_OK
+28e1: c6 14     - SUBROUTINE__28E1_2256_OK:dec $14 
+28e3: f0 01     -         beq !skip+
 28e5: 60        -         rts 
-28e6: a5 13     - BRANCH_LOOP__28E6_28E3_OK:lda $13 
+28e6: a5 13     -         lda $13 
 28e8: 85 14     -         sta $14 
 28ea: c6 10     -         dec $10 
-28ec: f0 01     -         beq BRANCH_LOOP__28EF_28EC_OK
-28ee: 60        -         rts 
-28ef: a9 28     - BRANCH_LOOP__28EF_28EC_OK:lda #$28
+28ec: f0 01     -         beq !skip+
+28ee: 60        -         rts
+28ef: a9 28     -         lda #$28
 28f1: 85 10     -         sta $10 
 28f3: ce 0e 90  -         dec VIC.VICCRE 
 28f6: ad 0e 90  -         lda VIC.VICCRE 
-28f9: f0 01     -         beq BRANCH_LOOP__28FC_28F9_OK
+28f9: f0 01     -         beq !skip+
 28fb: 60        -         rts 
-28fc: a0 02     - BRANCH_LOOP__28FC_28F9_OK:ldy #$02
-28fe: e6 15     - BRANCH_LOOP__28FE_2905_OK:inc $15 
-2900: d0 02     -         bne BRANCH_LOOP__2904_2900_OK
+28fc: a0 02     -         ldy #$02
+28fe: e6 15     -         inc $15 
+2900: d0 02     -         bne !skip+
 2902: e6 16     -         inc $16 
-2904: 88        - BRANCH_LOOP__2904_2900_OK:dey 
-2905: d0 f7     -         bne BRANCH_LOOP__28FE_2905_OK
+2904: 88        -         dey 
+2905: d0 f7     -         bne !loop-
 2907: a0 00     -         ldy #$00
 2909: b1 15     -         lda ($15),Y 
 290b: c9 ff     -         cmp #$FF
-290d: f0 11     -         beq BRANCH_LOOP__2920_290D_OK
+290d: f0 11     -         beq !skip+
 290f: 8d 0c 90  -         sta VIC.VICCRC 
 2912: c8        -         iny 
 2913: b1 15     -         lda ($15),Y 
@@ -4571,7 +4571,7 @@
 291b: 8d 0e 90  -         sta VIC.VICCRE 
 291e: 60        -         rts 
 291f: ea        -         nop 
-2920: 4c d0 29  - SUBROUTINE__2920_2225_OK,BRANCH_LOOP__2920_290D_OK:jmp JUMP_BRANCH_29D0_2920_OK
+2920: 4c d0 29  - SUBROUTINE__2920_2225_OK:jmp JUMP_BRANCH_29D0_2920_OK
 2923: 15 a9 29 85 16 60 02 02                          -         .byte $15,$a9,$29,$85,$16,$60,$02,$02
 292b: 87 02 9f 02 af 02 87 01                          -         .byte $87,$02,$9f,$02,$af,$02,$87,$01
 2933: 9f 02 af 02 87 01 9f 02                          -         .byte $9f,$02,$af,$02,$87,$01,$9f,$02
@@ -4828,7 +4828,7 @@
 2b97: 4c 52 2b  -         jmp JUMP_BRANCH_2B52_2B97_OK
 2b9a: ff ff ff ff ff ff                                -         .byte $FF,$FF,$FF,$FF,$FF,$FF
 2ba0: 20 41 28  - JUMP_BRANCH_2BA0_2BF5_OK:jsr SUBROUTINE__2841_2BA0_OK
-2ba3: 20 00 21  -         jsr SUBROUTINE__2100_2BA3_OK
+2ba3: 20 00 21  -         jsr DrawGrid
 2ba6: 4c a0 25  -         jmp JUMP_BRANCH_25A0_2BA6_OK
 2ba9: 02        -         .byte $02
 2baa: ae 03 26  -         ldx $2603 
@@ -5037,7 +5037,7 @@
 2d40: a5 26     -         lda $26 
 2d42: c9 01     -         cmp #$01
 2d44: d0 09     -         bne BRANCH_LOOP__2D4F_2D44_OK
-2d46: 20 00 21  - BRANCH_LOOP__2D46_2D55_OK,JUMP_BRANCH_2D46_2D5B_OK:jsr SUBROUTINE__2100_2D46_OK
+2d46: 20 00 21  - BRANCH_LOOP__2D46_2D55_OK,JUMP_BRANCH_2D46_2D5B_OK:jsr DrawGrid
 2d49: 4c 5e 2d  -         jmp JUMP_BRANCH_2D5E_2D49_OK
 2d4c: ea        -         nop 
 2d4d: ea        -         nop 
@@ -5177,8 +5177,8 @@
 2e80: 8d 0c 90  -         sta VIC.VICCRC 
 2e83: 8d 0b 90  -         sta VIC.VICCRB 
 2e86: 8d 0a 90  -         sta VIC.VICCRA 
-2e89: 20 ae 21  -         jsr SUBROUTINE__21AE_2E89_OK
-2e8c: 20 00 21  -         jsr SUBROUTINE__2100_2E8C_OK
+2e89: 20 ae 21  -         jsr ClearPlayScreen
+2e8c: 20 00 21  -         jsr DrawGrid
 2e8f: 20 a0 25  -         jsr SUBROUTINE__25A0_2E8F_OK
 2e92: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2E92_OK
 2e95: 4c f4 2e  -         jmp JUMP_BRANCH_2EF4_2E95_OK
@@ -5236,7 +5236,7 @@
 2efb: 20 db 2e  - JUMP_BRANCH_2EFB_2C72_OK:jsr SUBROUTINE__2EDB_2EFB_OK
 2efe: a9 0f     -         lda #$0F
 2f00: 8d 0e 90  -         sta VIC.VICCRE 
-2f03: 20 ae 21  -         jsr SUBROUTINE__21AE_2F03_OK
+2f03: 20 ae 21  -         jsr ClearPlayScreen
 2f06: a2 09     -         ldx #$09
 2f08: bd 36 2f  - BRANCH_LOOP__2F08_2F0F_OK:lda $2F36,X 
 2f0b: 9d 01 11  -         sta $1101,X 
@@ -5355,7 +5355,7 @@
 2fe9: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 2ff1: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 2ff9: 00 00 00 00 00 00 00                             -         .byte $00,$00,$00,$00,$00,$00,$00
-3000: 20 ae 21  - DrawOptionsTitleScreen:jsr SUBROUTINE__21AE_3000_OK
+3000: 20 ae 21  - DrawOptionsTitleScreen:jsr ClearPlayScreen
 3003: a2 12     -         ldx #$12
 3005: bd ff 30  - BRANCH_LOOP__3005_300C_OK:lda $30FF,X 
 3008: 9d 7f 10  -         sta $107F,X 

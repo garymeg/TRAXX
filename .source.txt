@@ -2453,52 +2453,52 @@ DrawOptionsTitleScreen:
 
 	ldx #$12
 	LoopLlamaSoftPresents:
-		lda $30FF,X 
-		sta $107F,X 
+		lda llamasoftPresents-1,X 
+		sta GAMESETTINGS.Screen + $7F,X 
 		dex 
 		bne LoopLlamaSoftPresents
 	
 	LoopTraxxLogo:
-		lda $3111,X 
-		sta $10B9,X 
-		lda $3116,X 
-		sta $10D2,X 
+		lda Traxx_logo_top,X 
+		sta GAMESETTINGS.Screen + $B9,X 
+		lda Traxx_logo_bottom,X 
+		sta GAMESETTINGS.Screen + $D2,X 
 		dex 
 		bne LoopTraxxLogo
 	
 	ldx #$19
 	LoopAdvancedGameSoftware:
-		lda $311B,X 
-		sta $10F9,X 
+		lda advancedGameSoftware,X 
+		sta GAMESETTINGS.Screen + $F9,X 
 		dex 
 		bne LoopAdvancedGameSoftware
 
 	nop 
 	ldx #$07
 	LoopJeffMinter:
-		lda $3134,X 
+		lda geoffMinterTop,X 
 		SUBROUTINE__3030_206A_OK:
-		sta $1135,X 
-		lda $313B,X 
-		sta $114E,X 
+		sta GAMESETTINGS.Screen + $135,X 
+		lda geoffMinterBottom,X 
+		sta GAMESETTINGS.Screen + $14E,X 
 		dex 
 		bne LoopJeffMinter
 
 	ldx #$14
 	LoopOptions:
-		lda $3142,X 
-		sta $1178,X 
-		lda $3156,X 
-		sta $11AA,X 
-		lda $316A,X 
-		sta $11DC,X 
+		lda f1Pursures,X 
+		sta GAMESETTINGS.Screen + $178,X 
+		lda f3Speed,X 
+		sta GAMESETTINGS.Screen + $1AA,X 
+		lda f5Players,X 
+		sta GAMESETTINGS.Screen + $1DC,X 
 		dex 
 		bne LoopOptions
 
 	ldx #$14
 	LoopPressFire:
-		lda $317E,X 
-		sta $120E,X 
+		lda pressFireToStart,X 
+		sta GAMESETTINGS.Screen + $20E,X 
 		dex 
 		bne LoopPressFire
 	rts 
@@ -2525,60 +2525,56 @@ RunTitleScreen:
 		jsr SUBROUTINE__2560_3079_OK
 		lda $0A 
 		and #$80
-		beq BRANCH_LOOP__3085_3080_OK
+		beq CheckOptionsKey
 		jmp JUMP_BRANCH_3200_3082_OK
 
-	BRANCH_LOOP__3085_3080_OK:
+	CheckOptionsKey:
 
-	lda $C5 
-	cmp #$40
+	lda PAGEZERO.LSTX
+	cmp #KEYBOARD.NUL
 	beq FlashTitleScreenText
 
-	cmp #$27
-	bne BRANCH_LOOP__30A1_308D_OK
-	inc $3156 
-	lda $3156 
+	cmp #KEYBOARD.KEY_F1
+	bne !CheckNextKey+
+	inc noOfPursures
+	lda noOfPursures
 	cmp #$3A
-	bne BRANCH_LOOP__30CA_3097_OK
+	bne UpdateTitleOptions
 	lda #$31
-	sta $3156 
-	jmp JUMP_BRANCH_30CA_309E_OK
+	sta noOfPursures
+	jmp UpdateTitleOptions
 
-	BRANCH_LOOP__30A1_308D_OK:
+	!CheckNextKey:
 
-	cmp #$2F
-	bne BRANCH_LOOP__30B7_30A3_OK
-	inc $316A 
-	lda $316A 
+	cmp #KEYBOARD.KEY_F3
+	bne !CheckNextKey+
+	inc gameSpeed 
+	lda gameSpeed 
 	cmp #$3A
-	bne BRANCH_LOOP__30CA_30AD_OK
+	bne UpdateTitleOptions
 	lda #$31
-	sta $316A 
-	jmp JUMP_BRANCH_30CA_30B4_OK
+	sta gameSpeed 
+	jmp UpdateTitleOptions
 
-	BRANCH_LOOP__30B7_30A3_OK:
+	!CheckNextKey:
 
-	cmp #$37
+	cmp #KEYBOARD.KEY_F5
 	bne FlashTitleScreenText
-	lda $317E 
+	lda noOfPlayers 
 	cmp #$33
-	bne BRANCH_LOOP__30CA_30C3_OK
+	bne UpdateTitleOptions
 	lda #$31
-	sta $317E 
+	sta noOfPlayers 
 
-	BRANCH_LOOP__30CA_3097_OK:
-	JUMP_BRANCH_30CA_309E_OK:
-	BRANCH_LOOP__30CA_30AD_OK:
-	JUMP_BRANCH_30CA_30B4_OK:
-	BRANCH_LOOP__30CA_30C3_OK:
+	UpdateTitleOptions:
 
 	jsr DrawOptionsTitleScreen
 
-	BRANCH_LOOP__30CD_30D1_OK:
+	NoKeyPressed:
 
-		lda $C5 
-		cmp #$40
-		bne BRANCH_LOOP__30CD_30D1_OK
+		lda PAGEZERO.LSTX
+		cmp #KEYBOARD.NUL
+		bne NoKeyPressed
 	jmp FlashTitleScreenText
 	//nop?
 		nop 
@@ -3274,3 +3270,5 @@ JUMP_BRANCH_3200_3082_OK:
 	.byte $00,$00,$ff,$00,$ff,$00,$00,$00
 	.byte $02,$00,$ff,$00,$ff,$01,$00,$00
 	.byte $00,$00,$ff,$00,$ff,$00,$ff
+
+	

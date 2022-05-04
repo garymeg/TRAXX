@@ -5,6 +5,7 @@
 .label SUBROUTINE__2EDB_2B54_OK=$2edb
 .label SUBROUTINE__2C1C_2212_OK=$2c1c
 .label SUBROUTINE__29C6_28A9_OK=$29c6
+.label FlashGridLevelComplete=$2e40
 .label BRANCH_LOOP__29EA_2A0B_OK=$29ea
 .label BRANCH_LOOP__2409_2403_OK=$2409
 .label BRANCH_LOOP__2F87_2F81_OK=$2f87
@@ -50,6 +51,7 @@
   .label ZP_07=$7
   .label ZP_08=$8
   .label ZP_GameSpeed=$d
+  .label ZP_CompletedBlk=$18
   .label ZP_01=$1
   .label ZP_Pursures=$19
   .label ZP_00=$0
@@ -159,6 +161,7 @@
 .label LoopAdvancedGameSoftware=$3021
 .label JUMP_BRANCH_2A44_281E_OK=$2a44
 .label JUMP_BRANCH_2B91_2C19_OK=$2b91
+.label NotMaxPursures=$2e7a
 .label BRANCH_LOOP__23DD_23E1_OK=$23dd
 .label SUBROUTINE__2FA6_2FD2_OK=$2fa6
 .label BRANCH_LOOP__2DDF_2DE6_OK=$2ddf
@@ -208,7 +211,6 @@
 .label BRANCH_LOOP__2A15_2A41_OK=$2a15
 .label BRANCH_LOOP__2BFC_2C02_OK=$2bfc
 .label DrawScreenHeader=$20ed
-.label BRANCH_LOOP__2E46_2E5B_OK=$2e46
 .label JUMP_BRANCH_2468_2454_OK=$2468
 .label BRANCH_LOOP__24D8_2476_OK=$24d8
 .label JUMP_BRANCH_2EF4_2E95_OK=$2ef4
@@ -281,7 +283,6 @@
 .label BRANCH_LOOP__27DD_27DA_OK=$27dd
 .label JUMP_BRANCH_2D04_2CFD_OK=$2d04
 .label BRANCH_LOOP__281E_2826_OK=$281e
-.label BRANCH_LOOP__2E42_2E5E_OK=$2e42
 .label SUBROUTINE__2FD2_2B3C_OK=$2fd2
 .label JUMP_BRANCH_2620_25E3_OK=$2620
 .label BRANCH_LOOP__26C3_26D1_OK=$26c3
@@ -329,6 +330,7 @@
 .label BRANCH_LOOP__2D7D_2DCD_BAD=$2d7c
 .label BRANCH_LOOP__2DA0_2DD7_BAD=$2d9f
 .label JUMP_BRANCH_2E38_2AB3_OK=$2e38
+.label LoopForAprox5Sec=$2e42
 .label CheckOptionsKey=$3085
 .label JUMP_BRANCH_2BF8_2508_OK=$2bf8
 .label MainGameLoop=$2250
@@ -337,7 +339,6 @@
 .label High_score=$207b
 .label JUMP_BRANCH_2880_27F1_OK=$2880
 .label BRANCH_LOOP__2787_2778_OK=$2787
-.label BRANCH_LOOP__2E48_2E52_OK=$2e48
 .label BRANCH_LOOP__2B38_2B95_OK=$2b38
 .label JUMP_BRANCH_2833_2873_OK=$2833
 .label SUBROUTINE__24FF_3384_BAD=$24fe
@@ -345,7 +346,6 @@
 .label JUMP_BRANCH_2390_2F52_OK=$2390
 .label BRANCH_LOOP__267B_2671_OK=$267b
 .label BRANCH_LOOP__2723_271E_OK=$2723
-.label BRANCH_LOOP__2E7A_2E74_OK=$2e7a
 .label BRANCH_LOOP__24B8_24B1_OK=$24b8
 .label BRANCH_LOOP__2AB3_2A9C_OK=$2ab3
 .label geoffMinterBottom=$313c
@@ -357,7 +357,6 @@
 .label SUBROUTINE__2EDB_2F99_OK=$2edb
 .label BRANCH_LOOP__2CAA_2CAF_OK=$2caa
 .label BRANCH_LOOP__2D62_2DBE_BAD=$2d61
-.label JUMP_BRANCH_2E40_2EF1_OK=$2e40
 .label JUMP_BRANCH_2AB6_2B19_OK=$2ab6
 .label JUMP_BRANCH_2BA0_2BF5_OK=$2ba0
 .label BRANCH_LOOP__252B_2528_OK=$252b
@@ -382,7 +381,9 @@
 .label BRANCH_LOOP__2AB3_2A8A_OK=$2ab3
 .label BRANCH_LOOP__2F6B_2F75_OK=$2f6b
 .label VIA=$1200 {
-  .label VIAPA2=$911f
+  .label VIA2DDRB=$9122
+  .label VIA2PB=$9120
+  .label VIA1PA2=$911f
 }
 .label JUMP_BRANCH_26A7_2664_OK=$26a7
 .label VIC=$1200 {

@@ -771,23 +771,23 @@ SUBROUTINE__2560_3079_OK:
 
 	sei 
 	ldx #$7F
-	stx $9122 
+	stx VIA.VIA2DDRB 
 
 	BRANCH_LOOP__2566_256C_OK:
 
-		ldy $9120 
-		cpy $9120 
+		ldy VIA.VIA2PB 
+		cpy VIA.VIA2PB 
 		bne BRANCH_LOOP__2566_256C_OK
 	ldx #$FF
-	stx $9122 
+	stx VIA.VIA2DDRB
 	ldx #$F7
-	stx $9120 
+	stx VIA.VIA2PB 
 	cli 
 
 	BRANCH_LOOP__2579_257F_OK:
 
-		lda $911F 
-		cmp $911F 
+		lda VIA.VIA1PA2 
+		cmp VIA.VIA1PA2 
 		bne BRANCH_LOOP__2579_257F_OK
 	pha 
 	and #$1C
@@ -1547,15 +1547,15 @@ SUBROUTINE__2A0E_2259_OK:
 	and #$07
 	cmp #$07
 	beq BRANCH_LOOP__2AB3_2A8A_OK
-	lda $947C 
+	lda GAMESETTINGS.ScreenColour + $7C 
 	and #$07
 	cmp #$07
 	beq BRANCH_LOOP__2AB3_2A93_OK
-	lda $96BC 
+	lda GAMESETTINGS.ScreenColour + $2BC 
 	and #$07
 	cmp #$07
 	beq BRANCH_LOOP__2AB3_2A9C_OK
-	lda $96D4 
+	lda GAMESETTINGS.ScreenColour + $2D4 
 	and #$07
 	cmp #$07
 	beq BRANCH_LOOP__2AB3_2AA5_OK
@@ -1624,7 +1624,6 @@ SUBROUTINE__2A0E_2259_OK:
 		rts 
 
 		BRANCH_LOOP__2AFB_2AF4_OK:
-.break
 		cmp #$06
 		beq BRANCH_LOOP__2AF6_2AFD_OK
 		cmp #$04
@@ -1813,13 +1812,13 @@ SUBROUTINE__2B2B_2AD6_OK:
 SUBROUTINE__2C1C_2212_OK:
 	ldx #$00
 	BRANCH_LOOP__2C1E_2C3A_OK:
-		lda $9400,X 
+		lda GAMESETTINGS.ScreenColour ,X 
 		sta $3500,X 
 		sta $3900,X 
-		lda $9500,X 
+		lda GAMESETTINGS.ScreenColour + $100,X 
 		sta $3600,X 
 		sta $3A00,X 
-		lda $9600,X 
+		lda GAMESETTINGS.ScreenColour + $200,X 
 		sta $3700,X 
 		sta $3B00,X 
 		inx 
@@ -2156,41 +2155,41 @@ JUMP_BRANCH_2E38_2AB3_OK:
 	jmp JUMP_BRANCH_282E_2E3C_OK
 	.byte $00
 
-JUMP_BRANCH_2E40_2EF1_OK:
+FlashGridLevelComplete:
 	ldx #$10
-	BRANCH_LOOP__2E42_2E5E_OK:
+	LoopForAprox5Sec:
 		lda #$E0
 		sta $1F 
-		BRANCH_LOOP__2E46_2E5B_OK:
+		!CycleThroughColours:
 			ldy #$00
-			BRANCH_LOOP__2E48_2E52_OK:
-				sta $9464,Y 
-				sta $9500,Y 
-				sta $9600,Y 
+			!SetScreenColours:
+				sta GAMESETTINGS.ScreenColour + $64,Y 
+				sta GAMESETTINGS.ScreenColour + $100,Y 
+				sta GAMESETTINGS.ScreenColour + $200,Y 
 				iny 
-				bne BRANCH_LOOP__2E48_2E52_OK
+				bne !SetScreenColours-
 			lda $1F 
 			sta VIC.VICCRC 
 			inc $1F 
-			bne BRANCH_LOOP__2E46_2E5B_OK
+			bne !CycleThroughColours-
 
 		dex 
-		bne BRANCH_LOOP__2E42_2E5E_OK
-	inc $19 
+		bne LoopForAprox5Sec
+	inc PAGEZERO.ZP_Pursures 
 	lda #$00
-	sta $18 
+	sta PAGEZERO.ZP_CompletedBlk 
 	lda #$01
 	sta $22 
 	lda #$00
 	sta $17 
 	inc $00 
-	lda $19 
-	cmp #$0A
-	bne BRANCH_LOOP__2E7A_2E74_OK
-	lda #$09
-	sta $19 
-	BRANCH_LOOP__2E7A_2E74_OK:
-	lda $19 
+	lda PAGEZERO.ZP_Pursures 
+	cmp #$0A							//Have We got to Level 10?
+	bne NotMaxPursures
+	lda #$09							//Keep at Max Now
+	sta PAGEZERO.ZP_Pursures 
+	NotMaxPursures:
+	lda PAGEZERO.ZP_Pursures
 	sta $00 
 	lda #$00
 	sta VIC.VICCRC 
@@ -2265,7 +2264,7 @@ SUBROUTINE__2EDB_2F99_OK:
 JUMP_BRANCH_2EEE_2A7E_OK:
 
 	jsr SUBROUTINE__2EDB_2EEE_OK
-	jmp JUMP_BRANCH_2E40_2EF1_OK
+	jmp FlashGridLevelComplete
 
 JUMP_BRANCH_2EF4_2E95_OK:
 

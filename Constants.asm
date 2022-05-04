@@ -38,8 +38,10 @@ VIC:
 // VIA
 VIA:
     { 
-        .label VIAPA2       = $911f
-
+        .label VIA1PA2      = $911f
+        .label VIA2PB       = $9120
+        .label VIA2DDRB     = $9122
+        
     }
 // Keyboard Scancodes
 KEYBOARD:
@@ -64,9 +66,11 @@ PAGEZERO:
         .label ZP_09            = $09
         .label JOYSTICK_DIR     = $0a
         .label ZP_0b            = $0b
-        .label ZP_GameSpeed   = $0d
-
+        .label ZP_GameSpeed     = $0d
+ //                               = $17
+        .label ZP_CompletedBlk  = $18
         .label ZP_Pursures      = $19
+ //                               = $21
         .label ZP_Speed         = $1f
         .label ZP_Players       = $26
         .label LSTX             = $C5

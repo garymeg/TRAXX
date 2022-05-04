@@ -4146,17 +4146,17 @@
 255c: 00 00 00 00                                      -         .byte $00,$00,$00,$00
 2560: 78        - SUBROUTINE__2560_2253_OK,SUBROUTINE__2560_3079_OK:sei 
 2561: a2 7f     -         ldx #$7F
-2563: 8e 22 91  -         stx $9122 
-2566: ac 20 91  - BRANCH_LOOP__2566_256C_OK:ldy $9120 
-2569: cc 20 91  -         cpy $9120 
+2563: 8e 22 91  -         stx VIA.VIA2DDRB 
+2566: ac 20 91  - BRANCH_LOOP__2566_256C_OK:ldy VIA.VIA2PB 
+2569: cc 20 91  -         cpy VIA.VIA2PB 
 256c: d0 f8     -         bne BRANCH_LOOP__2566_256C_OK
 256e: a2 ff     -         ldx #$FF
-2570: 8e 22 91  -         stx $9122 
+2570: 8e 22 91  -         stx VIA.VIA2DDRB
 2573: a2 f7     -         ldx #$F7
-2575: 8e 20 91  -         stx $9120 
+2575: 8e 20 91  -         stx VIA.VIA2PB 
 2578: 58        -         cli 
-2579: ad 1f 91  - BRANCH_LOOP__2579_257F_OK:lda $911F 
-257c: cd 1f 91  -         cmp $911F 
+2579: ad 1f 91  - BRANCH_LOOP__2579_257F_OK:lda VIA.VIA1PA2 
+257c: cd 1f 91  -         cmp VIA.VIA1PA2 
 257f: d0 f8     -         bne BRANCH_LOOP__2579_257F_OK
 2581: 48        -         pha 
 2582: 29 1c     -         and #$1C
@@ -4700,15 +4700,15 @@
 2a86: 29 07     -         and #$07
 2a88: c9 07     -         cmp #$07
 2a8a: f0 27     -         beq BRANCH_LOOP__2AB3_2A8A_OK
-2a8c: ad 7c 94  -         lda $947C 
+2a8c: ad 7c 94  -         lda GAMESETTINGS.ScreenColour + $7C 
 2a8f: 29 07     -         and #$07
 2a91: c9 07     -         cmp #$07
 2a93: f0 1e     -         beq BRANCH_LOOP__2AB3_2A93_OK
-2a95: ad bc 96  -         lda $96BC 
+2a95: ad bc 96  -         lda GAMESETTINGS.ScreenColour + $2BC 
 2a98: 29 07     -         and #$07
 2a9a: c9 07     -         cmp #$07
 2a9c: f0 15     -         beq BRANCH_LOOP__2AB3_2A9C_OK
-2a9e: ad d4 96  -         lda $96D4 
+2a9e: ad d4 96  -         lda GAMESETTINGS.ScreenColour + $2D4 
 2aa1: 29 07     -         and #$07
 2aa3: c9 07     -         cmp #$07
 2aa5: f0 0c     -         beq BRANCH_LOOP__2AB3_2AA5_OK
@@ -4892,13 +4892,13 @@
 2c18: 68        -         pla 
 2c19: 4c 91 2b  -         jmp JUMP_BRANCH_2B91_2C19_OK
 2c1c: a2 00     - SUBROUTINE__2C1C_2212_OK:ldx #$00
-2c1e: bd 00 94  - BRANCH_LOOP__2C1E_2C3A_OK:lda $9400,X 
+2c1e: bd 00 94  - BRANCH_LOOP__2C1E_2C3A_OK:lda GAMESETTINGS.ScreenColour ,X 
 2c21: 9d 00 35  -         sta $3500,X 
 2c24: 9d 00 39  -         sta $3900,X 
-2c27: bd 00 95  -         lda $9500,X 
+2c27: bd 00 95  -         lda GAMESETTINGS.ScreenColour + $100,X 
 2c2a: 9d 00 36  -         sta $3600,X 
 2c2d: 9d 00 3a  -         sta $3A00,X 
-2c30: bd 00 96  -         lda $9600,X 
+2c30: bd 00 96  -         lda GAMESETTINGS.ScreenColour + $200,X 
 2c33: 9d 00 37  -         sta $3700,X 
 2c36: 9d 00 3b  -         sta $3B00,X 
 2c39: e8        -         inx 
@@ -5148,35 +5148,35 @@
 2e3a: 85 22     -         sta $22 
 2e3c: 4c 2e 28  -         jmp JUMP_BRANCH_282E_2E3C_OK
 2e3f: 00        -         .byte $00
-2e40: a2 10     - JUMP_BRANCH_2E40_2EF1_OK:ldx #$10
-2e42: a9 e0     - BRANCH_LOOP__2E42_2E5E_OK:lda #$E0
+2e40: a2 10     - FlashGridLevelComplete:ldx #$10
+2e42: a9 e0     - LoopForAprox5Sec:lda #$E0
 2e44: 85 1f     -         sta $1F 
-2e46: a0 00     - BRANCH_LOOP__2E46_2E5B_OK:ldy #$00
-2e48: 99 64 94  - BRANCH_LOOP__2E48_2E52_OK:sta $9464,Y 
-2e4b: 99 00 95  -         sta $9500,Y 
-2e4e: 99 00 96  -         sta $9600,Y 
+2e46: a0 00     -         ldy #$00
+2e48: 99 64 94  -         sta GAMESETTINGS.ScreenColour + $64,Y 
+2e4b: 99 00 95  -         sta GAMESETTINGS.ScreenColour + $100,Y 
+2e4e: 99 00 96  -         sta GAMESETTINGS.ScreenColour + $200,Y 
 2e51: c8        -         iny 
-2e52: d0 f4     -         bne BRANCH_LOOP__2E48_2E52_OK
+2e52: d0 f4     -         bne !SetScreenColours-
 2e54: a5 1f     -         lda $1F 
 2e56: 8d 0c 90  -         sta VIC.VICCRC 
 2e59: e6 1f     -         inc $1F 
-2e5b: d0 e9     -         bne BRANCH_LOOP__2E46_2E5B_OK
+2e5b: d0 e9     -         bne !CycleThroughColours-
 2e5d: ca        -         dex 
-2e5e: d0 e2     -         bne BRANCH_LOOP__2E42_2E5E_OK
-2e60: e6 19     -         inc $19 
+2e5e: d0 e2     -         bne LoopForAprox5Sec
+2e60: e6 19     -         inc PAGEZERO.ZP_Pursures 
 2e62: a9 00     -         lda #$00
-2e64: 85 18     -         sta $18 
+2e64: 85 18     -         sta PAGEZERO.ZP_CompletedBlk 
 2e66: a9 01     -         lda #$01
 2e68: 85 22     -         sta $22 
 2e6a: a9 00     -         lda #$00
 2e6c: 85 17     -         sta $17 
 2e6e: e6 00     -         inc $00 
-2e70: a5 19     -         lda $19 
-2e72: c9 0a     -         cmp #$0A
-2e74: d0 04     -         bne BRANCH_LOOP__2E7A_2E74_OK
-2e76: a9 09     -         lda #$09
-2e78: 85 19     -         sta $19 
-2e7a: a5 19     - BRANCH_LOOP__2E7A_2E74_OK:lda $19 
+2e70: a5 19     -         lda PAGEZERO.ZP_Pursures 
+2e72: c9 0a     -         cmp #$0A							//Have We got to Level 10?
+2e74: d0 04     -         bne NotMaxPursures
+2e76: a9 09     -         lda #$09							//Keep at Max Now
+2e78: 85 19     -         sta PAGEZERO.ZP_Pursures 
+2e7a: a5 19     - NotMaxPursures:lda PAGEZERO.ZP_Pursures
 2e7c: 85 00     -         sta $00 
 2e7e: a9 00     -         lda #$00
 2e80: 8d 0c 90  -         sta VIC.VICCRC 
@@ -5185,7 +5185,9 @@
 2e89: 20 ae 21  -         jsr ClearPlayScreen
 2e8c: 20 00 21  -         jsr DrawGrid
 2e8f: 20 a0 25  -         jsr SUBROUTINE__25A0_2E8F_OK
-2e92: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2E92_OK
+2e92: 00        -         brk
+2e93: 00        -         brk
+2e94: 00        -         brk
 2e95: 4c f4 2e  -         jmp JUMP_BRANCH_2EF4_2E95_OK
 2e98: 4c 50 22  -         jmp MainGameLoop
 2e9b: a5 08     - SUBROUTINE__2E9B_2262_OK:lda $08 
@@ -5232,7 +5234,7 @@
 2eeb: 85 20     -         sta $20 
 2eed: 60        -         rts 
 2eee: 20 db 2e  - JUMP_BRANCH_2EEE_2A7E_OK:jsr SUBROUTINE__2EDB_2EEE_OK
-2ef1: 4c 40 2e  -         jmp JUMP_BRANCH_2E40_2EF1_OK
+2ef1: 4c 40 2e  -         jmp FlashGridLevelComplete
 2ef4: 68        - JUMP_BRANCH_2EF4_2E95_OK:pla 
 2ef5: 68        -         pla 
 2ef6: 68        -         pla 

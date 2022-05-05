@@ -1,5 +1,7 @@
 * = $1200
-#import "Constants.asm"
+#import "GameConstants.asm"
+#import "Vic20MemoryMap.asm"
+
 #import "TraxxCSKick.asm"
 
 * =$2000 "Program"
@@ -152,7 +154,7 @@ DrawGrid:
 		!Row_loop:
 			lda $04 
 			clc 
-			adc #GAMESETTINGS.MOVE_UP_DOWN
+			adc #GAMESETTINGS.MOVE_POSITION_UP_OR_DOWN
 			sta $04 
 			lda $05 
 			adc #$00
@@ -228,16 +230,16 @@ ClearPlayScreen:
 	lda #$64
 	sta $04 
 	ldx #$1A
-	BRANCH_LOOP__21B8_21D1_OK:
+	NotAtEndOfScreen:
 
 		ldy #$00
 
-		BRANCH_LOOP__21BA_21C1_OK:
+		CLR_PlayScreenLoop:
 	
 			lda #$20
-			jsr SUBROUTINE__21D4_21BC_OK
+			jsr Set_PlayScreenColour
 			cpy #$1A
-			bne BRANCH_LOOP__21BA_21C1_OK
+			bne CLR_PlayScreenLoop
 		lda $04 
 		clc 
 		adc #$19
@@ -246,22 +248,22 @@ ClearPlayScreen:
 		adc #$00
 		sta $05 
 		dex 
-		bne BRANCH_LOOP__21B8_21D1_OK
+		bne NotAtEndOfScreen
 	rts 
 	
-SUBROUTINE__21D4_21BC_OK:
-	sta ($04),Y 
-	lda $05 
-	pha 
-	clc 
-	adc #$84
-	sta $05 
-	lda #$07
-	sta ($04),Y 
-	pla 
-	sta $05 
-	iny 
-	rts 
+		Set_PlayScreenColour:
+			sta ($04),Y 
+			lda $05 
+			pha 
+			clc 
+			adc #$84
+			sta $05 
+			lda #$07    //colour yellow
+			sta ($04),Y 
+			pla 
+			sta $05 
+			iny 
+			rts 
 
 
 // $21E7
@@ -300,7 +302,7 @@ StartGamePlay:
 	lda $19 
 	sta $19 
 	lda #$00
-	sta $17 
+	sta PAGEZERO.ZP_completedBlk 
 	sta $18 
 	lda #$03
 	sta $20 
@@ -404,7 +406,7 @@ MainGameLoop:
 	.byte $f5,$f5,$f5,$f5,$f5,$f5,$f5,$f5
 	.byte $f5
 
-// $2300
+PursuerData:  //2300 - 238f
 	.byte $96,$10,$00,$07,$50,$39,$11,$01
 	.byte $b7,$51,$f8,$11,$01,$87,$4f,$06
 	.byte $12,$01,$b7,$51,$a2,$10,$00,$07
@@ -424,35 +426,35 @@ MainGameLoop:
 	.byte $01,$02,$00,$00,$00,$00,$00,$00
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
 
-JUMP_BRANCH_2390_2F52_OK:
+InitilizePursuer:
 	lda $00 
 	sta $FD 
-	BRANCH_LOOP__2394_23B2_OK:
+	LoopNumberOfPursuers:
 		ldx #$00
 		ldy $FD 
-		BRANCH_LOOP__2398_239E_OK:
+		LoopPursuerSettings:
 			inx 
 			inx 
 			inx 
 			inx 
 			inx 
-			dey 
-			bne BRANCH_LOOP__2398_239E_OK
-		lda $2300,X 
+			dey
+			bne LoopPursuerSettings
+		lda PursuerData,X 
 		sta $01 
-		lda $2301,X 
+		lda PursuerData + 1,X 
 		sta $02 
-		jsr SUBROUTINE__23B5_23AA_OK
-		jsr SUBROUTINE__23CE_23AD_OK
+		jsr PlacePursuerOnScreen
+		jsr PlacePursuerSound
 		dec $FD 
-		bne BRANCH_LOOP__2394_23B2_OK
+		bne LoopNumberOfPursuers
 	rts 
-SUBROUTINE__23B5_23AA_OK:
+PlacePursuerOnScreen:
 	txa 
 	pha 
-	lda $2302,X 
+	lda PursuerData + 2,X 
 	tax 
-	lda $2338,X 
+	lda PursuerData + $38,X 
 	sta ($01),Y 
 	lda $02 
 	clc 
@@ -463,7 +465,7 @@ SUBROUTINE__23B5_23AA_OK:
 	pla 
 	tax 
 	rts 
-SUBROUTINE__23CE_23AD_OK:
+PlacePursuerSound:
 	txa 
 	pha 
 	tya 
@@ -493,11 +495,13 @@ SUBROUTINE__23CE_23AD_OK:
 	pla 
 	tax 
 	rts 
+	//23ed -23ef
 	.byte $00,$00,$00
-SUBROUTINE__23F0_251E_OK:
-	lda $2300,X 
+
+SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
+	lda PursuerData,X 
 	sta $01 
-	lda $2301,X 
+	lda PursuerData + 1,X 
 	sta $02 
 	lda #$00
 	sta $03 
@@ -508,25 +512,25 @@ SUBROUTINE__23F0_251E_OK:
 	lda #$04
 	sta $03 
 	BRANCH_LOOP__2409_2403_OK:
-	lda $2304,X 
+	lda PursuerData + 4,X 
 	sta ($01),Y 
 	lda $02 
 	clc 
 	adc #$84
 	sta $02 
-	lda $2303,X 
+	lda PursuerData + 3,X 
 	sta ($01),Y 
 	JUMP_BRANCH_241A_2559_OK:
-	lda $2302,X 
+	lda PursuerData + 2,X 
 	cmp #$00
 	beq BRANCH_LOOP__243F_241F_OK
 	cmp #$02
 	beq BRANCH_LOOP__243F_2423_OK
 	cmp #$01
 	bne BRANCH_LOOP__2434_2427_OK
-	inc $2300,X 
+	inc PursuerData + 0,X 
 	bne BRANCH_LOOP__2431_242C_OK
-	inc $2301,X 
+	inc PursuerData + 1,X 
 	BRANCH_LOOP__2431_242C_OK:
 	jmp JUMP_BRANCH_2468_2431_OK
 
@@ -563,21 +567,21 @@ SUBROUTINE__23F0_251E_OK:
 
 	BRANCH_LOOP__2457_2441_OK:
 
-	lda $2300,X 
+	lda PursuerData + 0,X 
 	clc 
 	adc #$19
-	sta $2300,X 
-	lda $2301,X 
+	sta PursuerData + 0,X 
+	lda PursuerData + 1,X 
 	adc #$00
-	sta $2301,X 
+	sta PursuerData + 1,X 
 
 	JUMP_BRANCH_2468_2431_OK:
 	JUMP_BRANCH_2468_243C_OK:
 	JUMP_BRANCH_2468_2454_OK:
 
-	lda $2300,X 
+	lda PursuerData + 0,X 
 	sta $01 
-	lda $2301,X 
+	lda PursuerData + 1,X 
 	sta $02 
 	lda ($01),Y 
 	cmp #$50
@@ -592,7 +596,7 @@ SUBROUTINE__23F0_251E_OK:
 
 	BRANCH_LOOP__2484_2491_OK:
 	
-		lda $2348,X 
+		lda PursuerData + $48,X 
 		cmp $04 
 		beq BRANCH_LOOP__2495_2489_OK
 		inx 
@@ -624,12 +628,12 @@ SUBROUTINE__23F0_251E_OK:
 	BRANCH_LOOP__24A9_24B9_OK:
 		JUMP_BRANCH_24A9_24D3_OK:
 	
-		inc $2302,X 
-		lda $2302,X 
+		inc PursuerData + 2,X 
+		lda PursuerData + 2,X 
 		cmp #$04
 		bne BRANCH_LOOP__24B8_24B1_OK
 		lda #$00
-		sta $2302,X 
+		sta PursuerData + 2,X 
 	
 		BRANCH_LOOP__24B8_24B1_OK:
 	
@@ -637,13 +641,13 @@ SUBROUTINE__23F0_251E_OK:
 		bne BRANCH_LOOP__24A9_24B9_OK
 	txa 
 	pha 
-	lda $2302,X 
+	lda PursuerData + 2,X 
 	sta $07 
 	lda $06 
 	clc 
 	adc $07 
 	tax 
-	lda $2349,X 
+	lda PursuerData + $49,X 
 	cmp #$00
 	bne BRANCH_LOOP__24D6_24CD_OK
 	pla 
@@ -659,19 +663,19 @@ SUBROUTINE__23F0_251E_OK:
 	BRANCH_LOOP__24D8_2476_OK:
 	BRANCH_LOOP__24D8_247A_OK:
 
-	lda $2300,X 
+	lda PursuerData + 0,X 
 	sta $01 
-	lda $2301,X 
+	lda PursuerData + 1,X 
 	sta $02 
 	lda ($01),Y 
-	sta $2304,X 
+	sta PursuerData + 4,X 
 	txa 
 	pha 
-	lda $2302,X 
+	lda PursuerData + 2,X 
 	clc 
 	adc $03 
 	tax 
-	lda $2338,X 
+	lda PursuerData + $38,X 
 	sta ($01),Y 
 	pla 
 	tax 
@@ -683,7 +687,7 @@ SUBROUTINE__23F0_251E_OK:
 	SUBROUTINE__24FF_3384_BAD:
 
 	lda ($01),Y 
-	sta $2303,X 
+	sta PursuerData + 3,X 
 	lda $20 
 	sta ($01),Y 
 	rts 
@@ -730,11 +734,11 @@ SUBROUTINE__23F0_251E_OK:
 	SUBROUTINE__2532_2436_OK:
 	BRANCH_LOOP__2532_2540_OK:
 
-	dec $2300,X 
-	lda $2300,X 
+	dec PursuerData + 0,X 
+	lda PursuerData + 0,X 
 	cmp #$FF
 	bne BRANCH_LOOP__253F_253A_OK
-	dec $2301,X 
+	dec PursuerData + 1,X 
 
 	BRANCH_LOOP__253F_253A_OK:
 
@@ -750,12 +754,12 @@ SUBROUTINE__23F0_251E_OK:
 
 	BRANCH_LOOP__2547_2557_OK:
 
-		inc $2302,X 
-		lda $2302,X 
+		inc PursuerData + 2,X 
+		lda PursuerData + 2,X 
 		cmp #$04
 		bne BRANCH_LOOP__2556_254F_OK
 		lda #$00
-		sta $2302,X 
+		sta PursuerData + 2,X 
 
 		BRANCH_LOOP__2556_254F_OK:
 
@@ -913,7 +917,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__266E_2679_OK:
 
-		cmp $2348,X 
+		cmp PursuerData + $48,X 
 		beq BRANCH_LOOP__267B_2671_OK
 		inx 
 		inx 
@@ -925,7 +929,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__267B_2671_OK:
 
-	lda $2349,X 
+	lda PursuerData + $49,X 
 	beq BRANCH_LOOP__2686_267E_OK
 	lda #$01
 	ora $0B
@@ -933,7 +937,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__2686_267E_OK:
 
-	lda $234A,X 
+	lda PursuerData + $4A,X 
 	beq BRANCH_LOOP__2691_2689_OK
 	lda #$08
 	ora $0B
@@ -941,7 +945,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__2691_2689_OK:
 
-	lda $234B,X 
+	lda PursuerData + $4B,X 
 	beq BRANCH_LOOP__269C_2694_OK
 	lda #$02
 	ora $0B
@@ -949,7 +953,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__269C_2694_OK:
 
-	lda $234C,X 
+	lda PursuerData + $4C,X 
 	beq BRANCH_LOOP__26A7_269F_OK
 	lda #$04
 	ora $0B
@@ -1059,7 +1063,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__273E_2747_OK:
 
-		cmp $2337,X 
+		cmp PursuerData + $37,X 
 		bne BRANCH_LOOP__2746_2741_OK
 		jmp JUMP_BRANCH_2B91_2743_OK
 		BRANCH_LOOP__2746_2741_OK:
@@ -1291,7 +1295,7 @@ SUBROUTINE__289A_28C2_OK:
 	ldy #$0A
 	ldx #$00
 	BRANCH_LOOP__28A2_28BB_OK:
-	lda $2300,X 
+	lda PursuerData + 0,X 
 	cmp $01 
 	bne BRANCH_LOOP__28B5_28A7_OK
 	jsr SUBROUTINE__29C6_28A9_OK
@@ -1300,7 +1304,7 @@ SUBROUTINE__289A_28C2_OK:
 	bne BRANCH_LOOP__28B5_28AE_OK
 	lda #$07
 	JUMP_BRANCH_28B2_1B50_OK:
-	sta $2303,X 
+	sta PursuerData + 3,X 
 	BRANCH_LOOP__28B5_28A7_OK:
 	BRANCH_LOOP__28B5_28AE_OK:
 	inx 
@@ -1414,7 +1418,7 @@ SUBROUTINE__28E1_2256_OK:
 	.byte $ff,$ff,$ff
 
 SUBROUTINE__29C6_28A9_OK:
-	lda $2301,X 
+	lda PursuerData + 1,X 
 	clc 
 	adc #$84
 	cmp $02 
@@ -1502,10 +1506,10 @@ SUBROUTINE__2A0E_2259_OK:
 	ldy #$03
 	ldx $19 
 	jsr SUBROUTINE__2A60_2A50_OK
-	inc $17 
-	lda $17 
+	inc PAGEZERO.ZP_completedBlk 
+	lda PAGEZERO.ZP_completedBlk 
 	cmp #$24
-	beq BRANCH_LOOP__2A7E_2A59_OK
+	beq LevelComplete
 	nop 
 	nop 
 	jmp JUMP_BRANCH_2A83_2A5D_OK
@@ -1537,7 +1541,7 @@ SUBROUTINE__2A0E_2259_OK:
 	ldy #$00
 	rts 
 
-	BRANCH_LOOP__2A7E_2A59_OK:
+	LevelComplete:
 	jmp JUMP_BRANCH_2EEE_2A7E_OK
 	pla 
 	rts 
@@ -1800,9 +1804,9 @@ SUBROUTINE__2B2B_2AD6_OK:
 	pla 
 	tax 
 	lda $2602 
-	sta $2304,X 
+	sta PursuerData + 4,X 
 	lda $2608 
-	sta $2303,X 
+	sta PursuerData + 3,X 
 	pla 
 	pla 
 	pla 
@@ -1925,13 +1929,13 @@ SUBROUTINE__2C54_2D64_OK:
 	ldy #$00
 
 	BRANCH_LOOP__2CD8_2CF1_OK:
-		lda $2300,X 
+		lda PursuerData + 0,X 
 		sta $01 
-		lda $2301,X 
+		lda PursuerData + 1,X 
 		clc 
 		adc #$84
 		sta $02 
-		lda $2303,X 
+		lda PursuerData + 3,X 
 		sta ($01),Y 
 		inx 
 		inx 
@@ -2039,7 +2043,7 @@ SUBROUTINE__2D70_2D3D_OK:
 	bne BRANCH_LOOP__2D7A_2D76_OK
 	ldx #$10
 	BRANCH_LOOP__2D7A_2D76_OK:
-	lda $17 
+	lda PAGEZERO.ZP_completedBlk 
 	BRANCH_LOOP__2D7D_2DCD_BAD:
 	sta $3C03,X 
 	BRANCH_LOOP__2D80_2DDC_BAD:
@@ -2068,7 +2072,7 @@ JUMP_BRANCH_2D8D_2D6C_OK:
 
 	BRANCH_LOOP__2DA0_2DD7_BAD:
 
-	sta $17 
+	sta PAGEZERO.ZP_completedBlk 
 	lda $3C04,X 
 	sta $18 
 	jsr SUBROUTINE__2DDD_2DA6_OK
@@ -2094,7 +2098,7 @@ SUBROUTINE__2DDD_2E92_OK:
 	ldx #$2D
 	BRANCH_LOOP__2DDF_2DE6_OK:
 		lda $2DAF,X
-		sta $2304,X
+		sta PursuerData + 4,X
 		dex
 		bne BRANCH_LOOP__2DDF_2DE6_OK
 	ldx #$05
@@ -2104,14 +2108,14 @@ SUBROUTINE__2DDD_2E92_OK:
 
 	BRANCH_LOOP__2DF0_2E09_OK:
 
-		lda $2300,X 
+		lda PursuerData + 0,X 
 		sta $01 
-		lda $2301,X 
+		lda PursuerData + 1,X 
 		clc 
 		adc #$84
 		sta $02 
 		lda ($01),Y 
-		sta $2303,X 
+		sta PursuerData + 3,X 
 		inx 
 		inx 
 		inx 
@@ -2177,11 +2181,11 @@ FlashGridLevelComplete:
 		bne LoopForAprox5Sec
 	inc PAGEZERO.ZP_Pursures 
 	lda #$00
-	sta PAGEZERO.ZP_CompletedBlk 
+	sta PAGEZERO.ZP_completedBlk 
 	lda #$01
 	sta $22 
 	lda #$00
-	sta $17 
+	sta PAGEZERO.ZP_completedBlk 
 	inc $00 
 	lda PAGEZERO.ZP_Pursures 
 	cmp #$0A							//Have We got to Level 10?
@@ -2332,7 +2336,7 @@ JUMP_BRANCH_2F40_2ED8_OK:
 	nop 
 	nop 
 	jsr SUBROUTINE__2EDB_2F4F_OK
-	jmp JUMP_BRANCH_2390_2F52_OK
+	jmp InitilizePursuer
 
 JUMP_BRANCH_2F55_2F30_OK:
 
@@ -2422,13 +2426,13 @@ JUMP_BRANCH_2F55_2F30_OK:
 
 	BRANCH_LOOP__2FB2_2FCB_OK:
 
-		lda $2300,X 
+		lda PursuerData + 0,X 
 		sta $01 
-		lda $2301,X 
+		lda PursuerData + 1,X 
 		clc 
 		adc #$84
 		sta $02 
-		lda $2303,X 
+		lda PursuerData + 3,X 
 		sta ($01),Y 
 		inx 
 		inx 

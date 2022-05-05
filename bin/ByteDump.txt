@@ -1,6 +1,6 @@
 ******************************* Segment: Default *******************************
 [Unnamed]
-1200: 00        - GAMESETTINGS,VIC,VIA,KEYBOARD,PAGEZERO,CHAR,KERNAL:.byte %00000000			// ........
+1200: 00        - GAMESETTINGS,KEYBOARD,PAGEZERO,CHAR,PAGE0,BKSHARED,USRPGM8K,VIC,VIA,BASIC,KERNAL:.byte %00000000			// ........
 1201: 0b        -         .byte %00001011			// ....x.xx
 1202: 08        -         .byte %00001000			// ....x...
 1203: 0a        -         .byte %00001010			// ....x.x.
@@ -3072,7 +3072,7 @@
 1dfd: a8        -         .byte %10101000			// x.x.x...
 1dfe: 38        -         .byte %00111000			// ..xxx...
 1dff: c7        -         .byte %11000111			// xx...xxx
-1e00: 36        -         .byte %00110110			// ..xx.xx.
+1e00: 36        - SCREEN: .byte %00110110			// ..xx.xx.
 1e01: be        -         .byte %10111110			// x.xxxxx.
 1e02: a7        -         .byte %10100111			// x.x..xxx
 1e03: 02        -         .byte %00000010			// ......x.
@@ -3586,7 +3586,7 @@
 1fff: ce        -         .byte %11001110			// xx..xxx.
 
 [Program]
-2000: d8        -         cld
+2000: d8        - RAMBLK1:cld
 2001: a9 cd     -         lda #%11001101
 2003: 8d 05 90  -         sta VIC.VICCR5
 2006: a9 08     -         lda #%00001000
@@ -3678,7 +3678,7 @@
 2141: a2 18     -         ldx #GAMESETTINGS.GridHeight		// Height of grid in chars
 2143: a5 04     -         lda $04 
 2145: 18        -         clc 
-2146: 69 19     -         adc #GAMESETTINGS.MOVE_UP_DOWN
+2146: 69 19     -         adc #GAMESETTINGS.MOVE_CURSOR_UP_OR_DOWN
 2148: 85 04     -         sta $04 
 214a: a5 05     -         lda $05 
 214c: 69 00     -         adc #$00
@@ -3742,11 +3742,11 @@
 21b2: a9 64     -         lda #$64
 21b4: 85 04     -         sta $04 
 21b6: a2 1a     -         ldx #$1A
-21b8: a0 00     - BRANCH_LOOP__21B8_21D1_OK:ldy #$00
-21ba: a9 20     - BRANCH_LOOP__21BA_21C1_OK:lda #$20
-21bc: 20 d4 21  -         jsr SUBROUTINE__21D4_21BC_OK
+21b8: a0 00     - NotAtEndOfScreen:ldy #$00
+21ba: a9 20     - CLR_PlayScreenLoop:lda #$20
+21bc: 20 d4 21  -         jsr Set_PlayScreenColour
 21bf: c0 1a     -         cpy #$1A
-21c1: d0 f7     -         bne BRANCH_LOOP__21BA_21C1_OK
+21c1: d0 f7     -         bne CLR_PlayScreenLoop
 21c3: a5 04     -         lda $04 
 21c5: 18        -         clc 
 21c6: 69 19     -         adc #$19
@@ -3755,15 +3755,15 @@
 21cc: 69 00     -         adc #$00
 21ce: 85 05     -         sta $05 
 21d0: ca        -         dex 
-21d1: d0 e5     -         bne BRANCH_LOOP__21B8_21D1_OK
+21d1: d0 e5     -         bne NotAtEndOfScreen
 21d3: 60        -         rts 
-21d4: 91 04     - SUBROUTINE__21D4_21BC_OK:sta ($04),Y 
+21d4: 91 04     - Set_PlayScreenColour:sta ($04),Y 
 21d6: a5 05     -         lda $05 
 21d8: 48        -         pha 
 21d9: 18        -         clc 
 21da: 69 84     -         adc #$84
 21dc: 85 05     -         sta $05 
-21de: a9 07     -         lda #$07
+21de: a9 07     -         lda #$07    //colour yellow
 21e0: 91 04     -         sta ($04),Y 
 21e2: 68        -         pla 
 21e3: 85 05     -         sta $05 
@@ -3801,7 +3801,7 @@
 2236: a5 19     -         lda $19 
 2238: 85 19     -         sta $19 
 223a: a9 00     -         lda #$00
-223c: 85 17     -         sta $17 
+223c: 85 17     -         sta PAGEZERO.ZP_completedBlk 
 223e: 85 18     -         sta $18 
 2240: a9 03     -         lda #$03
 2242: 85 20     -         sta $20 
@@ -3879,7 +3879,7 @@
 22ef: f5 f5 f5 f5 f5 f5 f5 f5                          -         .byte $f5,$f5,$f5,$f5,$f5,$f5,$f5,$f5
 22f7: f5 f5 f5 f5 f5 f5 f5 f5                          -         .byte $f5,$f5,$f5,$f5,$f5,$f5,$f5,$f5
 22ff: f5        -         .byte $f5
-2300: 96 10 00 07 50 39 11 01                          -         .byte $96,$10,$00,$07,$50,$39,$11,$01
+2300: 96 10 00 07 50 39 11 01                          - PursuerData:.byte $96,$10,$00,$07,$50,$39,$11,$01
 2308: b7 51 f8 11 01 87 4f 06                          -         .byte $b7,$51,$f8,$11,$01,$87,$4f,$06
 2310: 12 01 b7 51 a2 10 00 07                          -         .byte $12,$01,$b7,$51,$a2,$10,$00,$07
 2318: 50 a6 10 00 b7 50 aa 10                          -         .byte $50,$a6,$10,$00,$b7,$50,$aa,$10
@@ -3897,31 +3897,31 @@
 2378: 03 04 54 01 00 00 04 55                          -         .byte $03,$04,$54,$01,$00,$00,$04,$55
 2380: 01 02 00 00 00 00 00 00                          -         .byte $01,$02,$00,$00,$00,$00,$00,$00
 2388: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
-2390: a5 00     - JUMP_BRANCH_2390_2F52_OK:lda $00 
+2390: a5 00     - InitilizePursuer:lda $00 
 2392: 85 fd     -         sta $FD 
-2394: a2 00     - BRANCH_LOOP__2394_23B2_OK:ldx #$00
+2394: a2 00     - LoopNumberOfPursuers:ldx #$00
 2396: a4 fd     -         ldy $FD 
-2398: e8        - BRANCH_LOOP__2398_239E_OK:inx 
+2398: e8        - LoopPursuerSettings:inx 
 2399: e8        -         inx 
 239a: e8        -         inx 
 239b: e8        -         inx 
 239c: e8        -         inx 
-239d: 88        -         dey 
-239e: d0 f8     -         bne BRANCH_LOOP__2398_239E_OK
-23a0: bd 00 23  -         lda $2300,X 
+239d: 88        -         dey
+239e: d0 f8     -         bne LoopPursuerSettings
+23a0: bd 00 23  -         lda PursuerData,X 
 23a3: 85 01     -         sta $01 
-23a5: bd 01 23  -         lda $2301,X 
+23a5: bd 01 23  -         lda PursuerData + 1,X 
 23a8: 85 02     -         sta $02 
-23aa: 20 b5 23  -         jsr SUBROUTINE__23B5_23AA_OK
-23ad: 20 ce 23  -         jsr SUBROUTINE__23CE_23AD_OK
+23aa: 20 b5 23  -         jsr PlacePursuerOnScreen
+23ad: 20 ce 23  -         jsr PlacePursuerSound
 23b0: c6 fd     -         dec $FD 
-23b2: d0 e0     -         bne BRANCH_LOOP__2394_23B2_OK
+23b2: d0 e0     -         bne LoopNumberOfPursuers
 23b4: 60        -         rts 
-23b5: 8a        - SUBROUTINE__23B5_23AA_OK:txa 
+23b5: 8a        - PlacePursuerOnScreen:txa 
 23b6: 48        -         pha 
-23b7: bd 02 23  -         lda $2302,X 
+23b7: bd 02 23  -         lda PursuerData + 2,X 
 23ba: aa        -         tax 
-23bb: bd 38 23  -         lda $2338,X 
+23bb: bd 38 23  -         lda PursuerData + $38,X 
 23be: 91 01     -         sta ($01),Y 
 23c0: a5 02     -         lda $02 
 23c2: 18        -         clc 
@@ -3932,7 +3932,7 @@
 23cb: 68        -         pla 
 23cc: aa        -         tax 
 23cd: 60        -         rts 
-23ce: 8a        - SUBROUTINE__23CE_23AD_OK:txa 
+23ce: 8a        - PlacePursuerSound:txa 
 23cf: 48        -         pha 
 23d0: 98        -         tya 
 23d1: 48        -         pha 
@@ -3954,9 +3954,9 @@
 23eb: aa        -         tax 
 23ec: 60        -         rts 
 23ed: 00 00 00  -         .byte $00,$00,$00
-23f0: bd 00 23  - SUBROUTINE__23F0_251E_OK:lda $2300,X 
+23f0: bd 00 23  - SUBROUTINE__23F0_251E_OK:lda PursuerData,X 
 23f3: 85 01     -         sta $01 
-23f5: bd 01 23  -         lda $2301,X 
+23f5: bd 01 23  -         lda PursuerData + 1,X 
 23f8: 85 02     -         sta $02 
 23fa: a9 00     -         lda #$00
 23fc: 85 03     -         sta $03 
@@ -3966,24 +3966,24 @@
 2403: d0 04     -         bne BRANCH_LOOP__2409_2403_OK
 2405: a9 04     -         lda #$04
 2407: 85 03     -         sta $03 
-2409: bd 04 23  - BRANCH_LOOP__2409_2403_OK:lda $2304,X 
+2409: bd 04 23  - BRANCH_LOOP__2409_2403_OK:lda PursuerData + 4,X 
 240c: 91 01     -         sta ($01),Y 
 240e: a5 02     -         lda $02 
 2410: 18        -         clc 
 2411: 69 84     -         adc #$84
 2413: 85 02     -         sta $02 
-2415: bd 03 23  -         lda $2303,X 
+2415: bd 03 23  -         lda PursuerData + 3,X 
 2418: 91 01     -         sta ($01),Y 
-241a: bd 02 23  - JUMP_BRANCH_241A_2559_OK:lda $2302,X 
+241a: bd 02 23  - JUMP_BRANCH_241A_2559_OK:lda PursuerData + 2,X 
 241d: c9 00     -         cmp #$00
 241f: f0 1e     -         beq BRANCH_LOOP__243F_241F_OK
 2421: c9 02     -         cmp #$02
 2423: f0 1a     -         beq BRANCH_LOOP__243F_2423_OK
 2425: c9 01     -         cmp #$01
 2427: d0 0b     -         bne BRANCH_LOOP__2434_2427_OK
-2429: fe 00 23  -         inc $2300,X 
+2429: fe 00 23  -         inc PursuerData + 0,X 
 242c: d0 03     -         bne BRANCH_LOOP__2431_242C_OK
-242e: fe 01 23  -         inc $2301,X 
+242e: fe 01 23  -         inc PursuerData + 1,X 
 2431: 4c 68 24  - BRANCH_LOOP__2431_242C_OK:jmp JUMP_BRANCH_2468_2431_OK
 2434: a0 01     - BRANCH_LOOP__2434_2427_OK:ldy #$01
 2436: 20 32 25  -         jsr SUBROUTINE__2532_2436_OK
@@ -4009,16 +4009,16 @@
 2452: ea        -         nop 
 2453: ea        -         nop 
 2454: 4c 68 24  -         jmp JUMP_BRANCH_2468_2454_OK
-2457: bd 00 23  - BRANCH_LOOP__2457_2441_OK:lda $2300,X 
+2457: bd 00 23  - BRANCH_LOOP__2457_2441_OK:lda PursuerData + 0,X 
 245a: 18        -         clc 
 245b: 69 19     -         adc #$19
-245d: 9d 00 23  -         sta $2300,X 
-2460: bd 01 23  -         lda $2301,X 
+245d: 9d 00 23  -         sta PursuerData + 0,X 
+2460: bd 01 23  -         lda PursuerData + 1,X 
 2463: 69 00     -         adc #$00
-2465: 9d 01 23  -         sta $2301,X 
-2468: bd 00 23  - JUMP_BRANCH_2468_2431_OK,JUMP_BRANCH_2468_243C_OK,JUMP_BRANCH_2468_2454_OK:lda $2300,X 
+2465: 9d 01 23  -         sta PursuerData + 1,X 
+2468: bd 00 23  - JUMP_BRANCH_2468_2431_OK,JUMP_BRANCH_2468_243C_OK,JUMP_BRANCH_2468_2454_OK:lda PursuerData + 0,X 
 246b: 85 01     -         sta $01 
-246d: bd 01 23  -         lda $2301,X 
+246d: bd 01 23  -         lda PursuerData + 1,X 
 2470: 85 02     -         sta $02 
 2472: b1 01     -         lda ($01),Y 
 2474: c9 50     -         cmp #$50
@@ -4030,7 +4030,7 @@
 247f: 48        -         pha 
 2480: a0 0c     -         ldy #$0C
 2482: a2 00     -         ldx #$00
-2484: bd 48 23  - BRANCH_LOOP__2484_2491_OK:lda $2348,X 
+2484: bd 48 23  - BRANCH_LOOP__2484_2491_OK:lda PursuerData + $48,X 
 2487: c5 04     -         cmp $04 
 2489: f0 0a     -         beq BRANCH_LOOP__2495_2489_OK
 248b: e8        -         inx 
@@ -4052,23 +4052,23 @@
 24a3: a9 01     -         lda #$01
 24a5: 85 05     -         sta $05 
 24a7: a4 05     - BRANCH_LOOP__24A7_24A1_OK:ldy $05 
-24a9: fe 02 23  - BRANCH_LOOP__24A9_24B9_OK,JUMP_BRANCH_24A9_24D3_OK:inc $2302,X 
-24ac: bd 02 23  -         lda $2302,X 
+24a9: fe 02 23  - BRANCH_LOOP__24A9_24B9_OK,JUMP_BRANCH_24A9_24D3_OK:inc PursuerData + 2,X 
+24ac: bd 02 23  -         lda PursuerData + 2,X 
 24af: c9 04     -         cmp #$04
 24b1: d0 05     -         bne BRANCH_LOOP__24B8_24B1_OK
 24b3: a9 00     -         lda #$00
-24b5: 9d 02 23  -         sta $2302,X 
+24b5: 9d 02 23  -         sta PursuerData + 2,X 
 24b8: 88        - BRANCH_LOOP__24B8_24B1_OK:dey 
 24b9: d0 ee     -         bne BRANCH_LOOP__24A9_24B9_OK
 24bb: 8a        -         txa 
 24bc: 48        -         pha 
-24bd: bd 02 23  -         lda $2302,X 
+24bd: bd 02 23  -         lda PursuerData + 2,X 
 24c0: 85 07     -         sta $07 
 24c2: a5 06     -         lda $06 
 24c4: 18        -         clc 
 24c5: 65 07     -         adc $07 
 24c7: aa        -         tax 
-24c8: bd 49 23  -         lda $2349,X 
+24c8: bd 49 23  -         lda PursuerData + $49,X 
 24cb: c9 00     -         cmp #$00
 24cd: d0 07     -         bne BRANCH_LOOP__24D6_24CD_OK
 24cf: 68        -         pla 
@@ -4077,19 +4077,19 @@
 24d3: 4c a9 24  -         jmp JUMP_BRANCH_24A9_24D3_OK
 24d6: 68        - BRANCH_LOOP__24D6_24CD_OK:pla 
 24d7: aa        -         tax 
-24d8: bd 00 23  - BRANCH_LOOP__24D8_2476_OK,BRANCH_LOOP__24D8_247A_OK:lda $2300,X 
+24d8: bd 00 23  - BRANCH_LOOP__24D8_2476_OK,BRANCH_LOOP__24D8_247A_OK:lda PursuerData + 0,X 
 24db: 85 01     -         sta $01 
-24dd: bd 01 23  -         lda $2301,X 
+24dd: bd 01 23  -         lda PursuerData + 1,X 
 24e0: 85 02     -         sta $02 
 24e2: b1 01     -         lda ($01),Y 
-24e4: 9d 04 23  -         sta $2304,X 
+24e4: 9d 04 23  -         sta PursuerData + 4,X 
 24e7: 8a        -         txa 
 24e8: 48        -         pha 
-24e9: bd 02 23  -         lda $2302,X 
+24e9: bd 02 23  -         lda PursuerData + 2,X 
 24ec: 18        -         clc 
 24ed: 65 03     -         adc $03 
 24ef: aa        -         tax 
-24f0: bd 38 23  -         lda $2338,X 
+24f0: bd 38 23  -         lda PursuerData + $38,X 
 24f3: 91 01     -         sta ($01),Y 
 24f5: 68        -         pla 
 24f6: aa        -         tax 
@@ -4098,7 +4098,7 @@
 24fa: 69 84     -         adc #$84
 24fc: 85 02     -         sta $02 
 24fe: b1 01     - SUBROUTINE__24FF_3384_BAD:lda ($01),Y 
-2500: 9d 03 23  -         sta $2303,X 
+2500: 9d 03 23  -         sta PursuerData + 3,X 
 2503: a5 20     -         lda $20 
 2505: 91 01     -         sta ($01),Y 
 2507: 60        -         rts 
@@ -4123,23 +4123,23 @@
 252b: 4c d4 28  - BRANCH_LOOP__252B_2528_OK:jmp JUMP_BRANCH_28D4_252B_OK
 252e: 00 00     -         .byte $00,$00
 2530: a0 19     - SUBROUTINE__2530_2446_OK:ldy #$19
-2532: de 00 23  - SUBROUTINE__2532_2436_OK,BRANCH_LOOP__2532_2540_OK:dec $2300,X 
-2535: bd 00 23  -         lda $2300,X 
+2532: de 00 23  - SUBROUTINE__2532_2436_OK,BRANCH_LOOP__2532_2540_OK:dec PursuerData + 0,X 
+2535: bd 00 23  -         lda PursuerData + 0,X 
 2538: c9 ff     -         cmp #$FF
 253a: d0 03     -         bne BRANCH_LOOP__253F_253A_OK
-253c: de 01 23  -         dec $2301,X 
+253c: de 01 23  -         dec PursuerData + 1,X 
 253f: 88        - BRANCH_LOOP__253F_253A_OK:dey 
 2540: d0 f0     -         bne BRANCH_LOOP__2532_2540_OK
 2542: 60        -         rts 
 2543: 68        - JUMP_BRANCH_2543_2C04_OK:pla 
 2544: aa        -         tax 
 2545: a0 02     -         ldy #$02
-2547: fe 02 23  - BRANCH_LOOP__2547_2557_OK:inc $2302,X 
-254a: bd 02 23  -         lda $2302,X 
+2547: fe 02 23  - BRANCH_LOOP__2547_2557_OK:inc PursuerData + 2,X 
+254a: bd 02 23  -         lda PursuerData + 2,X 
 254d: c9 04     -         cmp #$04
 254f: d0 05     -         bne BRANCH_LOOP__2556_254F_OK
 2551: a9 00     -         lda #$00
-2553: 9d 02 23  -         sta $2302,X 
+2553: 9d 02 23  -         sta PursuerData + 2,X 
 2556: 88        - BRANCH_LOOP__2556_254F_OK:dey 
 2557: d0 ee     -         bne BRANCH_LOOP__2547_2557_OK
 2559: 4c 1a 24  -         jmp JUMP_BRANCH_241A_2559_OK
@@ -4248,7 +4248,7 @@
 2667: a2 00     - BRANCH_LOOP__2667_265E_OK:ldx #$00
 2669: a0 0c     -         ldy #$0C
 266b: ad 02 26  -         lda $2602 
-266e: dd 48 23  - BRANCH_LOOP__266E_2679_OK:cmp $2348,X 
+266e: dd 48 23  - BRANCH_LOOP__266E_2679_OK:cmp PursuerData + $48,X 
 2671: f0 08     -         beq BRANCH_LOOP__267B_2671_OK
 2673: e8        -         inx 
 2674: e8        -         inx 
@@ -4257,22 +4257,22 @@
 2677: e8        -         inx 
 2678: 88        -         dey 
 2679: d0 f3     -         bne BRANCH_LOOP__266E_2679_OK
-267b: bd 49 23  - BRANCH_LOOP__267B_2671_OK:lda $2349,X 
+267b: bd 49 23  - BRANCH_LOOP__267B_2671_OK:lda PursuerData + $49,X 
 267e: f0 06     -         beq BRANCH_LOOP__2686_267E_OK
 2680: a9 01     -         lda #$01
 2682: 05 0b     -         ora $0B
 2684: 85 0b     -         sta $0B 
-2686: bd 4a 23  - BRANCH_LOOP__2686_267E_OK:lda $234A,X 
+2686: bd 4a 23  - BRANCH_LOOP__2686_267E_OK:lda PursuerData + $4A,X 
 2689: f0 06     -         beq BRANCH_LOOP__2691_2689_OK
 268b: a9 08     -         lda #$08
 268d: 05 0b     -         ora $0B
 268f: 85 0b     -         sta $0B 
-2691: bd 4b 23  - BRANCH_LOOP__2691_2689_OK:lda $234B,X 
+2691: bd 4b 23  - BRANCH_LOOP__2691_2689_OK:lda PursuerData + $4B,X 
 2694: f0 06     -         beq BRANCH_LOOP__269C_2694_OK
 2696: a9 02     -         lda #$02
 2698: 05 0b     -         ora $0B
 269a: 85 0b     -         sta $0B 
-269c: bd 4c 23  - BRANCH_LOOP__269C_2694_OK:lda $234C,X 
+269c: bd 4c 23  - BRANCH_LOOP__269C_2694_OK:lda PursuerData + $4C,X 
 269f: f0 06     -         beq BRANCH_LOOP__26A7_269F_OK
 26a1: a9 04     -         lda #$04
 26a3: 05 0b     -         ora $0B
@@ -4349,7 +4349,7 @@
 2738: 85 02     -         sta $02 
 273a: b1 01     -         lda ($01),Y 
 273c: a2 08     -         ldx #$08
-273e: dd 37 23  - BRANCH_LOOP__273E_2747_OK:cmp $2337,X 
+273e: dd 37 23  - BRANCH_LOOP__273E_2747_OK:cmp PursuerData + $37,X 
 2741: d0 03     -         bne BRANCH_LOOP__2746_2741_OK
 2743: 4c 91 2b  -         jmp JUMP_BRANCH_2B91_2743_OK
 2746: ca        - BRANCH_LOOP__2746_2741_OK:dex 
@@ -4508,7 +4508,7 @@
 289d: 48        -         pha 
 289e: a0 0a     -         ldy #$0A
 28a0: a2 00     -         ldx #$00
-28a2: bd 00 23  - BRANCH_LOOP__28A2_28BB_OK:lda $2300,X 
+28a2: bd 00 23  - BRANCH_LOOP__28A2_28BB_OK:lda PursuerData + 0,X 
 28a5: c5 01     -         cmp $01 
 28a7: d0 0c     -         bne BRANCH_LOOP__28B5_28A7_OK
 28a9: 20 c6 29  -         jsr SUBROUTINE__29C6_28A9_OK
@@ -4516,7 +4516,7 @@
 28ad: ea        -         nop 
 28ae: d0 05     -         bne BRANCH_LOOP__28B5_28AE_OK
 28b0: a9 07     -         lda #$07
-28b2: 9d 03 23  - JUMP_BRANCH_28B2_1B50_OK:sta $2303,X 
+28b2: 9d 03 23  - JUMP_BRANCH_28B2_1B50_OK:sta PursuerData + 3,X 
 28b5: e8        - BRANCH_LOOP__28B5_28A7_OK,BRANCH_LOOP__28B5_28AE_OK:inx 
 28b6: e8        -         inx 
 28b7: e8        -         inx 
@@ -4598,7 +4598,7 @@
 29b3: a4 02 9f 01 9f 01 93 02                          -         .byte $a4,$02,$9f,$01,$9f,$01,$93,$02
 29bb: 87 04 00 01 ff ff ff ff                          -         .byte $87,$04,$00,$01,$ff,$ff,$ff,$ff
 29c3: ff ff ff  -         .byte $ff,$ff,$ff
-29c6: bd 01 23  - SUBROUTINE__29C6_28A9_OK:lda $2301,X 
+29c6: bd 01 23  - SUBROUTINE__29C6_28A9_OK:lda PursuerData + 1,X 
 29c9: 18        -         clc 
 29ca: 69 84     -         adc #$84
 29cc: c5 02     -         cmp $02 
@@ -4667,10 +4667,10 @@
 2a4c: a0 03     -         ldy #$03
 2a4e: a6 19     -         ldx $19 
 2a50: 20 60 2a  -         jsr SUBROUTINE__2A60_2A50_OK
-2a53: e6 17     -         inc $17 
-2a55: a5 17     -         lda $17 
+2a53: e6 17     -         inc PAGEZERO.ZP_completedBlk 
+2a55: a5 17     -         lda PAGEZERO.ZP_completedBlk 
 2a57: c9 24     -         cmp #$24
-2a59: f0 23     -         beq BRANCH_LOOP__2A7E_2A59_OK
+2a59: f0 23     -         beq LevelComplete
 2a5b: ea        -         nop 
 2a5c: ea        -         nop 
 2a5d: 4c 83 2a  -         jmp JUMP_BRANCH_2A83_2A5D_OK
@@ -4693,7 +4693,7 @@
 2a79: d0 e5     -         bne BRANCH_LOOP__2A60_2A79_OK
 2a7b: a0 00     -         ldy #$00
 2a7d: 60        -         rts 
-2a7e: 4c ee 2e  - BRANCH_LOOP__2A7E_2A59_OK:jmp JUMP_BRANCH_2EEE_2A7E_OK
+2a7e: 4c ee 2e  - LevelComplete:jmp JUMP_BRANCH_2EEE_2A7E_OK
 2a81: 68        -         pla 
 2a82: 60        -         rts 
 2a83: 20 da 2f  - JUMP_BRANCH_2A83_2A5D_OK:jsr SUBROUTINE__2FDA_2A83_OK
@@ -4883,9 +4883,9 @@
 2c07: 68        - BRANCH_LOOP__2C07_2BFF_OK:pla 
 2c08: aa        -         tax 
 2c09: ad 02 26  -         lda $2602 
-2c0c: 9d 04 23  -         sta $2304,X 
+2c0c: 9d 04 23  -         sta PursuerData + 4,X 
 2c0f: ad 08 26  -         lda $2608 
-2c12: 9d 03 23  -         sta $2303,X 
+2c12: 9d 03 23  -         sta PursuerData + 3,X 
 2c15: 68        -         pla 
 2c16: 68        -         pla 
 2c17: 68        -         pla 
@@ -4983,13 +4983,13 @@
 2cd2: a5 00     -         lda $00 
 2cd4: 85 1f     -         sta $1F 
 2cd6: a0 00     -         ldy #$00
-2cd8: bd 00 23  - BRANCH_LOOP__2CD8_2CF1_OK:lda $2300,X 
+2cd8: bd 00 23  - BRANCH_LOOP__2CD8_2CF1_OK:lda PursuerData + 0,X 
 2cdb: 85 01     -         sta $01 
-2cdd: bd 01 23  -         lda $2301,X 
+2cdd: bd 01 23  -         lda PursuerData + 1,X 
 2ce0: 18        -         clc 
 2ce1: 69 84     -         adc #$84
 2ce3: 85 02     -         sta $02 
-2ce5: bd 03 23  -         lda $2303,X 
+2ce5: bd 03 23  -         lda PursuerData + 3,X 
 2ce8: 91 01     -         sta ($01),Y 
 2cea: e8        -         inx 
 2ceb: e8        -         inx 
@@ -5066,7 +5066,7 @@
 2d74: c9 02     - BRANCH_LOOP__2D74_2DC8_OK:cmp #$02
 2d76: d0 02     -         bne BRANCH_LOOP__2D7A_2D76_OK
 2d78: a2 10     -         ldx #$10
-2d7a: a5 17     - BRANCH_LOOP__2D7A_2D76_OK:lda $17 
+2d7a: a5 17     - BRANCH_LOOP__2D7A_2D76_OK:lda PAGEZERO.ZP_completedBlk 
 2d7c: 9d 03 3c  - BRANCH_LOOP__2D7D_2DCD_BAD:sta $3C03,X 
 2d7f: a5 19     - BRANCH_LOOP__2D80_2DDC_BAD:lda $19 
 2d81: 9d 02 3c  - BRANCH_LOOP__2D83_2DD2_BAD:sta $3C02,X 
@@ -5082,7 +5082,7 @@
 2d97: bd 02 3c  - BRANCH_LOOP__2D97_2D93_OK:lda $3C02,X 
 2d9a: 85 19     -         sta $19 
 2d9c: bd 03 3c  -         lda $3C03,X 
-2d9f: 85 17     - BRANCH_LOOP__2DA0_2DD7_BAD:sta $17 
+2d9f: 85 17     - BRANCH_LOOP__2DA0_2DD7_BAD:sta PAGEZERO.ZP_completedBlk 
 2da1: bd 04 3c  -         lda $3C04,X 
 2da4: 85 18     -         sta $18 
 2da6: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2DA6_OK
@@ -5101,21 +5101,21 @@
 2dd8: c7 10 02 07 50                                   -         .byte $c7,$10,$02,$07,$50
 2ddd: a2 2d     - SUBROUTINE__2DDD_2215_OK,SUBROUTINE__2DDD_2DA6_OK,SUBROUTINE__2DDD_2E92_OK:ldx #$2D
 2ddf: bd af 2d  - BRANCH_LOOP__2DDF_2DE6_OK:lda $2DAF,X
-2de2: 9d 04 23  -         sta $2304,X
+2de2: 9d 04 23  -         sta PursuerData + 4,X
 2de5: ca        -         dex
 2de6: d0 f7     -         bne BRANCH_LOOP__2DDF_2DE6_OK
 2de8: a2 05     -         ldx #$05
 2dea: a0 00     -         ldy #$00
 2dec: a9 09     -         lda #$09
 2dee: 85 1f     -         sta $1F 
-2df0: bd 00 23  - BRANCH_LOOP__2DF0_2E09_OK:lda $2300,X 
+2df0: bd 00 23  - BRANCH_LOOP__2DF0_2E09_OK:lda PursuerData + 0,X 
 2df3: 85 01     -         sta $01 
-2df5: bd 01 23  -         lda $2301,X 
+2df5: bd 01 23  -         lda PursuerData + 1,X 
 2df8: 18        -         clc 
 2df9: 69 84     -         adc #$84
 2dfb: 85 02     -         sta $02 
 2dfd: b1 01     -         lda ($01),Y 
-2dff: 9d 03 23  -         sta $2303,X 
+2dff: 9d 03 23  -         sta PursuerData + 3,X 
 2e02: e8        -         inx 
 2e03: e8        -         inx 
 2e04: e8        -         inx 
@@ -5165,11 +5165,11 @@
 2e5e: d0 e2     -         bne LoopForAprox5Sec
 2e60: e6 19     -         inc PAGEZERO.ZP_Pursures 
 2e62: a9 00     -         lda #$00
-2e64: 85 18     -         sta PAGEZERO.ZP_CompletedBlk 
+2e64: 85 17     -         sta PAGEZERO.ZP_completedBlk 
 2e66: a9 01     -         lda #$01
 2e68: 85 22     -         sta $22 
 2e6a: a9 00     -         lda #$00
-2e6c: 85 17     -         sta $17 
+2e6c: 85 17     -         sta PAGEZERO.ZP_completedBlk 
 2e6e: e6 00     -         inc $00 
 2e70: a5 19     -         lda PAGEZERO.ZP_Pursures 
 2e72: c9 0a     -         cmp #$0A							//Have We got to Level 10?
@@ -5185,9 +5185,7 @@
 2e89: 20 ae 21  -         jsr ClearPlayScreen
 2e8c: 20 00 21  -         jsr DrawGrid
 2e8f: 20 a0 25  -         jsr SUBROUTINE__25A0_2E8F_OK
-2e92: 00        -         brk
-2e93: 00        -         brk
-2e94: 00        -         brk
+2e92: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2E92_OK
 2e95: 4c f4 2e  -         jmp JUMP_BRANCH_2EF4_2E95_OK
 2e98: 4c 50 22  -         jmp MainGameLoop
 2e9b: a5 08     - SUBROUTINE__2E9B_2262_OK:lda $08 
@@ -5281,7 +5279,7 @@
 2f4d: ea        -         nop 
 2f4e: ea        -         nop 
 2f4f: 20 db 2e  -         jsr SUBROUTINE__2EDB_2F4F_OK
-2f52: 4c 90 23  -         jmp JUMP_BRANCH_2390_2F52_OK
+2f52: 4c 90 23  -         jmp InitilizePursuer
 2f55: a0 00     - JUMP_BRANCH_2F55_2F30_OK:ldy #$00
 2f57: a2 05     -         ldx #$05
 2f59: b9 35 10  - BRANCH_LOOP__2F59_2F67_OK:lda $1035,Y 
@@ -5331,13 +5329,13 @@
 2fac: 85 1f     -         sta $1F 
 2fae: a2 05     -         ldx #$05
 2fb0: a0 00     -         ldy #$00
-2fb2: bd 00 23  - BRANCH_LOOP__2FB2_2FCB_OK:lda $2300,X 
+2fb2: bd 00 23  - BRANCH_LOOP__2FB2_2FCB_OK:lda PursuerData + 0,X 
 2fb5: 85 01     -         sta $01 
-2fb7: bd 01 23  -         lda $2301,X 
+2fb7: bd 01 23  -         lda PursuerData + 1,X 
 2fba: 18        -         clc 
 2fbb: 69 84     -         adc #$84
 2fbd: 85 02     -         sta $02 
-2fbf: bd 03 23  -         lda $2303,X 
+2fbf: bd 03 23  -         lda PursuerData + 3,X 
 2fc2: 91 01     -         sta ($01),Y 
 2fc4: e8        -         inx 
 2fc5: e8        -         inx 

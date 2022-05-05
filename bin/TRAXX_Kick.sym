@@ -9,7 +9,6 @@
 .label BRANCH_LOOP__29EA_2A0B_OK=$29ea
 .label BRANCH_LOOP__2409_2403_OK=$2409
 .label BRANCH_LOOP__2F87_2F81_OK=$2f87
-.label BRANCH_LOOP__2BDB_2BDF_OK=$2bdb
 .label BRANCH_LOOP__2D50_2DB4_BAD=$2d4f
 .label JUMP_BRANCH_2833_287B_OK=$2833
 .label JUMP_BRANCH_2876_284D_OK=$2876
@@ -636,8 +635,8 @@
   .label ScreenRowsx_4=$64
   .label Screen=$1000
   .label GridStart=$1064
-  .label MOVE_CURSOR_UP_OR_DOWN=$19
   .label UNUSED_BASIC_RAM=$12bc
+  .label MOVE_POSITION_UP_OR_DOWN=$19
   .label ScreenColour=$9400
   .label GridCols=$8
   .label GridWidth=$18
@@ -673,7 +672,6 @@
 .label SUBROUTINE__2EDB_2F4F_OK=$2edb
 .label JUMP_BRANCH_26A7_2659_OK=$26a7
 .label SUBROUTINE__2530_2446_OK=$2530
-.label BRANCH_LOOP__2BDB_2BDC_OK=$2bdb
 .label JUMP_BRANCH_272D_26D8_OK=$272d
 .label SUBROUTINE__2A0E_2259_OK=$2a0e
 .label traxxBotton=$3117

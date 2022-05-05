@@ -43,48 +43,49 @@
 	jmp RunTitleScreen													//jump 1
 
 ScreenHeader: // 100 bytes data showing high score
-	P1_Lives:
+	P1_Lives: //2025
 		.byte $4b,$4b,$4b
-		//Spaces
+		//Spaces 2028
 		.byte $20,$20,$20,$20,$20
 		.byte $20,$20,$20
-	Traxx_logo_top:
+	Traxx_logo_top: //2049
 		.byte $41,$42,$43,$44,$45
 		//Spaces
 		.byte $20,$20,$20,$20,$20
-	P2_Lives:
+	P2_Lives: //203a
 		.byte $4b,$4b,$4b
 		//Spaces (upto Traxx logo bottom)
 		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20
-	Traxx_logo_bottom:
+	Traxx_logo_bottom: //2049
 		.byte $46,$47,$48,$49,$4a
 		//Spaces (upto end of line 2)
 		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 		//pl1
 		.byte $5a,$31,$20
-	Player1_score:
+	Player1_score: //205a
 		.byte $30,$30,$30,$30,$30
 		//Spaces between scores
 		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 		//pl2
 		.byte $5a,$32,$20
-	Player2_score:
+	Player2_score: //206b
 		.byte $30,$30,$30,$30,$30
 		// spaces upto high score
 		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 		//hi
 		.byte $6e,$20
-	High_score:
+	High_score: // 207b
 		.byte $0c,$0c,$01,$0d,$01
 		//spaces to end line 4
 		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 
 ScreenHeaderColour: // 100bytes data colours
-	.byte $05,$05,$05,$00,$00,$00,$00,$00
-	.byte $00,$00,$00,$03,$03,$03,$03,$03
-	.byte $00,$00,$00,$00,$00,$04,$04,$04
+	.byte $05,$05,$05
+	.byte $00,$00,$00,$00,$00,$00,$00,$00,$03,$03,$03,$03,$03,$00,$00,$00,$00,$00
+	.byte $04,$04,$04
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
-	.byte $00,$00,$00,$00,$03,$03,$03,$03
+	.byte $00,$00,$00,$00,$03
+	.byte $03,$03,$03
 	.byte $03,$00,$00,$00,$00,$00,$00,$00
 	.byte $00,$00,$03,$03,$00,$01,$01,$01
 	.byte $01,$01,$00,$00,$00,$00,$00,$00
@@ -851,21 +852,30 @@ SUBROUTINE__25A0_2E8F_OK:
 	lda #$02
 	sta $2608 
 	rts 
-
+	//25dc
 	.byte $00,$00,$00,$00
 
 	JUMP_BRANCH_25E0_28D8_OK:
 
 	jsr SUBROUTINE__2510_25E0_OK
 	jmp JUMP_BRANCH_2620_25E3_OK
+	//25e6
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
+	//25ee
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
+	//25f6
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
+	//25fe
 	.byte $00,$04,$A6,$10,$50,$00
+	//2604
 	.byte $00,$00,$00,$00,$07
+	//2609
 	.byte $4B,$4C,$4D,$4E
+	//260d
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
+	//2615
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
+	//26d1
 	.byte $00,$00,$00
 
 	JUMP_BRANCH_2620_25E3_OK:
@@ -1775,12 +1785,11 @@ SUBROUTINE__2B2B_2AD6_OK:
 
 		ldx #$08
 		ldy #$00
-		BRANCH_LOOP__2BDB_2BDC_OK:
-			BRANCH_LOOP__2BDB_2BDF_OK:
+		!DelayLoop:
 				dey 
-				bne BRANCH_LOOP__2BDB_2BDC_OK
+				bne !DelayLoop-
 			dex 
-			bne BRANCH_LOOP__2BDB_2BDF_OK
+			bne !DelayLoop-
 		lda $1F 
 		and #$07
 		sta ($01),Y 
@@ -2343,7 +2352,7 @@ JUMP_BRANCH_2F55_2F30_OK:
 	ldy #$00
 	ldx #$05
 
-	BRANCH_LOOP__2F59_2F67_OK:
+	BRANCH_LOOP__2F59_2F67_OK:  //??? Check High Score ???
 
 		lda $1035,Y 
 		cmp $207B,Y 

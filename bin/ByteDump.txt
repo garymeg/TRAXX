@@ -3678,7 +3678,7 @@
 2141: a2 18     -         ldx #GAMESETTINGS.GridHeight		// Height of grid in chars
 2143: a5 04     -         lda $04 
 2145: 18        -         clc 
-2146: 69 19     -         adc #GAMESETTINGS.MOVE_CURSOR_UP_OR_DOWN
+2146: 69 19     -         adc #GAMESETTINGS.MOVE_POSITION_UP_OR_DOWN
 2148: 85 04     -         sta $04 
 214a: a5 05     -         lda $05 
 214c: 69 00     -         adc #$00
@@ -4859,10 +4859,10 @@
 2bd5: 85 1f     -         sta $1F 
 2bd7: a2 08     - BRANCH_LOOP__2BD7_2BEE_OK:ldx #$08
 2bd9: a0 00     -         ldy #$00
-2bdb: 88        - BRANCH_LOOP__2BDB_2BDC_OK,BRANCH_LOOP__2BDB_2BDF_OK:dey 
-2bdc: d0 fd     -         bne BRANCH_LOOP__2BDB_2BDC_OK
+2bdb: 88        -         dey 
+2bdc: d0 fd     -         bne !DelayLoop-
 2bde: ca        -         dex 
-2bdf: d0 fa     -         bne BRANCH_LOOP__2BDB_2BDF_OK
+2bdf: d0 fa     -         bne !DelayLoop-
 2be1: a5 1f     -         lda $1F 
 2be3: 29 07     -         and #$07
 2be5: 91 01     -         sta ($01),Y 

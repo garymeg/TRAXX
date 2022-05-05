@@ -146,6 +146,7 @@ PAGE0:
         .label      ROBUF            = $F9   //         Decimal >       249 - 250
         .label      FREKZP           = $FB   //         Decimal >       251 - 254
         .label      BASZPT           = $FF   //         Decimal >       255
+
         }
 BKSHARED:
     {
@@ -286,7 +287,13 @@ VIA:
         .label      VIA2IER          = $912E // Interrupt enable register (IER).        Decimal >       37166
         .label      VIA2PA2          = $912F // This register is a mirror of port A I/O register at 37153 ($9121), except that the CAl and CA2 control lines are not affected when you use this reflection.        Decimal >       37167
     }       
-
+DISPLAY:
+    {
+        .label      SCREEN           = $1E00 // Screen map RAM on VIC-20 with only 3K expansion.
+        .label      SCREENX          = $1000 // Screen map RAM on VIC-20 with 8K or more expansion. Also called the video matrix, the screen map is managed by the Keral screen editor using the table at 217 ($D9).
+        .label      COLORMAPX        = $9400 // Screen color map (8K+ expanded VIC-20). Bits 4-7 = not there Bit 3 = multicolor if set to 1 or normal if set to 0 Bits 0-2 = foreground color value 0-7
+        .label      COLORMAP         = $9600 // Screen color map (unexpanded or 3K expanded VIC-20). Please see location 37888-38399 ($9400-$95FF) for a complete description of the use of both VIC-20 color maps.
+    } 
 BASIC:      
     {       
         .label      COLDST           = $C000 //         Decimal >       49152

@@ -1,9 +1,12 @@
+
+#import "Vic20MemoryMap.asm"
+
 // Character set @ $1200
 
 GAMESETTINGS:
     {
-        .label Screen                       = $1000
-        .label ScreenColour                 = $9400
+        .label Screen                       = DISPLAY.SCREENX
+        .label ScreenColour                 = DISPLAY.COLORMAPX
         .label UNUSED_BASIC_RAM             = $12BC
         .label GridStart                    = $1064
         .label GridRows                     = $08

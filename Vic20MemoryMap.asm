@@ -1,3 +1,4 @@
+#importonce
 //            Vic20 MEMORY NAME
 //            Put together by
 //            Gary Metheringham
@@ -14,7 +15,8 @@
 //              BASICSPILL  = $E000 - E49F            Decimal >       57344
 //              KERNAL      = $E4A0 - FFFF            Decimal >       58528
 
-PAGE0:
+
+PAGE0: // Zero Page Named
     {
         .label      USRPOK           = $0    // The INITBA routine initializes this location during power-on\/reset.        Decimal >       0
         .label      ADDPRC           = $1    // The USR jump vector in LSB/MSB (displacement/page) form.        Decimal >       1-2
@@ -54,45 +56,45 @@ PAGE0:
         .label      INPPTR           = $43   // Current BASIC variable name with type flags.        Decimal >       67 - 68
         .label      VARNAM           = $45   // Pointer to the descriptor of the current BASIC variable.        Decimal >       69 - 70
         .label      VARPNT           = $47   // Pointer to BASIC variable used in FOR loop.        Decimal >       71 - 72
-        .label      FORPNT           = $49   //         Decimal >       73 - 74
-        .label      OPPTR            = $4B   //         Decimal >       75 - 76
-        .label      OPMASK           = $4D   //         Decimal >       77
-        .label      DEFPNT           = $4E   //         Decimal >       78 - 79
-        .label      DSCPNT           = $50   //         Decimal >       80 - 81
-        .label      SIZE             = $52   //         Decimal >       82
-        .label      FOUR6            = $53   //         Decimal >       83
-        .label      JMPER            = $54   //         Decimal >       84 - 86
-        .label      TEMPF3           = $57   //         Decimal >       87 - 96
-        .label      FAG              = $61   //         Decimal >       97 - 102
-        .label      SGNFLG           = $67   //         Decimal >       103
-        .label      BITS             = $68   //         Decimal >       104
-        .label      ARG              = $69   //         Decimal >       105 - 110
-        .label      ARGEXP           = $69   //         Decimal >       105 - 110
-        .label      FAC2             = $69   //         Decimal >       105 - 110
-        .label      ARISGN           = $6F   //         Decimal >       111
-        .label      FACOV            = $70   //         Decimal >       112
+        .label      FORPNT           = $49   // Pointer to BASIC variable used in FOR loop. These locations are also used by many routines for other purposes.        Decimal >       73 - 74
+        .label      OPPTR            = $4B   // Math operator displacement/INPUT TXTPTR. These locations serve as the displacement of the current math operator in a table during formula evaluation. The math operator table is at location 49280 ($C080).        Decimal >       75 - 76
+        .label      OPMASK           = $4D   // Comparison desired mask. This location's value is created by the expression evaluator rou tine FRMVL. A value of 1 indicates a greater-than check, 2 signifies an equals check, and 4 flags a less-than check. They may be used in combination by adding the values. See also location 18 ($12).        Decimal >       77
+        .label      DEFPNT           = $4E   // Pointer to current FN descriptor in variable storage. DEF FN uses this location as a pointer to the descriptor created. During FN, this is a pointer to the FN descriptor used to save the evaluation results. This is also a work pointer for garbage collection.        Decimal >       78 - 79
+        .label      DSCPNT           = $50   // Pointer to the current string descriptor. This location is used and set by the string assignment and handling routines. Location 82 ($52) is related to this location.        Decimal >       80 - 81
+        .label      SIZE             = $52   // Length of the current BASIC string. See location 80 ($50).        Decimal >       82
+        .label      FOUR6            = $53   // Constant, set at either 3 or 7, for garbage collection. Used to instruct garbage collection routines whether a three- or seven-byte string descriptor is being collected.      Decimal >       83
+        .label      JMPER            = $54   // BASIC numeric work area. Another busy work area for BASIC. Because so many BASIC routines use and overlay this area, none of it can be assumed to con tain any specific data at any one time.        Decimal >       84 - 86
+        .label      TEMPF3           = $57   // BASIC floating point accumulator one. 97 $61 FACEXP Exponent of the value + 128. • 98-101 $62-65 FACHO Normalized mantissa of the value. • 102 $66 FACSGN Sign: 0=positive, 128-255 ($80-FF)=negative       Decimal >       87 - 96
+        .label      FAG              = $61   // BASIC series evaluation number of items. This location is used by the mathematical formula evaluation routine to indicate the number of evaluations to be done. A complex formula may need several levels of evaluation of terms before themfinal result can be determined. This location contains the number of terms to be resolved.        Decimal >       97 - 102
+        .label      SGNFLG           = $67   // High order FAC propagation word. Overflow. Overflow work area byte resulting from normalization of FAC when a floating point number is being constructed.        Decimal >       103
+        .label      BITS             = $68   // BASIC floating point accumulator two. Appendix B has a full description of each of the floating point accumulators, as well as an explanation of floating point numbers and conversion.        Decimal >       104
+        .label      ARG              = $69   // FAC to FAC2 sign comparison. This is used to indicate the difference or likeness of signs. 0 in this address means FAC and FAC2 have same sign, while a value of 225 ($FF) means their signs are different. Along with locations 112-114 ($70-72), this address is used as a work area for string handling routines. Locations 111-112 ($6F-$70) are also used as a pointer to a string.        Decimal >       105 - 110
+        .label      ARGEXP           = $69   // Low order of FAC mantissa for rounding. With location 111 ($6F), this location is used by string handlers as a pointer to string.        Decimal >       105 - 110
+        .label      FAC2             = $69   // Series evaluation pointer. This is a pointer to the table of constants for the trigonometric function being evaluated by the formula evaluation routines. For this, the location will point somewhere within the tables starting at 58171 ($E33B), 55745 ($D9C1), 57284 ($DFC4), or 58092 ($E2EC).        Decimal >       105 - 110
+        .label      ARISGN           = $6F   //        Decimal >       111
+        .label      FACOV            = $70   //        Decimal >       112  
         .label      FBUFPT           = $71   //         Decimal >       113 - 114
-        .label      CHRGET           = $73   //         Decimal >       115 - 120
-        .label      CHRGOT           = $79   //         Decimal >       121
-        .label      TXTPTR           = $7A   //         Decimal >       122 - 138
-        .label      RNDCl            = $8B   //         Decimal >       139 - 143
-        .label      STATUS           = $90   //         Decimal >       144
-        .label      STKEY            = $91   //         Decimal >       145
-        .label      SVXT             = $92   //         Decimal >       146
-        .label      VERCK            = $93   //         Decimal >       147
-        .label      C3PO             = $94   //         Decimal >       148
-        .label      BSOUR            = $95   //         Decimal >       149
-        .label      SYNO             = $96   //         Decimal >       150
-        .label      XSAV             = $97   //         Decimal >       151
-        .label      LDTND            = $98   //         Decimal >       152
-        .label      DFLTN            = $99   //         Decimal >       153
-        .label      DFLTO            = $9A   //         Decimal >       154
-        .label      PRTY             = $9B   //         Decimal >       155
-        .label      DPSW             = $9C   //         Decimal >       156
-        .label      MSGFLG           = $9D   //         Decimal >       157
-        .label      PTR1             = $9E   //         Decimal >       158
-        .label      PTR2             = $9F   //         Decimal >       159
-        .label      TIME             = $A0   //         Decimal >       160 - 162
+        .label      CHRGET           = $73   // // Get-BASIC-character routine; This routine is used to scan BASIC lines or any other area that a calling routine desires by setting TXTPTR. Either the next character or the current character can be retrieved,        Decimal >       115 - 120
+        .label      CHRGOT           = $79   // // Get-BASIC-character routine; This routine is used to scan BASIC lines or any other area that a calling routine desires by setting TXTPTR. Either the next character or the current character can be retrieved,        Decimal >       121
+        .label      TXTPTR           = $7A   // // Get-BASIC-character routine; This routine is used to scan BASIC lines or any other area that a calling routine desires by setting TXTPTR. Either the next character or the current character can be retrieved,        Decimal >       122 - 138
+        .label      RNDCl            = $8B   // BASIC RND work area, last random number, or initial seed. This routine is initialized at power-on/reset, along with the CHRGET routine, from a master copy in ROM. The copying of this area to zero page is done by the routine INITBA at location 58276 ($E3A4). The initial value of this location is .811635157,        Decimal >       139 - 143
+        .label      STATUS           = $90   // ST status of I/O completion. Kernal routines that open channels or perform input/output P"] functions check and set this location. When BASIC examines this status or sets the ST variable for the programmer to examine, a jump is made to the Kernal vector CRDST.         Decimal >       144
+        .label      STKEY            = $91   // Keyswitch PIA: bottom keyboard row scan. Each time the jiffy clock TIME is updated by the Kernal, the contents of VIA2PA2 (VIA 2-Port A) are copied to this location.        Decimal >       145
+        .label      SVXT             = $92   // Tape: 0/1 bit timebase fluctuation during read operations. This location stores the difference between the actual time for  the dipole just read and the adjustable timebase. This determines whether a dipole is considered to be 0 or 1.      Decimal >       146
+        .label      VERCK            = $93   // Tape: 0=LOAD, 1=VERIFY        Decimal >       147
+        .label      C3PO             = $94   // Serial: output deferred character flag. This location is used by the Kernal serial output routines to determine when to send the buffered output serial character stored in location 149 ($95).        Decimal >       148
+        .label      BSOUR            = $95   // Serial: output buffered character. A value of 255 ($FF) in this location indicates that no character is waiting for serial output.        Decimal >       149
+        .label      SYNO             = $96   // Tape: block found flag, tape leader length bit count. This location's values indicate during tape LOAD that: • 0: either no block is recognized yet or a block is recognized and data is being read from that block. • 16-126: has read at least 16 leader bits during read of the tape leader either before the first block or between blocks 1 and 2, and is now waiting for the word marker at the end of the leader.        Decimal >       150
+        .label      XSAV             = $97   // .X register SAVE area for get and put ASCII characters routines. 158 ($9E) is also used by output routines. The INITEM routine uses this location to test for the start of  RAM and to insure that locations 0-1024 are accessible.       Decimal >       151
+        .label      LDTND            = $98   // Number of currently open files, not to exceed ten. ) This is used as an end index for the last-used entry in the file, device number, and secondary address data tables, found at the following locations: 601 ($259) LAT File number table 611 ($263) FAT Device number table 621 ($26D) SAT Secondary address table        Decimal >       152
+        .label      DFLTN            = $99   // Device number of the current input device. Used by the Kernal to determine the routines called for processing the received data. VIC-20 devices are: 0 keyboard, 1 tape, 2 RS-232/user port, 3 screen, 4-5 printer, 8-11 disk Device numbers, 4-31 could be any serial device.        Decimal >       153
+        .label      DFLTO            = $9A   //Device number of output device. BASIC passes the file number to the Kernal when PRINT# or CMD causes an indirect jump via the vector at 800 ($320) to 62217 ($F309), open-channel-for-output.         Decimal >       154
+        .label      PRTY             = $9B   // Tape: character parity. This location is used to help detect missing dropped bits in tape data. It's also a parity work byte during tape load and save, with bit 0 used to calculate parity. Odd parity is used when the parity bits' total number of l's, for all 8 data bits, is an odd number.        Decimal >       155
+        .label      DPSW             = $9C   // Tape: dipole switch/byte-received flag. During tape load, the following values in this location mean that: 1: a byte has been completely received. 0: the computer is waiting for the next byte or is still receiving a byte.        Decimal >       156
+        .label      MSGFLG           = $9D   // Kernal message control flag. The following values in this location signify: 128 ($80) = Kernal control messages wanted 64 ($40) = Kernal error messages wanted 192 ($C0) = Kernal control and error messages wanted If bit 7 is off, no Kernal control messages, such as SAVING, FOUND, PRESS PLAY, and so on, will be shown on the screen. I I If bit 6 is off, no Kernal I/O ERROR number messages will be displayed.        Decimal >       157
+        .label      PTR1             = $9E   //Tape: error log index/filename index/header I.D./out byte. This location is used by various tape routines for several purposes: Tape SAVE. Temporary storage for tape I.D. header. The header values are: 1 = relocatable, 2 = user data record, 3 = nonrelocatable, 4 = user data header, 5 = end of tape         Decimal >       158
+        .label      PTR2             = $9F   // Tape: pass 2 error pointer/tape buffer filename index. This location is also used for several tape routine operations, such as: | I Tape LOAD. Pass 2 error correction index, and indexes — through stack error location address. This is limited to a value no greater than the pass 1 error correction index. See 158 ($9E).        Decimal >       159
+        .label      TIME             = $A0   // Jiffy clock, realtime clock. These locations keep a count of the jiffies, one-sixtieths of a second, since power-on. They're reset to zero after 24 hours. Tape I/O interferes with both accurate clocking and testing of the STOP key; but serial I/O interference, from the disk drive or a printer, for example, is negligible. The individual locations in this routine have these functions: 160 ($A0) is incremented every 18.2044 minutes 161 ($A1) every 4.26667 seconds 162 ($A2) every .01667 second (one jiffy])        Decimal >       160 - 162
         .label      PCNTR            = $A3   //         Decimal >       163
         .label      FIRT             = $A4   //         Decimal >       164
         .label      CNTDN            = $A5   //         Decimal >       165
@@ -148,7 +150,7 @@ PAGE0:
         .label      BASZPT           = $FF   //         Decimal >       255
 
         }
-BKSHARED:
+BKSHARED: //Routines used by basic and Kernal
     {
         .label      BUF              = $200  // 89-byte BASIC input^ buffer.        Decimal >       512 - 600
         .label      LAT              = $259  // Open logical file number table. Ten one-byte entries.        Decimal >       601 - 610
@@ -233,7 +235,7 @@ BKSHARED:
         .label      CASEL            = $8800 // Lowercase and uppercase nonreversed screen character map. This section of 1024 bytes describes the 128 lowercase and uppercase character set when both the RVSOFF and the SHIFT/Commodore key combination are in effect.        Decimal >       34816 - 35839
         .label      CASELRV          = $8C00 // Reversed lowercase and uppercase screen character map. These 1024 bytes describe the 128 reversed lowercase and uppercase character set when the RVSON and SHIFT/Commodore key combination are in effect. The pixel maps are in the same order as the character pixel maps at 34816 ($8800), but each bit is reversed. (Previously on bits are instead set to 0, or off.)        Decimal >       35840 - 36863
     }
-VIC:    
+VIC: // Screen related settings 
     {   
         .label      VICCR0           = $9000 // Left edge of TV picture and interlace switch. Bit 7: Interlace scan bit. Default value: 0. When set to 1, this bit causes every other full sweep of the TV to be skipped.         Decimal >       36864
         .label      VICCR1           = $9001 // Bits 7-0: Vertical TV picture origin.        Decimal >       36865
@@ -252,7 +254,7 @@ VIC:
         .label      VICCRE           = $900E // Sound volume and auxiliary color.        Decimal >       36878
         .label      VICCRF           = $900F // Background color, border color, inverse color switch.        Decimal >       36879
     }   
-VIA:    
+VIA:   // I/O (Vircitile Interface Adaptor) Settings and Registers 
     {   
         .label      VIA1PB           = $9110 // Port B I/O register.        Decimal >       37136
         .label      VIA1PA1          = $9111 // Port A I/O register.        Decimal >       37137
@@ -287,14 +289,14 @@ VIA:
         .label      VIA2IER          = $912E // Interrupt enable register (IER).        Decimal >       37166
         .label      VIA2PA2          = $912F // This register is a mirror of port A I/O register at 37153 ($9121), except that the CAl and CA2 control lines are not affected when you use this reflection.        Decimal >       37167
     }       
-DISPLAY:
+DISPLAY: // Screen/colour locations Names ending X are 8K+ Expanded Vic20
     {
         .label      SCREEN           = $1E00 // Screen map RAM on VIC-20 with only 3K expansion.
         .label      SCREENX          = $1000 // Screen map RAM on VIC-20 with 8K or more expansion. Also called the video matrix, the screen map is managed by the Keral screen editor using the table at 217 ($D9).
         .label      COLORMAPX        = $9400 // Screen color map (8K+ expanded VIC-20). Bits 4-7 = not there Bit 3 = multicolor if set to 1 or normal if set to 0 Bits 0-2 = foreground color value 0-7
         .label      COLORMAP         = $9600 // Screen color map (unexpanded or 3K expanded VIC-20). Please see location 37888-38399 ($9400-$95FF) for a complete description of the use of both VIC-20 color maps.
     } 
-BASIC:      
+BASIC: // Basic Pointers and routines      
     {       
         .label      COLDST           = $C000 //         Decimal >       49152
         .label      WARMST           = $C002 //         Decimal >       49154
@@ -522,7 +524,7 @@ BASIC:
         .label      WARMBAS          = $E467 //         Decimal >       58471
         .label      PATCHER          = $E476 //         Decimal >       58486
     }       
-KERNAL:     
+KERNAL: //Kernal Pointers and routines    
     {       
         .label      SEROUT1          = $E4A0 //         Decimal >       58528
         .label      SEROUTO          = $E4A9 //         Decimal >       58537

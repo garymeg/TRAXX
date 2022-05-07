@@ -30,78 +30,81 @@
 	sta VIC.VICCR1
     // set number of columns for the screen
 	// bits 6-0 screen width in chars default is 22
-	lda #25
+	lda #%00011001
 	sta VIC.VICCR2 
 	// set left side position of screen
 	// bit 7 interlaced mode on/off
 	// bit 6-0 left edge position default 5
-	lda #$09
+	lda #%00001001
 	sta VIC.VICCR0
 
 
 	jsr DrawScreenHeader
 	jmp RunTitleScreen													//jump 1
 
-ScreenHeader: // 100 bytes data showing high score
-	P1_Lives: //2025
-		.byte $4b,$4b,$4b
-		//Spaces 2028
-		.byte $20,$20,$20,$20,$20
-		.byte $20,$20,$20
-	Traxx_logo_top: //2049
-		.byte $41,$42,$43,$44,$45
-		//Spaces
-		.byte $20,$20,$20,$20,$20
-	P2_Lives: //203a
-		.byte $4b,$4b,$4b
-		//Spaces (upto Traxx logo bottom)
-		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20
-	Traxx_logo_bottom: //2049
-		.byte $46,$47,$48,$49,$4a
-		//Spaces (upto end of line 2)
-		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
-		//pl1
-		.byte $5a,$31,$20
-	Player1_score: //205a
-		.byte $30,$30,$30,$30,$30
-		//Spaces between scores
-		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
-		//pl2
-		.byte $5a,$32,$20
-	Player2_score: //206b
-		.byte $30,$30,$30,$30,$30
-		// spaces upto high score
-		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
-		//hi
-		.byte $6e,$20
-	High_score: // 207b
-		.byte $0c,$0c,$01,$0d,$01
-		//spaces to end line 4
-		.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
-
-ScreenHeaderColour: // 100bytes data colours
-	.byte $05,$05,$05
-	.byte $00,$00,$00,$00,$00,$00,$00,$00,$03,$03,$03,$03,$03,$00,$00,$00,$00,$00
-	.byte $04,$04,$04
-	.byte $00,$00,$00,$00,$00,$00,$00,$00
-	.byte $00,$00,$00,$00,$03
-	.byte $03,$03,$03
-	.byte $03,$00,$00,$00,$00,$00,$00,$00
-	.byte $00,$00,$03,$03,$00,$01,$01,$01
-	.byte $01,$01,$00,$00,$00,$00,$00,$00
-	.byte $00,$00,$00,$03,$03,$00,$01,$01
-	.byte $01,$01,$01,$00,$00,$00,$00,$00
-	.byte $00,$00,$00,$00,$01,$00,$03,$03
-	.byte $03,$03,$03,$00,$00,$00,$00,$00
-	.byte $00,$00,$00,$00
+Memory1:
+	{
+	ScreenHeader: // 100 bytes data showing high score
+		P1_Lives: //2025
+			.byte $4b,$4b,$4b
+			//Spaces 2028
+			.byte $20,$20,$20,$20,$20
+			.byte $20,$20,$20
+		Traxx_logo_top: //2049
+			.byte $41,$42,$43,$44,$45
+			//Spaces
+			.byte $20,$20,$20,$20,$20
+		P2_Lives: //203a
+			.byte $4b,$4b,$4b
+			//Spaces (upto Traxx logo bottom)
+			.byte $20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20
+		Traxx_logo_bottom: //2049
+			.byte $46,$47,$48,$49,$4a
+			//Spaces (upto end of line 2)
+			.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
+			//pl1
+			.byte $5a,$31,$20
+		Player1_score: //205a
+			.byte $30,$30,$30,$30,$30
+			//Spaces between scores
+			.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
+			//pl2
+			.byte $5a,$32,$20
+		Player2_score: //206b
+			.byte $30,$30,$30,$30,$30
+			// spaces upto high score
+			.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
+			//hi
+			.byte $6e,$20
+		High_score: // 207b
+			.byte $0c,$0c,$01,$0d,$01
+			//spaces to end line 4
+			.byte $20,$20,$20,$20,$20,$20,$20,$20,$20
+	
+	ScreenHeaderColour: // 100bytes data colours
+		.byte $05,$05,$05
+		.byte $00,$00,$00,$00,$00,$00,$00,$00,$03,$03,$03,$03,$03,$00,$00,$00,$00,$00
+		.byte $04,$04,$04
+		.byte $00,$00,$00,$00,$00,$00,$00,$00
+		.byte $00,$00,$00,$00,$03
+		.byte $03,$03,$03
+		.byte $03,$00,$00,$00,$00,$00,$00,$00
+		.byte $00,$00,$03,$03,$00,$01,$01,$01
+		.byte $01,$01,$00,$00,$00,$00,$00,$00
+		.byte $00,$00,$00,$03,$03,$00,$01,$01
+		.byte $01,$01,$01,$00,$00,$00,$00,$00
+		.byte $00,$00,$00,$00,$01,$00,$03,$03
+		.byte $03,$03,$03,$00,$00,$00,$00,$00
+		.byte $00,$00,$00,$00
+	}
 DrawScreenHeader:
 	// draw first 100 bytes (top 4 lines) to form screen headder
-	ldy #$64
+	ldy #GAMESETTINGS.ScreenRow * 4
 	// loop round untill all 100 chars are on screen
 	!DrawLoop:
-		lda ScreenHeader-1,Y 
+		lda Memory1.ScreenHeader-1,Y 
 		sta GAMESETTINGS.Screen-1,Y 
-		lda ScreenHeaderColour-1,Y 
+		lda Memory1.ScreenHeaderColour-1,Y 
 		sta GAMESETTINGS.ScreenColour -1,Y 
 		dey 
 		bne !DrawLoop-
@@ -111,57 +114,57 @@ DrawScreenHeader:
 	
 DrawGrid:
 	lda #>GAMESETTINGS.GridStart
-	sta $03 
-	sta $05 
+	sta PAGEZERO.ZP_POINTER_2 + 1 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 	lda #<GAMESETTINGS.GridStart
-	sta $02 
-	sta $04 
+	sta PAGEZERO.ZP_POINTER_2  
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
 	ldx #GAMESETTINGS.GridRows
 	!Col_Loop:
 		ldy #GAMESETTINGS.GridWidth-1
 		lda #CHAR.grid_hori
 		!Row_loop:
-			sta ($04),Y 
+			sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
 			dey 
 			bne !Row_loop-
 
 		lda #CHAR.grid_T_right
 		ldy #$00						// left start of grid
-		sta ($04),Y 
+		sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
 		lda #CHAR.grid_T_left
 		ldy #GAMESETTINGS.GridWidth   	// right end of grid in chars
-		sta ($04),Y
+		sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y
 		// skip down 4 rows to draw rest of side T-Pieces
 		clc 
-		lda $04 
-		adc #GAMESETTINGS.ScreenRowsx_4   	//4 screen lines
-		sta $04 
-		lda $05 
-		adc #$00   	// null for add carry
-		sta $05
+		lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
+		adc #GAMESETTINGS.ScreenRow * 4   	//4 screen lines
+		sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+		lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+		adc #GAMESETTINGS.CARRY   	// null for add carry
+		sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1
 		// loop back for next row in grid 
 		dex 
 		bne !Col_Loop-
 
-	lda $02 
-	sta $04 
-	lda $03 
-	sta $05 
+	lda PAGEZERO.ZP_POINTER_2  
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+	lda PAGEZERO.ZP_POINTER_2 + 1 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 	ldy #$00		// reset loop counter
 	!Col_Loop:
 		lda #CHAR.grid_T_down
-		sta ($04),Y 
+		sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
 		ldx #GAMESETTINGS.GridHeight		// Height of grid in chars
 		!Row_loop:
-			lda $04 
+			lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
 			clc 
 			adc #GAMESETTINGS.MOVE_POSITION_UP_OR_DOWN
-			sta $04 
-			lda $05 
-			adc #$00
-			sta $05 
+			sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+			lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+			adc #GAMESETTINGS.CARRY
+			sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 			lda #CHAR.grid_vert
-			sta $06 
+			sta PAGEZERO.ZP_POINTER_6  
 			jsr DrawCrossJunctions
 			nop 
 			nop 
@@ -170,17 +173,17 @@ DrawGrid:
 			nop 
 			nop 
 			nop 
-			lda $06 
-			sta ($04),Y 
+			lda PAGEZERO.ZP_POINTER_6  
+			sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
 			dex 
 			bne !Row_loop-
 
 		lda #CHAR.grid_T_up
-		sta ($04),Y 
-		lda $02 
-		sta $04 
-		lda $03 
-		sta $05
+		sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+		lda PAGEZERO.ZP_POINTER_2  
+		sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+		lda PAGEZERO.ZP_POINTER_2 + 1 
+		sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1
 		//Move over 4 chars 
 		iny 
 		iny 
@@ -193,11 +196,11 @@ DrawGrid:
 	lda #CHAR.grid_trc
 	//set to top right of grid
 	ldy #$00
-	sta ($02),Y
+	sta  (PAGEZERO.ZP_POINTER_2),Y
 	//move to top left of grid
 	ldy #GAMESETTINGS.GridWidth
 	lda #CHAR.grid_tlc
-	sta ($02),Y 
+	sta  (PAGEZERO.ZP_POINTER_2),Y 
 	lda #CHAR.grid_blc
 	ldy #$00
 	sta GAMESETTINGS.GridStart + (GAMESETTINGS.GridWidth * (GAMESETTINGS.GridHeight+1)),y
@@ -207,29 +210,29 @@ DrawGrid:
 	rts 
 	
 	DrawCrossJunctions:
-		lda ($04),Y 
+		lda  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
 		cmp #CHAR.grid_hori				// are we crossing a row?
 		bne NotCrossingRow	
 		lda #CHAR.grid_cross
-		sta $06 
+		sta PAGEZERO.ZP_POINTER_6  
 		rts 
 	NotCrossingRow:
 		cmp #CHAR.grid_T_right			// are we starting next horizontal row?
 		bne NotNextGridRow
-		sta $06 
+		sta PAGEZERO.ZP_POINTER_6  
 		rts 
 	NotNextGridRow:
 		cmp #CHAR.grid_T_left			// are we at end of grid row
 		bne NotEndGridRow
-		sta $06 
+		sta PAGEZERO.ZP_POINTER_6  
 	NotEndGridRow:
 		rts 
 		
 ClearPlayScreen:
 	lda #$10
-	sta $05 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 	lda #$64
-	sta $04 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
 	ldx #$1A
 	NotAtEndOfScreen:
 
@@ -241,28 +244,28 @@ ClearPlayScreen:
 			jsr Set_PlayScreenColour
 			cpy #$1A
 			bne CLR_PlayScreenLoop
-		lda $04 
+		lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
 		clc 
 		adc #$19
-		sta $04 
-		lda $05 
-		adc #$00
-		sta $05 
+		sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+		lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+		adc #GAMESETTINGS.CARRY
+		sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 		dex 
 		bne NotAtEndOfScreen
 	rts 
 	
 		Set_PlayScreenColour:
-			sta ($04),Y 
-			lda $05 
+			sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+			lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 			pha 
 			clc 
 			adc #$84
-			sta $05 
+			sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 			lda #$07    //colour yellow
-			sta ($04),Y 
+			sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
 			pla 
-			sta $05 
+			sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 			iny 
 			rts 
 
@@ -287,30 +290,30 @@ StartGamePlay:
 	jsr SUBROUTINE__2DDD_2215_OK
 	nop 
 	lda #$03
-	sta $0E 
-	sta $0F 
-	lda $0D 
-	sta $0D 
-	sta $08 
+	sta PAGEZERO. ZP_0E 
+	sta PAGEZERO. ZP_0F 
+	lda PAGEZERO. ZP_GameSpeed 
+	sta PAGEZERO. ZP_GameSpeed 
+	sta PAGEZERO.ZP_08 
 	jsr SUBROUTINE__2920_2225_OK
 	lda #$03
-	sta $14 
-	sta $13 
-	lda $05 
+	sta PAGEZERO. ZP_14 
+	sta PAGEZERO. ZP_13 
+	lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 	sta $2A 
 	lda #$10
-	sta $1B 
-	lda $19 
-	sta $19 
+	sta PAGEZERO. ZP_1A + 1 
+	lda PAGEZERO. ZP_Pursures 
+	sta PAGEZERO. ZP_Pursures 
 	lda #$00
 	sta PAGEZERO.ZP_completedBlk 
 	sta $18 
 	lda #$03
-	sta $20 
+	sta PAGEZERO. ZP_20 
 	lda #$1F
-	sta $21 
-	lda $19 
-	sta $00 
+	sta PAGEZERO. ZP_21 
+	lda PAGEZERO. ZP_Pursures 
+	sta PAGEZERO.ZP_POINTER_0
 	nop 
 	nop 
 	nop 
@@ -428,7 +431,7 @@ PursuerData:  //2300 - 238f
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
 
 InitilizePursuer:
-	lda $00 
+	lda PAGEZERO.ZP_POINTER_0
 	sta $FD 
 	LoopNumberOfPursuers:
 		ldx #$00
@@ -442,9 +445,9 @@ InitilizePursuer:
 			dey
 			bne LoopPursuerSettings
 		lda PursuerData,X 
-		sta $01 
+		sta PAGEZERO.ZP_POINTER_0 + 1 
 		lda PursuerData + 1,X 
-		sta $02 
+		sta PAGEZERO.ZP_POINTER_2  
 		jsr PlacePursuerOnScreen
 		jsr PlacePursuerSound
 		dec $FD 
@@ -457,10 +460,10 @@ PlacePursuerOnScreen:
 	tax 
 	lda PursuerData + $38,X 
 	sta ($01),Y 
-	lda $02 
+	lda PAGEZERO.ZP_POINTER_2  
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda #$03
 	sta ($01),Y 
 	pla 
@@ -501,24 +504,24 @@ PlacePursuerSound:
 
 SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	lda PursuerData,X 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda PursuerData + 1,X 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda #$00
-	sta $03 
+	sta PAGEZERO.ZP_POINTER_2 + 1 
 	clc 
 	lda ($01),Y 
 	and #$04
 	bne BRANCH_LOOP__2409_2403_OK
 	lda #$04
-	sta $03 
+	sta PAGEZERO.ZP_POINTER_2 + 1 
 	BRANCH_LOOP__2409_2403_OK:
 	lda PursuerData + 4,X 
 	sta ($01),Y 
-	lda $02 
+	lda PAGEZERO.ZP_POINTER_2  
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda PursuerData + 3,X 
 	sta ($01),Y 
 	JUMP_BRANCH_241A_2559_OK:
@@ -573,7 +576,7 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	adc #$19
 	sta PursuerData + 0,X 
 	lda PursuerData + 1,X 
-	adc #$00
+	adc #GAMESETTINGS.CARRY
 	sta PursuerData + 1,X 
 
 	JUMP_BRANCH_2468_2431_OK:
@@ -581,15 +584,15 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	JUMP_BRANCH_2468_2454_OK:
 
 	lda PursuerData + 0,X 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda PursuerData + 1,X 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda ($01),Y 
 	cmp #$50
 	beq BRANCH_LOOP__24D8_2476_OK
 	cmp #$51
 	beq BRANCH_LOOP__24D8_247A_OK
-	sta $04 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
 	txa 
 	pha 
 	ldy #$0C
@@ -598,7 +601,7 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	BRANCH_LOOP__2484_2491_OK:
 	
 		lda PursuerData + $48,X 
-		cmp $04 
+		cmp PAGEZERO.ZP_GRID_SCREEN_POINTER  
 		beq BRANCH_LOOP__2495_2489_OK
 		inx 
 		inx 
@@ -611,7 +614,7 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 
 	BRANCH_LOOP__2495_2489_OK:
 
-	stx $06 
+	stx PAGEZERO.ZP_POINTER_6  
 	pla 
 	tax 
 	lda #$03
@@ -620,11 +623,11 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	and #$01
 	beq BRANCH_LOOP__24A7_24A1_OK
 	lda #$01
-	sta $05 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 
 	BRANCH_LOOP__24A7_24A1_OK:
 
-	ldy $05 
+	ldy PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 
 	BRANCH_LOOP__24A9_24B9_OK:
 		JUMP_BRANCH_24A9_24D3_OK:
@@ -643,10 +646,10 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	txa 
 	pha 
 	lda PursuerData + 2,X 
-	sta $07 
-	lda $06 
+	sta PAGEZERO.ZP_POINTER_6 + 1 
+	lda PAGEZERO.ZP_POINTER_6  
 	clc 
-	adc $07 
+	adc PAGEZERO.ZP_POINTER_6 + 1 
 	tax 
 	lda PursuerData + $49,X 
 	cmp #$00
@@ -665,31 +668,31 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	BRANCH_LOOP__24D8_247A_OK:
 
 	lda PursuerData + 0,X 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda PursuerData + 1,X 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda ($01),Y 
 	sta PursuerData + 4,X 
 	txa 
 	pha 
 	lda PursuerData + 2,X 
 	clc 
-	adc $03 
+	adc PAGEZERO.ZP_POINTER_2 + 1 
 	tax 
 	lda PursuerData + $38,X 
 	sta ($01),Y 
 	pla 
 	tax 
-	lda $02 
+	lda PAGEZERO.ZP_POINTER_2  
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 
 	SUBROUTINE__24FF_3384_BAD:
 
 	lda ($01),Y 
 	sta PursuerData + 3,X 
-	lda $20 
+	lda PAGEZERO. ZP_20 
 	sta ($01),Y 
 	rts 
 
@@ -701,7 +704,7 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 	SUBROUTINE__2510_25E0_OK:
 
 	ldy #$00
-	lda $00 
+	lda PAGEZERO.ZP_POINTER_0 
 	sta $FD 
 
 	BRANCH_LOOP__2516_2523_OK:
@@ -719,7 +722,7 @@ SUBROUTINE__23F0_251E_OK:  // ???Move persuer???
 
 	JUMP_BRANCH_2526_28D1_OK:
 
-	dec $08 
+	dec PAGEZERO.ZP_08 
 	beq BRANCH_LOOP__252B_2528_OK
 	rts 
 
@@ -810,7 +813,7 @@ SUBROUTINE__2560_3079_OK:
 	tya 
 	ror  
 	eor #$8F
-	sta $0A 
+	sta PAGEZERO. JOYSTICK_DIR 
 	rts 
 
 	.byte $00,$00,$00,$00,$00,$00,$00,$00
@@ -822,9 +825,9 @@ JUMP_BRANCH_25A0_2E20_OK:
 SUBROUTINE__25A0_2E8F_OK:
 
 	lda #$C7
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda #$96
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	ldy #$05
 	lda #$02
 
@@ -833,9 +836,9 @@ SUBROUTINE__25A0_2E8F_OK:
 		sta ($01),Y 
 		dey 
 		bne BRANCH_LOOP__25AC_25AF_OK
-	inc $01 
-	inc $01 
-	lda $01 
+	inc PAGEZERO.ZP_POINTER_0 + 1 
+	inc PAGEZERO.ZP_POINTER_0 + 1 
+	lda PAGEZERO.ZP_POINTER_0 + 1 
 	sta $2600 
 	lda #$12
 	sta $2601 
@@ -846,7 +849,7 @@ SUBROUTINE__25A0_2E8F_OK:
 	lda #$00
 	sta $2604 
 	lda #$12
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda #$4C
 	sta ($01),Y 
 	lda #$02
@@ -882,9 +885,9 @@ SUBROUTINE__25A0_2E8F_OK:
 	JUMP_BRANCH_2620_2BB4_OK:
 
 	lda $2600 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda $2601 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	ldy #$00
 	lda ($01),Y 
 	ldx $2603 
@@ -895,20 +898,20 @@ SUBROUTINE__25A0_2E8F_OK:
 	BRANCH_LOOP__2639_2634_OK:
 
 	lda #$00
-	sta $0B 
+	sta PAGEZERO.ZP_0B 
 	lda $2602 
 	sta ($01),Y 
-	lda $02 
+	lda PAGEZERO.ZP_POINTER_2  
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda $2608 
 	sta ($01),Y 
 	lda $2602 
 	cmp #$50
 	bne BRANCH_LOOP__265C_2653_OK
 	lda #$03
-	sta $0B 
+	sta PAGEZERO.ZP_0B 
 	jmp JUMP_BRANCH_26A7_2659_OK
 
 	BRANCH_LOOP__265C_2653_OK:
@@ -916,7 +919,7 @@ SUBROUTINE__25A0_2E8F_OK:
 	cmp #$51
 	bne BRANCH_LOOP__2667_265E_OK
 	lda #$0C
-	sta $0B 
+	sta PAGEZERO.ZP_0B 
 	jmp JUMP_BRANCH_26A7_2664_OK
 
 	BRANCH_LOOP__2667_265E_OK:
@@ -942,32 +945,32 @@ SUBROUTINE__25A0_2E8F_OK:
 	lda PursuerData + $49,X 
 	beq BRANCH_LOOP__2686_267E_OK
 	lda #$01
-	ora $0B
-	sta $0B 
+	ora PAGEZERO.ZP_0B
+	sta PAGEZERO.ZP_0B 
 
 	BRANCH_LOOP__2686_267E_OK:
 
 	lda PursuerData + $4A,X 
 	beq BRANCH_LOOP__2691_2689_OK
 	lda #$08
-	ora $0B
-	sta $0B 
+	ora PAGEZERO.ZP_0B
+	sta PAGEZERO.ZP_0B 
 
 	BRANCH_LOOP__2691_2689_OK:
 
 	lda PursuerData + $4B,X 
 	beq BRANCH_LOOP__269C_2694_OK
 	lda #$02
-	ora $0B
-	sta $0B 
+	ora PAGEZERO.ZP_0B
+	sta PAGEZERO.ZP_0B 
 
 	BRANCH_LOOP__269C_2694_OK:
 
 	lda PursuerData + $4C,X 
 	beq BRANCH_LOOP__26A7_269F_OK
 	lda #$04
-	ora $0B
-	sta $0B 
+	ora PAGEZERO.ZP_0B
+	sta PAGEZERO.ZP_0B 
 
 	JUMP_BRANCH_26A7_2659_OK:
 	JUMP_BRANCH_26A7_2664_OK:
@@ -979,13 +982,13 @@ SUBROUTINE__25A0_2E8F_OK:
 	nop 
 	nop 
 	nop 
-	lda $0A 
+	lda PAGEZERO. JOYSTICK_DIR 
 	and #$0F
 	beq BRANCH_LOOP__272D_26B1_OK
-	lda $0A 
-	and $0B
-	sta $0B 
-	lda $0B 
+	lda PAGEZERO. JOYSTICK_DIR 
+	and PAGEZERO.ZP_0B
+	sta PAGEZERO.ZP_0B 
+	lda PAGEZERO.ZP_0B 
 	beq BRANCH_LOOP__272D_26BB_OK
 	and #$01
 	beq BRANCH_LOOP__26DB_26BF_OK
@@ -1006,7 +1009,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__26DB_26BF_OK:
 
-	lda $0B 
+	lda PAGEZERO.ZP_0B 
 	and #$08
 	beq BRANCH_LOOP__26F1_26DF_OK
 	inc $2600 
@@ -1021,7 +1024,7 @@ SUBROUTINE__25A0_2E8F_OK:
 
 	BRANCH_LOOP__26F1_26DF_OK:
 
-	lda $0B 
+	lda PAGEZERO.ZP_0B 
 	and #$02
 	beq BRANCH_LOOP__2710_26F5_OK
 	lda $2600 
@@ -1029,14 +1032,14 @@ SUBROUTINE__25A0_2E8F_OK:
 	adc #$19
 	sta $2600 
 	lda $2601 
-	adc #$00
+	adc #GAMESETTINGS.CARRY
 	sta $2601 
 	lda #$02
 	sta $2603 
 	jmp JUMP_BRANCH_272D_270D_OK
 
 	BRANCH_LOOP__2710_26F5_OK:
-	lda $0B 
+	lda PAGEZERO.ZP_0B 
 	and #$04
 	beq BRANCH_LOOP__272D_2714_OK
 	dec $2600 
@@ -1065,9 +1068,9 @@ SUBROUTINE__25A0_2E8F_OK:
 	ldy #$00
 	nop 
 	lda $2600 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda $2601 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda ($01),Y 
 	ldx #$08
 
@@ -1080,10 +1083,10 @@ SUBROUTINE__25A0_2E8F_OK:
 		dex 
 		bne BRANCH_LOOP__273E_2747_OK
 	sta $2602 
-	lda $02 
+	lda PAGEZERO.ZP_POINTER_2  
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda ($01),Y 
 	and #$07
 	cmp #$02
@@ -1126,11 +1129,11 @@ SUBROUTINE__25A0_2E8F_OK:
 	JUMP_BRANCH_2787_2770_OK:
 	BRANCH_LOOP__2787_2778_OK:
 
-	lda $09 
+	lda PAGEZERO.ZP_09 
 	nop 
 	sta ($01),Y 
 	lda $2601 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	ldx $2603 
 	lda $2609,X 
 	sta ($01),Y 
@@ -1231,11 +1234,11 @@ JUMP_BRANCH_2833_2873_OK:
 JUMP_BRANCH_2833_287B_OK:
 
 	lda $2600 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda $2601 
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	rts 
 
 BRANCH_LOOP__2841_2885_OK:
@@ -1257,9 +1260,9 @@ BRANCH_LOOP__2850_284B_OK:
 BRANCH_LOOP__2852_2867_OK:
 
 	lda $279E,X 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda $279F,X 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	ldy #$00
 	lda #$07
 	sta ($01),Y 
@@ -1288,9 +1291,9 @@ JUMP_BRANCH_2880_282B_OK:
 	cmp #$01
 	bne BRANCH_LOOP__2841_2885_OK
 	lda $27A0 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda $27A1 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	ldy #$00
 	lda #$07
 	sta ($01),Y 
@@ -1306,7 +1309,7 @@ SUBROUTINE__289A_28C2_OK:
 	ldx #$00
 	BRANCH_LOOP__28A2_28BB_OK:
 	lda PursuerData + 0,X 
-	cmp $01 
+	cmp PAGEZERO.ZP_POINTER_0 + 1 
 	bne BRANCH_LOOP__28B5_28A7_OK
 	jsr SUBROUTINE__29C6_28A9_OK
 	nop 
@@ -1337,34 +1340,34 @@ JUMP_BRANCH_28C2_2897_OK:
 
 SUBROUTINE__28C8_2250_OK:
 
-	dec $0F 
+	dec PAGEZERO. ZP_0F 
 	beq BRANCH_LOOP__28CD_28CA_OK
 	rts 
 
 	BRANCH_LOOP__28CD_28CA_OK:
-	lda $0E 
-	sta $0F 
+	lda PAGEZERO. ZP_0E 
+	sta PAGEZERO. ZP_0F 
 	jmp JUMP_BRANCH_2526_28D1_OK
 
 JUMP_BRANCH_28D4_252B_OK:
 
-	lda $0D 
-	sta $08 
+	lda PAGEZERO. ZP_GameSpeed 
+	sta PAGEZERO.ZP_08 
 	jmp JUMP_BRANCH_25E0_28D8_OK
 
 SUBROUTINE__28DB_249B_OK:
 
-	sta $05 
+	sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
 	lda VIC.VICCR4 
 	rts 
 
 SUBROUTINE__28E1_2256_OK:
-	dec $14 
+	dec PAGEZERO. ZP_14 
 	beq !skip+
 	rts 
 	!skip:
-	lda $13 
-	sta $14 
+	lda PAGEZERO. ZP_13 
+	sta PAGEZERO. ZP_14 
 	dec $10 
 	beq !skip+
 	rts
@@ -1378,21 +1381,21 @@ SUBROUTINE__28E1_2256_OK:
 	!skip:
 	ldy #$02
 	!loop:
-		inc $15 
+		inc PAGEZERO. ZP_15 
 		bne !skip+
-		inc $16 
+		inc PAGEZERO. ZP_15 + 1 
 		!skip:
 		dey 
 		bne !loop-
 	ldy #$00
-	lda ($15),Y 
+	lda (PAGEZERO. ZP_15),Y 
 	cmp #$FF
 	beq !skip+
 	sta VIC.VICCRC 
 	iny 
-	lda ($15),Y 
-	sta $13 
-	sta $14 
+	lda (PAGEZERO. ZP_15),Y 
+	sta PAGEZERO. ZP_13 
+	sta PAGEZERO. ZP_14 
 	lda #$0F
 	sta VIC.VICCRE 
 	rts 
@@ -1431,19 +1434,19 @@ SUBROUTINE__29C6_28A9_OK:
 	lda PursuerData + 1,X 
 	clc 
 	adc #$84
-	cmp $02 
+	cmp PAGEZERO.ZP_POINTER_2  
 	rts 
 
 	.byte $FF
 JUMP_BRANCH_29D0_2920_OK:
 	lda #$29
-	sta $15 
-	sta $16 
+	sta PAGEZERO. ZP_15 
+	sta PAGEZERO. ZP_15 + 1 
 	lda #$01
 	sta $10 
 	lda #$01
-	sta $13 
-	sta $14 
+	sta PAGEZERO. ZP_13 
+	sta PAGEZERO. ZP_14 
 	ldy #$00
 	lda #$01
 	sta VIC.VICCRE 
@@ -1474,7 +1477,7 @@ JUMP_BRANCH_29D0_2920_OK:
 		bne BRANCH_LOOP__29EA_2A0B_OK
 	rts 
 SUBROUTINE__2A0E_2259_OK:
-	lda $08 
+	lda PAGEZERO.ZP_08 
 	cmp #$01
 	beq BRANCH_LOOP__29E8_2A12_OK
 	rts 
@@ -1490,7 +1493,7 @@ SUBROUTINE__2A0E_2259_OK:
 			inc VIC.VICCRA 
 			inc VIC.VICCRD 
 			rts 
-			.byte $0F
+			.byte PAGEZERO. ZP_0F
 			sta VIC.VICCRE 
 			rts 
 			sta $9009,X 
@@ -1502,7 +1505,7 @@ SUBROUTINE__2A0E_2259_OK:
 			bne BRANCH_LOOP__2A17_2A38_BAD
 		rts 
 		SUBROUTINE__2A3B_225C_OK:
-		lda $08 
+		lda PAGEZERO.ZP_08 
 		nop 
 		nop 
 		cmp #$01
@@ -1514,7 +1517,7 @@ SUBROUTINE__2A0E_2259_OK:
 	sta VIC.VICCRA 
 	sta VIC.VICCRB 
 	ldy #$03
-	ldx $19 
+	ldx PAGEZERO. ZP_Pursures 
 	jsr SUBROUTINE__2A60_2A50_OK
 	inc PAGEZERO.ZP_completedBlk 
 	lda PAGEZERO.ZP_completedBlk 
@@ -1531,14 +1534,14 @@ SUBROUTINE__2A0E_2259_OK:
 		tya 
 		pha 
 		BRANCH_LOOP__2A62_2A74_OK:
-			lda ($1A),Y 
+			lda (PAGEZERO.ZP_1A),Y 
 			clc 
 			adc #$01
-			sta ($1A),Y 
+			sta (PAGEZERO.ZP_1A),Y 
 			cmp #$3A
 			bne BRANCH_LOOP__2A76_2A6B_OK
 			lda #$30
-			sta ($1A),Y 
+			sta (PAGEZERO.ZP_1A),Y 
 			dey 
 			cpy #$FF
 			bne BRANCH_LOOP__2A62_2A74_OK
@@ -1578,7 +1581,7 @@ SUBROUTINE__2A0E_2259_OK:
 	lda #$20
 	sta $18 
 	lda #$01
-	sta $20 
+	sta PAGEZERO. ZP_20 
 
 	BRANCH_LOOP__2AB3_2A8A_OK:
 	BRANCH_LOOP__2AB3_2A93_OK:
@@ -1596,19 +1599,19 @@ SUBROUTINE__2A0E_2259_OK:
 	cmp #$FF
 	bne BRANCH_LOOP__2AC4_2ABD_OK
 	lda #$03
-	sta $20 
+	sta PAGEZERO. ZP_20 
 	rts 
 
 	BRANCH_LOOP__2AC4_2ABD_OK:
 
 	cmp #$20
 	bne BRANCH_LOOP__2AD6_2AC6_OK
-	lda $21 
+	lda PAGEZERO. ZP_21 
 	sta $18 
 	lda #$90
 	sta VIC.VICCRC 
 	lda #$01
-	sta $13 
+	sta PAGEZERO. ZP_13 
 	rts 
 
 	BRANCH_LOOP__2AD6_2AC6_OK:
@@ -1619,13 +1622,13 @@ SUBROUTINE__2A0E_2259_OK:
 	rts 
 
 	BRANCH_LOOP__2AE1_2ADE_OK:
-	lda #$90
-	sta VIC.VICCRC 
+	lda #$90     //144
+	sta VIC.VICCRC //voice 3
 	dec $18 
 	lda #$01
-	sta $20 
+	sta PAGEZERO. ZP_20 
 	lda #$01
-	sta $20 
+	sta PAGEZERO. ZP_20 
 	lda $18 
 	cmp #$08
 	bne BRANCH_LOOP__2AFB_2AF4_OK
@@ -1634,7 +1637,7 @@ SUBROUTINE__2A0E_2259_OK:
 	BRANCH_LOOP__2AF6_2B01_OK:
 	BRANCH_LOOP__2AF6_2B05_OK:
 		lda #$06
-		sta $20 
+		sta PAGEZERO. ZP_20 
 		rts 
 
 		BRANCH_LOOP__2AFB_2AF4_OK:
@@ -1663,7 +1666,7 @@ SUBROUTINE__2B11_225F_OK:
 
 	BRANCH_LOOP__2B19_2B16_OK:
 	jmp JUMP_BRANCH_2AB6_2B19_OK
-	lda $08 
+	lda PAGEZERO.ZP_08 
 	cmp #$01
 	beq BRANCH_LOOP__2B23_2B20_OK
 	rts 
@@ -1723,13 +1726,13 @@ SUBROUTINE__2B2B_2AD6_OK:
 				bne BRANCH_LOOP__2B66_2B67_OK
 			nop 
 			nop 
-			dec $1F 
+			dec PAGEZERO. ZP_Speed 
 			bne BRANCH_LOOP__2B64_2B6D_OK
 		nop 
 		lda $2600 
-		sta $01 
+		sta PAGEZERO.ZP_POINTER_0 + 1 
 		lda $2601 
-		sta $02 
+		sta PAGEZERO.ZP_POINTER_2  
 		lda VIC.VICCRE 
 		and #$03
 		tax 
@@ -1738,7 +1741,7 @@ SUBROUTINE__2B2B_2AD6_OK:
 
 		lda $2609,X 
 		sta ($01),Y 
-		dec $1F 
+		dec PAGEZERO. ZP_Speed 
 		bne BRANCH_LOOP__2B80_2B87_OK
 		dec VIC.VICCRE 
 		bne BRANCH_LOOP__2B66_2B8C_OK
@@ -1767,20 +1770,20 @@ SUBROUTINE__2B2B_2AD6_OK:
 	JUMP_BRANCH_2BB7_2B4E_OK:
 	ldx $22 
 	lda $2600 
-	sta $01 
+	sta PAGEZERO.ZP_POINTER_0 + 1 
 	lda $2601 
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	ldy #$00
 	lda #$A0
 	clc 
 	adc $22 
 	sta ($01),Y 
-	lda $02 
+	lda PAGEZERO.ZP_POINTER_2  
 	clc 
 	adc #$84
-	sta $02 
+	sta PAGEZERO.ZP_POINTER_2  
 	lda #$80
-	sta $1F 
+	sta PAGEZERO. ZP_Speed 
 	BRANCH_LOOP__2BD7_2BEE_OK:
 
 		ldx #$08
@@ -1790,18 +1793,18 @@ SUBROUTINE__2B2B_2AD6_OK:
 				bne !DelayLoop-
 			dex 
 			bne !DelayLoop-
-		lda $1F 
+		lda PAGEZERO. ZP_Speed 
 		and #$07
 		sta ($01),Y 
-		lda $1F 
+		lda PAGEZERO. ZP_Speed 
 		sta VIC.VICCRC 
-		inc $1F 
+		inc PAGEZERO. ZP_Speed 
 		bne BRANCH_LOOP__2BD7_2BEE_OK
 	lda #$90
 	sta VIC.VICCRC 
 	jmp JUMP_BRANCH_2BA0_2BF5_OK
 	JUMP_BRANCH_2BF8_2508_OK:
-	lda $04 
+	lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
 	ldx #$04
 	BRANCH_LOOP__2BFC_2C02_OK:
 		cmp $2608,X 
@@ -1925,7 +1928,7 @@ SUBROUTINE__2C54_2D64_OK:
 	lda #$46
 	sta $1A 
 	BRANCH_LOOP__2CCA_2CC2_OK:
-	sty $09 
+	sty PAGEZERO.ZP_09 
 	rts 
 	nop 
 	nop 
@@ -1933,17 +1936,17 @@ SUBROUTINE__2C54_2D64_OK:
 
 	JUMP_BRANCH_2CD0_2D89_OK:
 	ldx #$05
-	lda $00 
-	sta $1F 
+	lda PAGEZERO.ZP_POINTER_0 
+	sta PAGEZERO. ZP_Speed 
 	ldy #$00
 
 	BRANCH_LOOP__2CD8_2CF1_OK:
 		lda PursuerData + 0,X 
-		sta $01 
+		sta PAGEZERO.ZP_POINTER_0 + 1 
 		lda PursuerData + 1,X 
 		clc 
 		adc #$84
-		sta $02 
+		sta PAGEZERO.ZP_POINTER_2  
 		lda PursuerData + 3,X 
 		sta ($01),Y 
 		inx 
@@ -1951,7 +1954,7 @@ SUBROUTINE__2C54_2D64_OK:
 		inx 
 		inx 
 		inx 
-		dec $1F 
+		dec PAGEZERO. ZP_Speed 
 		bne BRANCH_LOOP__2CD8_2CF1_OK
 
 	lda $29 
@@ -2056,7 +2059,7 @@ SUBROUTINE__2D70_2D3D_OK:
 	BRANCH_LOOP__2D7D_2DCD_BAD:
 	sta $3C03,X 
 	BRANCH_LOOP__2D80_2DDC_BAD:
-	lda $19 
+	lda PAGEZERO. ZP_Pursures 
 	BRANCH_LOOP__2D83_2DD2_BAD:
 
 	sta $3C02,X 
@@ -2076,7 +2079,7 @@ JUMP_BRANCH_2D8D_2D6C_OK:
 	BRANCH_LOOP__2D97_2D93_OK:
 
 	lda $3C02,X 
-	sta $19 
+	sta PAGEZERO. ZP_Pursures 
 	lda $3C03,X 
 
 	BRANCH_LOOP__2DA0_2DD7_BAD:
@@ -2113,16 +2116,16 @@ SUBROUTINE__2DDD_2E92_OK:
 	ldx #$05
 	ldy #$00
 	lda #$09
-	sta $1F 
+	sta PAGEZERO. ZP_Speed 
 
 	BRANCH_LOOP__2DF0_2E09_OK:
 
 		lda PursuerData + 0,X 
-		sta $01 
+		sta PAGEZERO.ZP_POINTER_0 + 1 
 		lda PursuerData + 1,X 
 		clc 
 		adc #$84
-		sta $02 
+		sta PAGEZERO.ZP_POINTER_2  
 		lda ($01),Y 
 		sta PursuerData + 3,X 
 		inx 
@@ -2130,13 +2133,13 @@ SUBROUTINE__2DDD_2E92_OK:
 		inx 
 		inx 
 		inx 
-		dec $1F 
+		dec PAGEZERO. ZP_Speed 
 		bne BRANCH_LOOP__2DF0_2E09_OK
 	jmp JUMP_BRANCH_2ED4_2E0B_OK
 
 SUBROUTINE__2E0E_220F_OK:
 
-	lda $19 
+	lda PAGEZERO. ZP_Pursures 
 	sta $3C12 
 	lda #$00
 	sta $3C13 
@@ -2169,10 +2172,11 @@ JUMP_BRANCH_2E38_2AB3_OK:
 	.byte $00
 
 FlashGridLevelComplete:
+
 	ldx #$10
 	LoopForAprox5Sec:
 		lda #$E0
-		sta $1F 
+		sta PAGEZERO. ZP_Speed 
 		!CycleThroughColours:
 			ldy #$00
 			!SetScreenColours:
@@ -2181,9 +2185,9 @@ FlashGridLevelComplete:
 				sta GAMESETTINGS.ScreenColour + $200,Y 
 				iny 
 				bne !SetScreenColours-
-			lda $1F 
+			lda PAGEZERO. ZP_Speed 
 			sta VIC.VICCRC 
-			inc $1F 
+			inc PAGEZERO. ZP_Speed 
 			bne !CycleThroughColours-
 
 		dex 
@@ -2195,7 +2199,7 @@ FlashGridLevelComplete:
 	sta $22 
 	lda #$00
 	sta PAGEZERO.ZP_completedBlk 
-	inc $00 
+	inc PAGEZERO.ZP_POINTER_0 
 	lda PAGEZERO.ZP_Pursures 
 	cmp #$0A							//Have We got to Level 10?
 	bne NotMaxPursures
@@ -2203,7 +2207,7 @@ FlashGridLevelComplete:
 	sta PAGEZERO.ZP_Pursures 
 	NotMaxPursures:
 	lda PAGEZERO.ZP_Pursures
-	sta $00 
+	sta PAGEZERO.ZP_POINTER_0 
 	lda #$00
 	sta VIC.VICCRC 
 	sta VIC.VICCRB 
@@ -2216,7 +2220,7 @@ FlashGridLevelComplete:
 	jmp MainGameLoop
 
 SUBROUTINE__2E9B_2262_OK:
-	lda $08 
+	lda PAGEZERO.ZP_08 
 	cmp #$01
 	beq BRANCH_LOOP__2EA2_2E9F_OK
 	rts 
@@ -2255,8 +2259,8 @@ SUBROUTINE__2E9B_2262_OK:
 
 JUMP_BRANCH_2ED4_2E0B_OK:
 
-	lda $19 
-	sta $00 
+	lda PAGEZERO. ZP_Pursures 
+	sta PAGEZERO.ZP_POINTER_0 
 	jmp JUMP_BRANCH_2F40_2ED8_OK
 
 SUBROUTINE__2EDB_2B54_OK:
@@ -2271,7 +2275,7 @@ SUBROUTINE__2EDB_2F99_OK:
 	sta VIC.VICCRC 
 	sta VIC.VICCRD 
 	lda #$03
-	sta $20 
+	sta PAGEZERO. ZP_20 
 	rts 
 
 JUMP_BRANCH_2EEE_2A7E_OK:
@@ -2303,9 +2307,9 @@ JUMP_BRANCH_2EFB_2C72_OK:
 		bne BRANCH_LOOP__2F08_2F0F_OK
 
 	lda #$FF
-	sta $1F 
+	sta PAGEZERO. ZP_Speed 
 	BRANCH_LOOP__2F15_2F2E_OK:
-		ldy $1F 
+		ldy PAGEZERO. ZP_Speed 
 		BRANCH_LOOP__2F17_2F18_OK:
 			BRANCH_LOOP__2F17_2F26_OK:
 				dex 
@@ -2318,8 +2322,8 @@ JUMP_BRANCH_2EFB_2C72_OK:
 			cpy #$80
 			bne BRANCH_LOOP__2F17_2F26_OK
 
-		dec $1F 
-		lda $1F 
+		dec PAGEZERO. ZP_Speed 
+		lda PAGEZERO. ZP_Speed 
 		cmp #$C0
 		bne BRANCH_LOOP__2F15_2F2E_OK
 
@@ -2334,13 +2338,13 @@ JUMP_BRANCH_2EFB_2C72_OK:
 
 JUMP_BRANCH_2F40_2ED8_OK:
 
-	lda $19 
+	lda PAGEZERO. ZP_Pursures 
 	asl  
-	sta $21 
+	sta PAGEZERO. ZP_21 
 	lda #$20
 	sec 
-	sbc $21 
-	sta $21 
+	sbc PAGEZERO. ZP_21 
+	sta PAGEZERO. ZP_21 
 	nop 
 	nop 
 	nop 
@@ -2428,19 +2432,19 @@ JUMP_BRANCH_2F55_2F30_OK:
 	pha 
 	tya 
 	pha 
-	lda $00 
-	sta $1F 
+	lda PAGEZERO.ZP_POINTER_0 
+	sta PAGEZERO. ZP_Speed 
 	ldx #$05
 	ldy #$00
 
 	BRANCH_LOOP__2FB2_2FCB_OK:
 
 		lda PursuerData + 0,X 
-		sta $01 
+		sta PAGEZERO.ZP_POINTER_0 + 1 
 		lda PursuerData + 1,X 
 		clc 
 		adc #$84
-		sta $02 
+		sta PAGEZERO.ZP_POINTER_2  
 		lda PursuerData + 3,X 
 		sta ($01),Y 
 		inx 
@@ -2448,7 +2452,7 @@ JUMP_BRANCH_2F55_2F30_OK:
 		inx 
 		inx 
 		inx 
-		dec $1F 
+		dec PAGEZERO. ZP_Speed 
 		bne BRANCH_LOOP__2FB2_2FCB_OK
 	pla 
 	tay 
@@ -2486,9 +2490,9 @@ DrawOptionsTitleScreen:
 		ldx #$05
 
 	LoopTraxxLogo:
-		lda Traxx_logo_top-1,X 
+		lda Memory1.Traxx_logo_top-1,X 
 		sta GAMESETTINGS.Screen + $B9,X 
-		lda Traxx_logo_bottom-1,x
+		lda Memory1.Traxx_logo_bottom-1,x
 		sta GAMESETTINGS.Screen + $D2,X 
 		dex 
 		bne LoopTraxxLogo
@@ -2550,7 +2554,7 @@ RunTitleScreen:
 			cpx #$08
 			bne !NextFlashColour-
 		jsr SUBROUTINE__2560_3079_OK
-		lda $0A 
+		lda PAGEZERO. JOYSTICK_DIR 
 		and #$80
 		beq CheckOptionsKey
 		jmp JUMP_BRANCH_3200_3082_OK
@@ -2833,7 +2837,7 @@ JUMP_BRANCH_3200_3082_OK:
 		dey 
 		bne !ConvertScreenCodeToNumber-
 	lda #$AA
-	sta $0D 
+	sta PAGEZERO. ZP_GameSpeed 
 	lda gameSpeed
 	sta PAGEZERO.ZP_Speed
 	ldy #$30

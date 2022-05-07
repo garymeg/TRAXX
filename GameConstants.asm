@@ -1,4 +1,4 @@
-
+#importonce
 #import "Vic20MemoryMap.asm"
 
 // Character set @ $1200
@@ -13,9 +13,9 @@ GAMESETTINGS:
         .label GridCols                     = $08
         .label GridWidth                    = $18
         .label GridHeight                   = $18
-        .label ScreenRowsx_4                = $64
+        .label ScreenRow                    = $19
         .label MOVE_POSITION_UP_OR_DOWN     = GAMESETTINGS.GridWidth+1  //Move 1 full line up or down from current position
-
+        .label CARRY                        = $00
     }
 
 // Keyboard Scancodes
@@ -29,26 +29,34 @@ KEYBOARD:
 // Zero Page
 PAGEZERO:
     {
-        .label ZP_00            = $00
-        .label ZP_01            = $01
-        .label ZP_02            = $02   //  grid position
-        .label ZP_03            = $03   //  
-        .label ZP_04            = $04   //  grid position2
-        .label ZP_05            = $05   //  
-        .label ZP_06            = $06 
-        .label ZP_07            = $07 
-        .label ZP_08            = $08
-        .label ZP_09            = $09
-        .label JOYSTICK_DIR     = $0a
-        .label ZP_0b            = $0b
-        .label ZP_GameSpeed     = $0d
-        .label ZP_completedBlk  = $17
-        .label ZP_18            = $18
-        .label ZP_Pursures      = $19
- //                               = $21
-        .label ZP_Speed         = $1f
-        .label ZP_Players       = $26
-        .label LSTX             = $C5
+        .label ZP_POINTER_0                 = $00
+        .label ZP_01                        = $01
+        .label ZP_POINTER_2                 = $02   //  grid position
+        .label ZP_03                        = $03   //  
+        .label ZP_GRID_SCREEN_POINTER       = $04   //  grid position2
+        .label ZP_05                        = $05   //  
+        .label ZP_POINTER_6                 = $06 
+        .label ZP_07                        = $07 
+        .label ZP_08                        = $08
+        .label ZP_09                        = $09
+        .label JOYSTICK_DIR                 = $0a
+        .label ZP_0B                        = $0b
+        .label ZP_GameSpeed                 = $0d
+        .label ZP_0E                        = $0e
+        .label ZP_0F                        = $0f
+        .label ZP_13                        = $13
+        .label ZP_14                        = $14
+        .label ZP_15                        = $15
+        .label ZP_completedBlk              = $17
+        .label ZP_18                        = $18
+        .label ZP_Pursures                  = $19
+        .label ZP_20                        = $20
+        .label ZP_21                        = $21
+        .label ZP_1A                        = $1A
+ //                                         = $21
+        .label ZP_Speed                     = $1f
+        .label ZP_Players                   = $26
+        .label LSTX                         = $C5
     }
 // Characters
 CHAR:

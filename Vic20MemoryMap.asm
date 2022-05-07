@@ -307,28 +307,161 @@ VIA:   // I/O (Vircitile Interface Adaptor) Settings and Registers
         .label      VIA2PA2          = $912F // This register is a mirror of port A I/O register at 37153 ($9121), except that the CAl and CA2 control lines are not affected when you use this reflection.        Decimal >       37167
     }       
 
-BASIC: // Basic Pointers and routines      
+BASIC: // Basic Pointers routines and vector tables     
     {       
-        .label      COLDST           = $C000 //         Decimal >       49152
-        .label      WARMST           = $C002 //         Decimal >       49154
-        .label      CBMBASIC         = $C004 //         Decimal >       49156
-        .label      STMDSP           = $C00C //         Decimal >       49164
-        .label      FUNDSP           = $C052 //         Decimal >       49234
-        .label      OPTAB            = $C080 //         Decimal >       49280
-        .label      RESLST           = $C09E //         Decimal >       49310
-        .label      ERRTAB           = $C19E //         Decimal >       49566
-        .label      BMSGS            = $C328 //         Decimal >       49960
-        .label      MISCMSG          = $C364 //         Decimal >       50020
-        .label      SCNSTK           = $C38A //         Decimal >       50058
-        .label      MAKSPC           = $C3B8 //         Decimal >       50104
-        .label      MOVEBL           = $C3BF //         Decimal >       50111
-        .label      STKSPC           = $C3FB //         Decimal >       50171
-        .label      RAMSPC           = $C408 //         Decimal >       50184
-        .label      MEMERR           = $C435 //         Decimal >       50229
-        .label      ERROR            = $C437 //         Decimal >       50231
-        .label      PRDY             = $C469 //         Decimal >       50281
-        .label      READY            = $C474 //         Decimal >       50292
-        .label      MAIN             = $C480 //         Decimal >       50304
+        .label      COLDST           = $C000 // Vector to the routine for the cold start of BASIC, 58232 ($E378).        Decimal >       49152
+        .label      WARMST           = $C002 // Vector to the routine to the warm start of BASIC, 58471 ($E467).       Decimal >       49154
+        .label      CBMBASIC         = $C004 // CBMBASIC characters.        Decimal >       49156
+        .label      STMDSP           = $C00C // Keyword dispatch vector table, in token order.        Decimal >       49164
+/*        
+        BASIC            Vector at          Routine  
+        Keyword           Dec Hex           Dec Hex 
+
+        END             49164 $C00C       51249 $C831  
+        FOR             49166 $C00E       51010 $C742  
+        NEXT            49168 $C010       52510 $CD1E  
+        DATA            49170 $C012       51448 $C8F8  
+        INPUT#          49172 $C014       52133 $CBA5  
+        INPUT           49174 $C016       52159 $CBBF  
+        DIM             49176 $C018       53377 $D081  
+        READ            49178 $C01A       52230 $CC06  
+        LET             49180 $C01C       51621 $C9A5  
+        GOTO            49182 $C01E       51360 $C8A0  
+        RUN             49184 $C020       51313 $C871  
+        IF              49186 $C022       51496 $C928  
+        RESTORE         49188 $C024       51229 $C81D  
+        GOSUB           49190 $C026       51331 $C883  
+        RETURN          49192 $C028       51410 $C8D2  
+        REM             49194 $C02A       51515 $C93B  
+        STOP            49196 $C02C       51247 $C82F  
+        ON              49198 $C02E       51531 $C94B  
+        WAIT            49200 $C030       55341 $D82D  
+        LOAD            49202 $C032       57701 $E165  
+        SAVE            49204 $C034       57683 $E153  
+        VERIFY          49206 $C036       57698 $E162  
+        DEF             49208 $C038       54195 $D3B3  
+        POKE            49210 $C03A       55332 $D824  
+        PRINT#          49212 $C03C       51840 $CA80            
+        PRINT           49214 $C03E       51872 $CAA0        
+        CONT            49216 $C040       51287 $C857        
+        LIST            49218 $C042       50844 $C69C        
+        CLR             49220 $C044       50782 $C65E        
+        CMD             49222 $C046       51846 $CA86        
+        SYS             49224 $C048       57639 $E127        
+        OPEN            49226 $C04A       57787 $E1BB        
+        CLOSE           49228 $C04C       57796 $E1C4        
+        GET             49230 $C04E       52091 $CB7B        
+        NEW             49232 $C050       50754 $C642        
+
+The following keywords follow the dispatchable keywords in
+the keyword table at 49310 ($C09E). They are not in the keyword
+dispatch vector table since they never begin a BASIC statement.
+FN
+NOT
+SPC
+STEP
+TAB
+THEN
+TO        
+*/       
+        .label      FUNDSP           = $C052 // Function dispatch vector table, in token order.        Decimal >       49234
+/*
+            BASIC        Vector at            Routine
+            Function      Dec Hex             Dec Hex
+
+            SGN         49234 $C052         56377 $DC39
+            INT         49236 $C054         56524 $DCCC
+            ABS         49238 $C056         56408 $DC58
+            USR         49240 $C058         00000 $0000
+            FRE         49242 $C05A         54141 $D37D
+            POS         49244 $C05C         54174 $D39E
+            SQR         49246 $C05E         57201 $DF71
+            RND         49248 $C060         57492 $E094
+            LOG         49250 $C062         55786 $D9EA
+            EXP         49252 $C064         57325 $DFED
+            COS         49254 $C066         57953 $E261
+            SIN         49256 $C068         57960 $E268
+            TAN         49258 $C06A         58033 $E2B1
+            ATN         49260 $C06C         58123 $E30B
+            PEEK        49262 $C06E         55309 $D80D
+            LEN         49264 $C060         55164 $D77C
+            STR         49266 $C072         54373 $D465
+            VAL         49268 $C074         55213 $D7AD
+            ASC         49270 $C076         55179 $D78B
+            CHR         49272 $C078         55020 $D6EC
+            LEFT        49274 $C07A         55040 $D700
+            RIGHT       49276 $C07C         55084 $D72C
+            MID         49278 $C07E         55095 $D737
+*/
+        .label      OPTAB            = $C080 // Math operation dispatch vector table, in token order.        Decimal >       49280
+/*
+
+BASIC           Precedence:         Vector at       Routine
+Operation       largest first        Dec Hex        Dec Hex
+
++                 121 $79          49280 $C080    55402 $D86A
+-                 121 $79          49283 $C083    55379 $D853
+*                 123 $7B          49286 $C086    55851 $DA2B
+/                 123 $7B          49289 $C089    56082 $DB12
+uparrow           127 $7F          49292 $C08C    57211 $DF7B
+AND               80 $50           49295 $C08F    53225 $CFE9
+OR                70 $46           49298 $C092    53222 $CFE6
+mondatic-         125 $7D          49301 $C095    57268 $DFB4
+NOT               90$5A            49304 $C098    52948 $CED4
+<=>               100 $64          49307 $C09B    53270 $D016
+
+*/
+
+
+        .label      RESLST           = $C09E // BASIC keyword table in token number order. The complete vocabulary of BASIC keywords, functions, and math operators, minus the PI symbol, are stored here in token number order. Each word ends with the high order bit on, a value of 128 ($80) added to the value for the ASCII character. The table is ended by a byte containing zero.        Decimal >       49310
+        .label      ERRTAB           = $C19E // Table of BASIC error messages.        Decimal >       49566
+        /*
+
+Dec     Hex     Error Message
+
+1       $01     TOO MANY FILES
+2       $02     FILE OPEN
+3       $03     FILE NOT OPEN
+1       $04     FILE NOT FOUND
+5       $05     DEVICE NOT PRESENT
+6       $06     NOT INPUT FILE
+7       $07     NOT OUTPUT FILE
+8       $08     MISSING filename
+9       $09     ILLEGAL DEVICE NUMBER
+10      $0A     NEXT WITHOUT FOR
+11      $0B     SYNTAX
+12      $0C     RETURN WITHOUT GOSUB
+13      $0D     OUT OF DATA
+14      $0E     ILLEGAL QUANTITY
+15      $0F     OVERFLOW
+16      $10     OUT OF MEMORY
+17      $11     UNDEF'D STATEMENT
+18      $12     BAD SUBSCRIPT
+19      $13     REDIM'D ARRAY
+20      $14     DIVISION BY ZERO
+21      $15     ILLEGAL DIRECT
+22      $16     TYPE MISMATCH
+23      $17     STRING TOO LONG
+24      $18     FILE DATA
+25      $19     FORMULA TOO COMPLEX
+26      $1A     CAN'T CONTINUE
+27      $1B     UNDEF'D FUNCTION
+28      $1C     VERIFY
+29      $1D     LOAD
+30      $1E     BREAK (located in 50020 $C364 table)
+        */
+        .label      BMSGS            = $C328 // BASIC error message table vectors.         Decimal >       49960
+        .label      MISCMSG          = $C364 // Miscellaneous messages.        Decimal >       50020
+        .label      SCNSTK           = $C38A // Find FOR and GOSUB entries on the stack.        Decimal >       50058
+        .label      MAKSPC           = $C3B8 // Open space in memory for a new BASIC line or variable.        Decimal >       50104
+        .label      MOVEBL           = $C3BF // Move a block of memory.        Decimal >       50111
+        .label      STKSPC           = $C3FB // Check stack requested space available.        Decimal >       50171
+        .label      RAMSPC           = $C408 // Check that requested space in dynamic area is available.        Decimal >       50184
+        .label      MEMERR           = $C435 // Set OUT OF MEMORY error message code.       Decimal >       50229
+        .label      ERROR            = $C437 // BASIC error message routine.        Decimal >       50231
+        .label      PRDY             = $C469 // Display ERROR, or another message pointed to.        Decimal >       50281
+        .label      READY            = $C474 // Display READY, message.        Decimal >       50292
+        .label      MAIN             = $C480 // Main BASIC loop, receive and execute or store BASIC line.        Decimal >       50304
         .label      NEWLIN           = $C49C //         Decimal >       50332
         .label      LNKPRG           = $C533 //         Decimal >       50483
         .label      GETLIN           = $C560 //         Decimal >       50528

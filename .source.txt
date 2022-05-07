@@ -5,6 +5,15 @@
 
 //            from 'Compute's Mapping the Vic20'
 
+/*
+      How to use this file in your vic20 .asm file
+      import at the beginning of your .asm file
+      then use the format groupName.locatioNname
+
+      lda PAGE0.LDTND
+      sta PAGE0.USER
+      jsr BASIC.RND
+*/
 
 //              PAGE0       = $0 - FF                 Decimal 0 - 255
 //              STACK       = $100-lFF                Decimal >       256 - 318
@@ -147,7 +156,7 @@ PAGE0: // Zero Page Named
         .label      RIBUF            = $F7   // RS-232: pointer to start of receiving buffer. The 256-byte buffer this location points to is created when device 2 is OPENed, starting at the address in 643 ($283), minus 256. 643 ($283) is reset to that address, minus one, to protect the buffer. The address of the receiving buffer is also stored here.        Decimal >       247 - 248
         .label      ROBUF            = $F9   // RS-232: pointer to the start of the transmitting buffer. This address points to an additional 256-byte buffer for RS-232 data.        Decimal >       249 - 250
         .label      FREKZP           = $FB   // Four bytes of unused page 0 space.        Decimal >       251 - 254
-        .label      BASZPT           = $FF   // BASIC temporary area for floating point to ASCII conversion.See location 256 ($100).        Decimal >       255
+        .label      BASZPT           = $FF   // BASIC temporary area for floating point to ASCII conversion. See location 256 ($100).        Decimal >       255
 
         }
 BKSHARED: //Routines used by basic and Kernal
@@ -158,68 +167,69 @@ BKSHARED: //Routines used by basic and Kernal
         .label      SAT              = $26D  // Open secondary address table. Ten one-byte entries.        Decimal >       621 - 630
         .label      KEYD             = $277  // Ten-byte keyboard buffet.;        Decimal >       631 - 640
         .label      MEMSTR           = $281  // Pointer to the start of user RAM memory.        Decimal >       641 - 642
-        .label      MEMHIGH          = $283  //         Decimal >       643 - 644
-        .label      TIMOUT           = $285  //         Decimal >       645
-        .label      COLOR            = $286  //         Decimal >       646
-        .label      GDCOL            = $287  //         Decimal >       647
-        .label      HIBASE           = $288  //         Decimal >       648
-        .label      XMAX             = $289  //         Decimal >       649
-        .label      RPTFLG           = $28A  //         Decimal >       650
-        .label      KOUNT            = $28B  //         Decimal >       651
-        .label      DELAY            = $28C  //         Decimal >       652
-        .label      SHFLAG           = $28D  //         Decimal >       653
-        .label      LSTSHF           = $28E  //         Decimal >       654
-        .label      KEYLOG           = $28F  //         Decimal >       655 - 656
-        .label      MODE             = $291  //         Decimal >       657
-        .label      AUTODN           = $292  //         Decimal >       658
-        .label      M51CTR           = $293  //         Decimal >       659
-        .label      M51CDR           = $294  //         Decimal >       660
-        .label      M51AJB           = $295  //         Decimal >       661 - 662
-        .label      RSSTAT           = $297  //         Decimal >       663
-        .label      BITNUM           = $298  //         Decimal >       664
-        .label      BAUDOF           = $299  //         Decimal >       665 - 666
-        .label      RIDBE            = $29B  //         Decimal >       667
-        .label      RIDBS            = $29C  //         Decimal >       668
-        .label      RODBS            = $29D  //         Decimal >       669
-        .label      RODBE            = $29E  //         Decimal >       670
-        .label      IRQTMP           = $29F  //         Decimal >       671 - 672
-        .label      USRVCTRS         = $2A1  //         Decimal >       673 - 767
-        .label      IERROR           = $300  //         Decimal >       768 - 769
-        .label      IMAIN            = $302  //         Decimal >       770 - 771
-        .label      ICRNCH           = $304  //         Decimal >       772 - 773
-        .label      IQPLOP           = $306  //         Decimal >       774 - 775
-        .label      IGONE            = $308  //         Decimal >       776 - 777            
-        .label      IEVAL            = $30A  //         Decimal >       778 - 779
-        .label      SAREG            = $30C  //         Decimal >       780
-        .label      SAVREGS          = $30C  //         Decimal >       780 - 783
-        .label      SXREG            = $30D  //         Decimal >       781
-        .label      SYREG            = $30E  //         Decimal >       782
-        .label      SPREG            = $30F  //         Decimal >       783
-        .label      PG3FREE          = $310  //         Decimal >       784 - 787
-        .label      CINV             = $314  //         Decimal >       788 - 789
-        .label      KVECTOKS         = $314  //         Decimal >       788 - 818
-        .label      CBINV            = $316  //         Decimal >       790 - 791
-        .label      NMINV            = $318  //         Decimal >       792 - 793 
-        .label      IOPEN            = $31A  //         Decimal >       794 - 795
-        .label      ICLOSE           = $31C  //         Decimal >       796 - 797
-        .label      ICHKIN           = $31E  //         Decimal >       798 - 799
-        .label      ICKOUT           = $320  //         Decimal >       800 - 801
-        .label      ICLRCH           = $322  //         Decimal >       802 - 803
-        .label      IBASIN           = $324  //         Decimal >       804 - 805
-        .label      IBSOUT           = $326  //         Decimal >       806 - 807
-        .label      ISTOP            = $328  //         Decimal >       808 - 809
-        .label      IGETIN           = $32A  //         Decimal >       810 - 811
-        .label      ICLALL           = $32C  //         Decimal >       812 - 813
-        .label      USRCMD           = $32E  //         Decimal >       814 - 815
-        .label      ILOAD            = $330  //         Decimal >       816 - 817
-        .label      ISAVE            = $332  //         Decimal >       818 - 819
-        .label      USRCMDS          = $334  //         Decimal >       820 - 827
+        .label      MEMHIGH          = $283  // Pointer to the end of user RAM memory plus one. At power-on/reset, the Kernal INITMEM* routine finds the last RAM location above 1024 ($400) and saves that address here. After BASIC has been started, by the COLDST* routine, this location is altered only by an OPEN or CLOSE of an RS-232 device. When that happens, this pointer is lowered 512 bytes to create two 256-byte buffers for Input/Output.        Decimal >       643 - 644
+        .label      TIMOUT           = $285  // Serial: timeout enable/disable flag. Regardless of the description on page 205 of the V/C-20 Programmer's Reference Guide and the fact that SETTMO sets this location from the .A passed to it, no reference has been found to this location.        Decimal >       645
+        .label      COLOR            = $286  // Current foreground color selected by color keys. This address is initialized to color 6 (blue) by INITSK* routine at power-on/reset or RUN/STOP-RESTORE. When the Kernal is about to put a character to the screen, this location's content is stored in the corresponding color map location.       Decimal >       646
+        .label      GDCOL            = $287  // Cursor: original color at this screen location. Every time the cursor is blinked by the IRQ routine, location 206 ($CE) is updated and the color map code for the current screen location is stored at this address.        Decimal >       647
+        .label      HIBASE           = $288  // Screen map RAM page number. This byte is set by the power-on/reset routines to the page number of the beginning of screen RAM. You can multiply the contents of this location by 256 to find the current location of the screenmap RAM. On an unexpanded VIC-20, the screen is at 7680, and 83 this location contains 30 ($1E) (30*256=7680).        Decimal >       648
+        .label      XMAX             = $289  // Maximum number of characters in the keyboard buffer. The normal value in this location is ten, the length of the keyboard buffer at 631 ($277). This location is compared with location 198 ($C6), which holds the number of characters in the keyboard buffer, in order to ignore key presses after the buffer is filled.        Decimal >       649
+        .label      RPTFLG           = $28A  // Keyboard repeater flags. This location is initialized to zero, which causes only the cursor, space bar, and INST/DEL keys to repeat. You can set this byte to: 128: ALL KEYS TO REPEAT, 64 NO KEYS TO REPEAT, 0 DEFAULT KEYS TO REPEAT See locations 651 ($28B) and 652 ($28C) for repeat timing values. See location 631 ($277) for a summation of the keyboard-related RAM locations.        Decimal >       650
+        .label      KOUNT            = $28B  // Delay before other than first repeat of key. This is initialized to 6 once 652 ($28C), the first repeat delay counter, has been decremented to zero. Location 652 ($28C) is reduced to zero when the same key is held down.        Decimal >       651
+        .label      DELAY            = $28C  // Delay before first repeat of key. This address's initial value of 16 is counted down every sixtieth of a second by each IRQ interrupt, as long as the same key is pressed. When zero is reached, the value in 651 ($28B) is decremented to zero on every jiffy that the key is still held down, then the key is duplicated in the keyboard buffer by the SCNKEY routine. The value 4 is then stored in location 651 ($28B), and this location is left with its value as zero so that following repeats occur rapidly.        Decimal >       652
+        .label      SHFLAG           = $28D  // Current SHIFT keys pattern/ This location is used to determine which keyboard table is used for converting the key pressed into an ASCII character. Different SHIFT patterns cause the selection of the appropriate character table.        Decimal >       653
+        .label      LSTSHF           = $28E  // Previous SHIFT key pattern. This location is used in combination with location 653 ($28D) to debounce the special SHIFT keys. This will keep the SHIFT/Commodore key combination from changing character sets back and forth during a single pressing of both keys. The values in this location are saved from location 653 ($28D).        Decimal >       654
+        .label      KEYLOG           = $28F  // Pointer to the default keyboard table setup routine.This location is used as an indirect jump pointer by the SCNKEY routine to the routine that determines which keyboard decoding table is used, based on the SHIFT key pattern in 653 ($28D). By changing this pointer after power-on/reset, you can intercept the provided routine or replace it altogether.        Decimal >       655 - 656
+        .label      MODE             = $291  // Flag to enable or disable combined SHIFT and Commodore keys Values in this location are 0 for enabled, 128 for disabled. Although this location's value is initially set to 0, a value of 128 ($80) here will disable the SHIFT and Commodore key combination from switching to the alternate character set. The SHIFT, Commodore, and CTRL keys will work normally when pressed for any other purpose.        Decimal >       657
+        .label      AUTODN           = $292  // Screen scroll-down enabled flag. This byte's value is set to 0 to enable the scroll-down function when the computer is turned on. Any other value in this location disables the scroll down.        Decimal >       658
+        .label      M51CTR           = $293  // RS-232: pseudo-6551 control register. This location specifies the RS-232 baud rate (the transmit/receive speed), the word length in bits, and the number of stop bits. The VIC-20 emulates a 6551 UART chip with software.        Decimal >       659
+        .label      M51CDR           = $294  // RS-232: pseudo-6551 command register. This location specifies the RS-232 parity, for data checking, duplex mode, to determine if talking and listening occur simultaneously; and the handshaking protocol used, to insure that the same protocol is used on the other end of the transmission. (If it's not the same protocol, it's like one person extending his left hand and the other person extending his right to shake hands.) The VIC-20 emulates a 6551 UART chip with        Decimal >       660
+        .label      M51AJB           = $295  // RS-232: nonstandard bit timing specification. This location is used to store the user-desired baud rate. See location 659 ($293), the RS-232 control register, for a description of how to set this location. Unfortunately, this is not implemented in the VIC-20, since RS-232 routines never reference this location.        Decimal >       661 - 662
+        .label      RSSTAT           = $297  // RS-232: status register. storage) This status register is erroneously zeroed by ST if the current device in location 186 ($BA) is device 2.        Decimal >       663
+        .label      BITNUM           = $298  // RS-232: number of bits to be sent/received. This location is used to indicate how many zeros must be added to the data character to pad its length to the word length specified in location 659 ($293), the RS-232 control register. Also see locations 180 ($B4) and 168 ($A8).        Decimal >       664
+        .label      BAUDOF           = $299  // RS-232: system clock divided by baud rate. Result is expressed in microseconds. This location contains the amount of time needed to send one bit of information.        Decimal >       665 - 666
+        .label      RIDBE            = $29B  // RS-232: dynamic index to the end of the receive buffer. This pointer references a 256-byte buffer and is used to place data in that buffer. The receive buffer is a wraparound buffer. At any time, the starting and ending locations can be anywhere within the 256-byte buffer.        Decimal >       667
+        .label      RIDBS            = $29C  // RS-232: dynamic index to the start of the receive buffer. This pointer is used to remove data from the receive buffer. If location 667 ($29B) and this location contain the same value, the buffer is empty. This byte is added to        Decimal >       668
+        .label      RODBS            = $29D  // RS-232: dynamic index to the start of the transmit buffer. This pointer is used to put data into the buffer and to detect an empty or overflow of the transmit buffer.        Decimal >       669
+        .label      RODBE            = $29E  // RS-232: dynamic index to the end of the transmit buffer.This pointer is used to remove data from the buffer. If 669 ($29D) and this location contain the same number, the buffer is empty.        Decimal >       670
+        .label      IRQTMP           = $29F  // Temporary SAVE area for the normal IRQ vector during tape 1/O. The normal vector, held in location 788-789 ($314-315) for the IRQ routine at 60095 ($EABF), is stored here during tape reads and writes by the TAPE routine. It's restored by the TNIF routine. The table at 65009 ($FDF1) contains the three IRQ vectors for tape. The vectors are at locations 63886 ($F98E), 64523 ($FC0B), and 64680 ($FCA8).        Decimal >       671 - 672
+        .label      USRVCTRS         = $2A1  // User indirect vectors or other storage area. Ninety-four bytes of memory are available in this area to the user for 47 user-program indirect link addresses or for any other purpose. This is an excellent area to store a short ML routine without having to alter BASIC'S pointers.        Decimal >       673 - 767
+        .label      IERROR           = $300  // Vector to the routine to print a BASIC error message from a table. This vector points to the routine ERROR at location 50234 ($C43A).        Decimal >       768 - 769
+        .label      IMAIN            = $302  // Vector to the BASIC main routine. Execute or store statement. The routine MAIN at location 50307 ($C483) is pointed to by this vector.        Decimal >       770 - 771
+        .label      ICRNCH           = $304  // Vector to the BASIC tokenization routine. This vector points to the routine CRNCH at location 50556 ($C57C).        Decimal >       772 - 773
+        .label      IQPLOP           = $306  // Vector to the BASIC routine that expands and prints tokens. The vector points to the QPLOP routine at address 50970 ($C71A).        Decimal >       774 - 775
+        .label      IGONE            = $308  // Vector to the BASIC routine that executes the next BASIC token. This vector points to the routine GONE at location 51172 ($C7E4).        Decimal >       776 - 777            
+        .label      IEVAL            = $30A  // Vector to the BASIC routine that evaluates a variable Vector to the routine EVAL at 52870 ($CE86).        Decimal >       778 - 779
+        .label      SAREG            = $30C  // Register Save Area The BASIC SYS command uses this area to save and load the 6502 registers between SYS statements. For example, SYS 60074 loads the values stored in this area into the appropriate registers and then performs a jump to the target location. When the ML instructions issue an RTS (return), the routine that processes the SYS statement stores the returned registers here, and BASIC continues with its next statement.        Decimal >       780
+        .label      SAVREGS          = $30C  // 6502 .A register        Decimal >       780 - 783
+        .label      SXREG            = $30D  // 6502 .X register        Decimal >       781
+        .label      SYREG            = $30E  // 6502 .Y register        Decimal >       782
+        .label      SPREG            = $30F  // 6502 .P processor status register        Decimal >       783
+        .label      PG3FREE          = $310  // Four bytes of unused page 3 space. On the Commodore 64, locations 785-786 are used for the USR jump vector described at location 1-2 ($1-2). Location 784 contains the JMP opcode. You should remember this when you're writing programs for both machines.        Decimal >       784 - 787
+        .label      CINV             = $314  // Vector to the IRQ interrupt routine at 60095 ($EABF). This location is where you would put the address of your own ML IRQ routine or front-end to be executed every jiffy.        Decimal >       788 - 789
+        .label      KVECTOKS         = $314  // Table of 16 Kernal indirect vectors. This location range contains a 32-byte table of the vectors that direct the processing to the appropriate Kernal routine.        Decimal >       788 - 819
+        .label      CBINV            = $316  // Vector to the BREAK interrupt routine at 65234 ($FED2). 1 When the RUN/STOP and RESTORE keys are pressed simultaneously, or an ML BRK instruction ($00) is executed, this vector        Decimal >       790 - 791
+        .label      NMINV            = $318  // Vector to the NMI interrupt routine at 65197 ($FEAD). The NMI (Non-Maskable Interrupt) can be caused by the RUN/STOP-RESTORE keys and VIA timer interrupts. Multiple NMI interrupts and IRQ interrupts can occur while the first NMI is being processed. This entry point skips the preceding SEI instruction that disables IRQ interrupts.        Decimal >       792 - 793 
+        .label      IOPEN            = $31A  // Vector to the open logical file routine OPEN at 62474 ($F40A).        Decimal >       794 - 795
+        .label      ICLOSE           = $31C  // Vector to the close logical file routine CLOSE at 62282 ($F34A).        Decimal >       796 - 797
+        .label      ICHKIN           = $31E  // Vector to the open input channel routine CHKIN at 62151 ($F2C7).       Decimal >       798 - 799
+        .label      ICKOUT           = $320  // Vector to the open output channel routine CHKOUT at 62217 ($F309).        Decimal >       800 - 801
+        .label      ICLRCH           = $322  // Vector to the reset all channels routine CLRCHN at 62451 ($F3F3).        Decimal >       802 - 803
+        .label      IBASIN           = $324  // Vector to the input from device routine CHRIN at 61966 ($F20E).        Decimal >       804 - 805
+        .label      IBSOUT           = $326  // Vector to the output to device routine CHROUT at 62074 ($F27A).        Decimal >       806 - 807
+        .label      ISTOP            = $328  // Vector to the test STOP key routine STOP at 63344 ($F770). This vector points to the address of the routine that tests the STOP key. The STOP key can be disabled by a POKE 808,100. This does not disable the RUN/STOP-RESTORE combination,        Decimal >       808 - 809
+        .label      IGETIN           = $32A  // Vector to the get from keyboard routine GETIN at 61941 ($F1F5).        Decimal >       810 - 811
+        .label      ICLALL           = $32C  // Vector to the abort all files routine CLALL at 62447 ($F3EF).        Decimal >       812 - 813
+        .label      USRCMD           = $32E  // This location seems to be a holdover from earlier PET computers, when the built-in machine language monitor would JMP through this vector when it encountered a command it did not understand. A user vector can be placed here instead. This vector is initialized to serve as a vector to the BREAK interrupt routine BREAK at location 65234 ($FED2).        Decimal >       814 - 815
+        .label      ILOAD            = $330  // Vector to the load from device routine LOAD at 62793 ($F549).      Decimal >       816 - 817
+        .label      ISAVE            = $332  // Vector to the Kernal save to device routine SAVE at 63109 ($F685)        Decimal >       818 - 819
+        .label      USRCMDS          = $334  // Four user vectors or eight bytes of other data may be stored here.        Decimal >       820 - 827
         .label      TBUFFR           = $33C  //         Decimal >       828 - 1019
-        .label      TPHDRID          = $33C  //         Decimal >       828
-        .label      TPBLOCK          = $33D  //         Decimal >       829 - 1019
-        .label      TPHBGN           = $33D  //         Decimal >       829 - 830
-        .label      TPHEND           = $33F  //         Decimal >       831 - 833
-        .label      TPHNAME          = $341  //         Decimal >       833 - 1019
+        .label      TPHDRID          = $33C  // Tape header identifier byte (1-5). This I.D. is the first byte of the tape header, except for I.D. 2, which is in the first byte of every record. This accounts for the tape buffer consisting of 192 bytes, even though there are only 191 bytes of user data.        Decimal >       828
+        .label      TPBLOCK          = $33D  // Starting address for tape LOAD. One technique that can be used for loading data from tape to any desired address is to change the pointer at 43-44 ($2B-2C) before issuing the LOAD of a relocatable BASIC program. See the append example at location 43-44 ($2B-2C).        Decimal >       829 - 1019
+        .label      TPHBGN           = $33D  // Starting address for tape LOAD. One technique that can be used for loading data from tape to any desired address is to change the pointer at 43-44 ($2B-2C) before issuing the LOAD of a relocatable BASIC program. See the append example at location 43-44 ($2B-2C).       Decimal >       829 - 830
+        .label      TPHEND           = $33F  // Ending address, plus one, of tape LOAD. See the explanation at location 829-830 ($33D-33E) for details of how to read and modify the tape header before it is acted upon by the LOAD routine. See location 174-175 ($AE-AF).        Decimal >       831 - 833
+        .label      TPHNAME          = $341  // Filename of tape data.
+Padded with blanks, these 187 bytes hold the filename that is specified with SAVE, OPEN, or SETNAM. See the discussions at locations 183 ($B7) and 187 ($BB).        Decimal >       833 - 1019
         .label      TPHFREE          = $3FC  //         Decimal >       1020 - 1023
         .label      RAMBLK0          = $400  //         Decimal >       1024 - 4095
         .label      SCREENX          = $1000 //         Decimal >       4096
@@ -253,7 +263,15 @@ VIC: // Screen related settings
         .label      VICCRD           = $900D // Relative frequency of sound oscillator 4 (noise).        Decimal >       36877
         .label      VICCRE           = $900E // Sound volume and auxiliary color.        Decimal >       36878
         .label      VICCRF           = $900F // Background color, border color, inverse color switch.        Decimal >       36879
-    }   
+    }
+DISPLAY: // Screen/colour locations Names ending X are 8K+ Expanded Vic20
+    {
+        .label      SCREENX          = $1000 // Screen map RAM on VIC-20 with 8K or more expansion. Also called the video matrix, the screen map is managed by the Keral screen editor using the table at 217 ($D9).
+        .label      SCREEN           = $1E00 // Screen map RAM on VIC-20 with only 3K expansion.
+        .label      COLORMAPX        = $9400 // Screen color map (8K+ expanded VIC-20). Bits 4-7 = not there Bit 3 = multicolor if set to 1 or normal if set to 0 Bits 0-2 = foreground color value 0-7
+        .label      COLORMAP         = $9600 // Screen color map (unexpanded or 3K expanded VIC-20). Please see location 37888-38399 ($9400-$95FF) for a complete description of the use of both VIC-20 color maps.
+
+    }    
 VIA:   // I/O (Vircitile Interface Adaptor) Settings and Registers 
     {   
         .label      VIA1PB           = $9110 // Port B I/O register.        Decimal >       37136
@@ -289,13 +307,7 @@ VIA:   // I/O (Vircitile Interface Adaptor) Settings and Registers
         .label      VIA2IER          = $912E // Interrupt enable register (IER).        Decimal >       37166
         .label      VIA2PA2          = $912F // This register is a mirror of port A I/O register at 37153 ($9121), except that the CAl and CA2 control lines are not affected when you use this reflection.        Decimal >       37167
     }       
-DISPLAY: // Screen/colour locations Names ending X are 8K+ Expanded Vic20
-    {
-        .label      SCREEN           = $1E00 // Screen map RAM on VIC-20 with only 3K expansion.
-        .label      SCREENX          = $1000 // Screen map RAM on VIC-20 with 8K or more expansion. Also called the video matrix, the screen map is managed by the Keral screen editor using the table at 217 ($D9).
-        .label      COLORMAPX        = $9400 // Screen color map (8K+ expanded VIC-20). Bits 4-7 = not there Bit 3 = multicolor if set to 1 or normal if set to 0 Bits 0-2 = foreground color value 0-7
-        .label      COLORMAP         = $9600 // Screen color map (unexpanded or 3K expanded VIC-20). Please see location 37888-38399 ($9400-$95FF) for a complete description of the use of both VIC-20 color maps.
-    } 
+
 BASIC: // Basic Pointers and routines      
     {       
         .label      COLDST           = $C000 //         Decimal >       49152

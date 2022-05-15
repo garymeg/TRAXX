@@ -16,6 +16,12 @@ GAMESETTINGS:
         .label ScreenRow                    = $19
         .label MOVE_POSITION_UP_OR_DOWN     = GAMESETTINGS.GridWidth+1  //Move 1 full line up or down from current position
         .label CARRY                        = $00
+        .label PLAYER_1_SCORE               = $1035
+        .label PLAYER_2_SCORE               = $1046
+        .label HIGH_SCORE_SCREEN            = $1056
+        .label HIGH_SCORE                   = $207B //TODO move to memory
+    
+    
     }
 
 // Keyboard Scancodes
@@ -29,13 +35,13 @@ KEYBOARD:
 // Zero Page
 PAGEZERO:
     {
-        .label ZP_POINTER_0                 = $00
+        .label ZP_00                        = $00
         .label ZP_01                        = $01
-        .label ZP_POINTER_2                 = $02   //  grid position
+        .label ZP_POINTER_02                   = $02   //  grid position
         .label ZP_03                        = $03   //  
         .label ZP_GRID_SCREEN_POINTER       = $04   //  grid position2
         .label ZP_05                        = $05   //  
-        .label ZP_POINTER_6                 = $06 
+        .label ZP_06                 = $06 
         .label ZP_07                        = $07 
         .label ZP_08                        = $08
         .label ZP_09                        = $09
@@ -44,6 +50,7 @@ PAGEZERO:
         .label ZP_GameSpeed                 = $0d
         .label ZP_0E                        = $0e
         .label ZP_0F                        = $0f
+        .label ZP_10                        = $10
         .label ZP_13                        = $13
         .label ZP_14                        = $14
         .label ZP_15                        = $15

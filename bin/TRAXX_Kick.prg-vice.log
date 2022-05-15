@@ -68,3 +68,7 @@ AUTOSTART: Ready
 AUTOSTART: Turning Warp mode off
 AUTOSTART: Running program
 AUTOSTART: Done.
+Writing configuration file `D:\Documents\C64Tools\WinVICE\vice.ini'.
+
+Exiting...
+Sound: Closing device `dx'

@@ -1,6 +1,6 @@
 ******************************* Segment: Default *******************************
 [Unnamed]
-1200: 00        - PAGE0,BKSHARED,USRPGM8K,VIC,VIA,DISPLAY,BASIC,KERNAL,GAMESETTINGS,KEYBOARD,PAGEZERO,CHAR:.byte %00000000			// ........
+1200: 00        - PAGE0,BKSHARED,USRPGM8K,VIC,DISPLAY,VIA,BASIC,KERNAL,GAMESETTINGS,KEYBOARD,PAGEZERO,CHAR:.byte %00000000			// ........
 1201: 0b        -         .byte %00001011			// ....x.xx
 1202: 08        -         .byte %00001000			// ....x...
 1203: 0a        -         .byte %00001010			// ....x.x.
@@ -3588,17 +3588,17 @@
 [Program]
 2000: d8        - RAMBLK1:cld
 2001: a9 cd     -         lda #%11001101
-2003: 8d 05 90  -         sta VIC.VICCR5
+2003: 8d 05 90  -         sta VIC. VICCR5
 2006: a9 08     -         lda #%00001000
-2008: 8d 0f 90  -         sta VIC.VICCRF
+2008: 8d 0f 90  -         sta VIC. VICCRF
 200b: a9 bc     -         lda #%10111100
-200d: 8d 03 90  -         sta VIC.VICCR3 
+200d: 8d 03 90  -         sta VIC. VICCR3 
 2010: a9 1a     -         lda #%00011010
-2012: 8d 01 90  -         sta VIC.VICCR1
+2012: 8d 01 90  -         sta VIC. VICCR1
 2015: a9 19     -         lda #%00011001
-2017: 8d 02 90  -         sta VIC.VICCR2 
+2017: 8d 02 90  -         sta VIC. VICCR2 
 201a: a9 09     -         lda #%00001001
-201c: 8d 00 90  -         sta VIC.VICCR0
+201c: 8d 00 90  -         sta VIC. VICCR0
 201f: 20 ed 20  -         jsr DrawScreenHeader
 2022: 4c 60 30  -         jmp RunTitleScreen													//jump 1
 2025: 4b 4b 4b  - Memory1,ScreenHeader,P1_Lives:.byte $4b,$4b,$4b
@@ -3617,7 +3617,7 @@
 206b: 30 30 30 30 30                                   - Player2_score:.byte $30,$30,$30,$30,$30
 2070: 20 20 20 20 20 20 20 20 20                       -         .byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 2079: 6e 20     -         .byte $6e,$20
-207b: 0c 0c 01 0d 01                                   - High_score:.byte $0c,$0c,$01,$0d,$01
+207b: 0c 0c 01 0d 01                                   - HIGH_SCORE,High_score:.byte $0c,$0c,$01,$0d,$01
 2080: 20 20 20 20 20 20 20 20 20                       -         .byte $20,$20,$20,$20,$20,$20,$20,$20,$20
 2089: 05 05 05  - ScreenHeaderColour:.byte $05,$05,$05
 208c: 00 00 00 00 00 00 00 00 03 03 03 03 03 00 00 00  -         .byte $00,$00,$00,$00,$00,$00,$00,$00,$03,$03,$03,$03,$03,$00,$00,$00,$00,$00
@@ -3634,59 +3634,59 @@
 20d9: 00 00 00 00 01 00 03 03                          -         .byte $00,$00,$00,$00,$01,$00,$03,$03
 20e1: 03 03 03 00 00 00 00 00                          -         .byte $03,$03,$03,$00,$00,$00,$00,$00
 20e9: 00 00 00 00                                      -         .byte $00,$00,$00,$00
-20ed: a0 64     - DrawScreenHeader:ldy #GAMESETTINGS.ScreenRow * 4
+20ed: a0 64     - DrawScreenHeader:ldy #GAMESETTINGS. ScreenRow * 4
 20ef: b9 24 20  -         lda Memory1.ScreenHeader-1,Y 
-20f2: 99 ff 0f  -         sta GAMESETTINGS.Screen-1,Y 
+20f2: 99 ff 0f  -         sta GAMESETTINGS. Screen-1,Y 
 20f5: b9 88 20  -         lda Memory1.ScreenHeaderColour-1,Y 
-20f8: 99 ff 93  -         sta GAMESETTINGS.ScreenColour -1,Y 
+20f8: 99 ff 93  -         sta GAMESETTINGS. ScreenColour -1,Y 
 20fb: 88        -         dey 
 20fc: d0 f1     -         bne !DrawLoop-
 20fe: 60        -         rts 
 20ff: ea        -         nop 
-2100: a9 10     - DrawGrid:lda #>GAMESETTINGS.GridStart
-2102: 85 03     -         sta PAGEZERO.ZP_POINTER_2 + 1 
-2104: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
-2106: a9 64     -         lda #<GAMESETTINGS.GridStart
-2108: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
-210a: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
-210c: a2 08     -         ldx #GAMESETTINGS.GridRows
-210e: a0 17     -         ldy #GAMESETTINGS.GridWidth-1
+2100: a9 10     - DrawGrid:lda #>GAMESETTINGS. GridStart
+2102: 85 03     -         sta PAGEZERO. ZP_POINTER_02 + 1 
+2104: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
+2106: a9 64     -         lda #<GAMESETTINGS. GridStart
+2108: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
+210a: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
+210c: a2 08     -         ldx #GAMESETTINGS. GridRows
+210e: a0 17     -         ldy #GAMESETTINGS. GridWidth-1
 2110: a9 51     -         lda #CHAR.grid_hori
-2112: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+2112: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
 2114: 88        -         dey 
 2115: d0 fb     -         bne !Row_loop-
 2117: a9 56     -         lda #CHAR.grid_T_right
 2119: a0 00     -         ldy #$00						// left start of grid
-211b: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+211b: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
 211d: a9 57     -         lda #CHAR.grid_T_left
-211f: a0 18     -         ldy #GAMESETTINGS.GridWidth   	// right end of grid in chars
-2121: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y
+211f: a0 18     -         ldy #GAMESETTINGS. GridWidth   	// right end of grid in chars
+2121: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y
 2123: 18        -         clc 
-2124: a5 04     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
-2126: 69 64     -         adc #GAMESETTINGS.ScreenRow * 4   	//4 screen lines
-2128: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
-212a: a5 05     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
-212c: 69 00     -         adc #GAMESETTINGS.CARRY   	// null for add carry
-212e: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1
+2124: a5 04     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER  
+2126: 69 64     -         adc #GAMESETTINGS. ScreenRow * 4   	//4 screen lines
+2128: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
+212a: a5 05     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
+212c: 69 00     -         adc #GAMESETTINGS. CARRY   	// null for add carry
+212e: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1
 2130: ca        -         dex 
 2131: d0 db     -         bne !Col_Loop-
-2133: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
-2135: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
-2137: a5 03     -         lda PAGEZERO.ZP_POINTER_2 + 1 
-2139: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+2133: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
+2135: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
+2137: a5 03     -         lda PAGEZERO. ZP_POINTER_02 + 1 
+2139: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 213b: a0 00     -         ldy #$00		// reset loop counter
 213d: a9 58     -         lda #CHAR.grid_T_down
-213f: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
-2141: a2 18     -         ldx #GAMESETTINGS.GridHeight		// Height of grid in chars
-2143: a5 04     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
+213f: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
+2141: a2 18     -         ldx #GAMESETTINGS. GridHeight		// Height of grid in chars
+2143: a5 04     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER  
 2145: 18        -         clc 
-2146: 69 19     -         adc #GAMESETTINGS.MOVE_POSITION_UP_OR_DOWN
-2148: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
-214a: a5 05     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
-214c: 69 00     -         adc #GAMESETTINGS.CARRY
-214e: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+2146: 69 19     -         adc #GAMESETTINGS. MOVE_POSITION_UP_OR_DOWN
+2148: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
+214a: a5 05     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
+214c: 69 00     -         adc #GAMESETTINGS. CARRY
+214e: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 2150: a9 50     -         lda #CHAR.grid_vert
-2152: 85 06     -         sta PAGEZERO.ZP_POINTER_6  
+2152: 85 06     -         sta PAGEZERO. ZP_06  
 2154: 20 95 21  -         jsr DrawCrossJunctions
 2157: ea        -         nop 
 2158: ea        -         nop 
@@ -3695,16 +3695,16 @@
 215b: ea        -         nop 
 215c: ea        -         nop 
 215d: ea        -         nop 
-215e: a5 06     -         lda PAGEZERO.ZP_POINTER_6  
-2160: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+215e: a5 06     -         lda PAGEZERO. ZP_06  
+2160: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
 2162: ca        -         dex 
 2163: d0 de     -         bne !Row_loop-
 2165: a9 59     -         lda #CHAR.grid_T_up
-2167: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
-2169: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
-216b: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
-216d: a5 03     -         lda PAGEZERO.ZP_POINTER_2 + 1 
-216f: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1
+2167: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
+2169: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
+216b: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
+216d: a5 03     -         lda PAGEZERO. ZP_POINTER_02 + 1 
+216f: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1
 2171: c8        -         iny 
 2172: c8        -         iny 
 2173: c8        -         iny 
@@ -3714,61 +3714,61 @@
 2178: d0 c3     -         bne !Col_Loop-
 217a: a9 52     -         lda #CHAR.grid_trc
 217c: a0 00     -         ldy #$00
-217e: 91 02     -         sta  (PAGEZERO.ZP_POINTER_2),Y
-2180: a0 18     -         ldy #GAMESETTINGS.GridWidth
+217e: 91 02     -         sta  (PAGEZERO. ZP_POINTER_02),Y
+2180: a0 18     -         ldy #GAMESETTINGS. GridWidth
 2182: a9 53     -         lda #CHAR.grid_tlc
-2184: 91 02     -         sta  (PAGEZERO.ZP_POINTER_2),Y 
+2184: 91 02     -         sta  (PAGEZERO. ZP_POINTER_02),Y 
 2186: a9 55     -         lda #CHAR.grid_blc
 2188: a0 00     -         ldy #$00
-218a: 99 bc 12  -         sta GAMESETTINGS.GridStart + (GAMESETTINGS.GridWidth * (GAMESETTINGS.GridHeight+1)),y
+218a: 99 bc 12  -         sta GAMESETTINGS. GridStart + (GAMESETTINGS. GridWidth * (GAMESETTINGS. GridHeight+1)),y
 218d: a0 18     -         ldy #$18
 218f: a9 54     -         lda #CHAR.grid_brc
-2191: 99 bc 12  -         sta GAMESETTINGS.GridStart + (GAMESETTINGS.GridWidth * (GAMESETTINGS.GridHeight+1)),Y 
+2191: 99 bc 12  -         sta GAMESETTINGS. GridStart + (GAMESETTINGS. GridWidth * (GAMESETTINGS. GridHeight+1)),Y 
 2194: 60        -         rts 
-2195: b1 04     - DrawCrossJunctions:lda  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+2195: b1 04     - DrawCrossJunctions:lda  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
 2197: c9 51     -         cmp #CHAR.grid_hori				// are we crossing a row?
 2199: d0 05     -         bne NotCrossingRow	
 219b: a9 4f     -         lda #CHAR.grid_cross
-219d: 85 06     -         sta PAGEZERO.ZP_POINTER_6  
+219d: 85 06     -         sta PAGEZERO. ZP_06  
 219f: 60        -         rts 
 21a0: c9 56     - NotCrossingRow:cmp #CHAR.grid_T_right			// are we starting next horizontal row?
 21a2: d0 03     -         bne NotNextGridRow
-21a4: 85 06     -         sta PAGEZERO.ZP_POINTER_6  
+21a4: 85 06     -         sta PAGEZERO. ZP_06  
 21a6: 60        -         rts 
 21a7: c9 57     - NotNextGridRow:cmp #CHAR.grid_T_left			// are we at end of grid row
 21a9: d0 02     -         bne NotEndGridRow
-21ab: 85 06     -         sta PAGEZERO.ZP_POINTER_6  
+21ab: 85 06     -         sta PAGEZERO. ZP_06  
 21ad: 60        - NotEndGridRow:rts 
 21ae: a9 10     - ClearPlayScreen:lda #$10
-21b0: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+21b0: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 21b2: a9 64     -         lda #$64
-21b4: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+21b4: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
 21b6: a2 1a     -         ldx #$1A
 21b8: a0 00     - NotAtEndOfScreen:ldy #$00
 21ba: a9 20     - CLR_PlayScreenLoop:lda #$20
 21bc: 20 d4 21  -         jsr Set_PlayScreenColour
 21bf: c0 1a     -         cpy #$1A
 21c1: d0 f7     -         bne CLR_PlayScreenLoop
-21c3: a5 04     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
+21c3: a5 04     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER  
 21c5: 18        -         clc 
 21c6: 69 19     -         adc #$19
-21c8: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
-21ca: a5 05     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
-21cc: 69 00     -         adc #GAMESETTINGS.CARRY
-21ce: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+21c8: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
+21ca: a5 05     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
+21cc: 69 00     -         adc #GAMESETTINGS. CARRY
+21ce: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 21d0: ca        -         dex 
 21d1: d0 e5     -         bne NotAtEndOfScreen
 21d3: 60        -         rts 
-21d4: 91 04     - Set_PlayScreenColour:sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
-21d6: a5 05     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+21d4: 91 04     - Set_PlayScreenColour:sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
+21d6: a5 05     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 21d8: 48        -         pha 
 21d9: 18        -         clc 
 21da: 69 84     -         adc #$84
-21dc: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+21dc: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 21de: a9 07     -         lda #$07    //colour yellow
-21e0: 91 04     -         sta  (PAGEZERO.ZP_GRID_SCREEN_POINTER),Y 
+21e0: 91 04     -         sta  (PAGEZERO. ZP_GRID_SCREEN_POINTER),Y 
 21e2: 68        -         pla 
-21e3: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+21e3: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 21e5: c8        -         iny 
 21e6: 60        -         rts 
 21e7: f5 f5 f5 f5 f5 f5                                -         .byte $F5,$F5,$F5,$F5,$F5,$F5
@@ -3778,10 +3778,10 @@
 21ff: f5        -         .byte $F5
 2200: 20 ae 21  - StartGamePlay:jsr ClearPlayScreen
 2203: 20 00 21  -         jsr DrawGrid
-2206: a5 19     -         lda PAGEZERO.ZP_Pursures
-2208: 85 19     -         sta PAGEZERO.ZP_Pursures
+2206: a5 19     -         lda PAGEZERO. ZP_Pursures
+2208: 85 19     -         sta PAGEZERO. ZP_Pursures
 220a: a9 0f     -         lda #$0F					// Set Max Volume
-220c: 8d 0e 90  -         sta VIC.VICCRE 
+220c: 8d 0e 90  -         sta VIC. VICCRE 
 220f: 20 0e 2e  -         jsr SUBROUTINE__2E0E_220F_OK
 2212: 20 1c 2c  -         jsr SUBROUTINE__2C1C_2212_OK
 2215: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2215_OK
@@ -3791,33 +3791,33 @@
 221d: 85 0f     -         sta PAGEZERO. ZP_0F 
 221f: a5 0d     -         lda PAGEZERO. ZP_GameSpeed 
 2221: 85 0d     -         sta PAGEZERO. ZP_GameSpeed 
-2223: 85 08     -         sta PAGEZERO.ZP_08 
+2223: 85 08     -         sta PAGEZERO. ZP_08 
 2225: 20 20 29  -         jsr SUBROUTINE__2920_2225_OK
 2228: a9 03     -         lda #$03
 222a: 85 14     -         sta PAGEZERO. ZP_14 
 222c: 85 13     -         sta PAGEZERO. ZP_13 
-222e: a5 05     -         lda PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+222e: a5 05     -         lda PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 2230: 85 2a     -         sta $2A 
 2232: a9 10     -         lda #$10
 2234: 85 1b     -         sta PAGEZERO. ZP_1A + 1 
 2236: a5 19     -         lda PAGEZERO. ZP_Pursures 
 2238: 85 19     -         sta PAGEZERO. ZP_Pursures 
 223a: a9 00     -         lda #$00
-223c: 85 17     -         sta PAGEZERO.ZP_completedBlk 
+223c: 85 17     -         sta PAGEZERO. ZP_completedBlk 
 223e: 85 18     -         sta $18 
 2240: a9 03     -         lda #$03
 2242: 85 20     -         sta PAGEZERO. ZP_20 
 2244: a9 1f     -         lda #$1F
 2246: 85 21     -         sta PAGEZERO. ZP_21 
 2248: a5 19     -         lda PAGEZERO. ZP_Pursures 
-224a: 85 00     -         sta PAGEZERO.ZP_POINTER_0
+224a: 85 00     -         sta PAGEZERO. ZP_00
 224c: ea        -         nop 
 224d: ea        -         nop 
 224e: ea        -         nop 
 224f: ea        -         nop 
 2250: 20 c8 28  - MainGameLoop:jsr SUBROUTINE__28C8_2250_OK
-2253: 20 60 25  -         jsr SUBROUTINE__2560_2253_OK
-2256: 20 e1 28  -         jsr SUBROUTINE__28E1_2256_OK
+2253: 20 60 25  -         jsr ReadJoystickPort
+2256: 20 e1 28  -         jsr PlayInGameMusic
 2259: 20 0e 2a  -         jsr SUBROUTINE__2A0E_2259_OK
 225c: 20 3b 2a  -         jsr SUBROUTINE__2A3B_225C_OK
 225f: 20 11 2b  -         jsr SUBROUTINE__2B11_225F_OK
@@ -3899,7 +3899,7 @@
 2378: 03 04 54 01 00 00 04 55                          -         .byte $03,$04,$54,$01,$00,$00,$04,$55
 2380: 01 02 00 00 00 00 00 00                          -         .byte $01,$02,$00,$00,$00,$00,$00,$00
 2388: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
-2390: a5 00     - InitilizePursuer:lda PAGEZERO.ZP_POINTER_0
+2390: a5 00     - InitilizePursuer:lda PAGEZERO. ZP_00
 2392: 85 fd     -         sta $FD 
 2394: a2 00     - LoopNumberOfPursuers:ldx #$00
 2396: a4 fd     -         ldy $FD 
@@ -3911,9 +3911,9 @@
 239d: 88        -         dey
 239e: d0 f8     -         bne LoopPursuerSettings
 23a0: bd 00 23  -         lda PursuerData,X 
-23a3: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+23a3: 85 01     -         sta PAGEZERO. ZP_01 
 23a5: bd 01 23  -         lda PursuerData + 1,X 
-23a8: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+23a8: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 23aa: 20 b5 23  -         jsr PlacePursuerOnScreen
 23ad: 20 ce 23  -         jsr PlacePursuerSound
 23b0: c6 fd     -         dec $FD 
@@ -3925,10 +3925,10 @@
 23ba: aa        -         tax 
 23bb: bd 38 23  -         lda PursuerData + $38,X 
 23be: 91 01     -         sta ($01),Y 
-23c0: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
+23c0: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
 23c2: 18        -         clc 
 23c3: 69 84     -         adc #$84
-23c5: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+23c5: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 23c7: a9 03     -         lda #$03
 23c9: 91 01     -         sta ($01),Y 
 23cb: 68        -         pla 
@@ -3939,12 +3939,12 @@
 23d0: 98        -         tya 
 23d1: 48        -         pha 
 23d2: a2 80     -         ldx #$80
-23d4: 8e 0d 90  - BRANCH_LOOP__23D4_23D8_OK,BRANCH_LOOP__23D4_23DB_OK:stx VIC.VICCRD 
+23d4: 8e 0d 90  - BRANCH_LOOP__23D4_23D8_OK,BRANCH_LOOP__23D4_23DB_OK:stx VIC. VICCRD 
 23d7: 88        -         dey 
 23d8: d0 fa     -         bne BRANCH_LOOP__23D4_23D8_OK   //if y = 0
 23da: e8        -         inx 							//else
 23db: d0 f7     -         bne BRANCH_LOOP__23D4_23DB_OK	//if x = 0
-23dd: 8e 0d 90  - BRANCH_LOOP__23DD_23E1_OK,BRANCH_LOOP__23DD_23E6_OK:stx VIC.VICCRD 
+23dd: 8e 0d 90  - BRANCH_LOOP__23DD_23E1_OK,BRANCH_LOOP__23DD_23E6_OK:stx VIC. VICCRD 
 23e0: 88        -         dey 
 23e1: d0 fa     -         bne BRANCH_LOOP__23DD_23E1_OK
 23e3: ca        -         dex 
@@ -3957,23 +3957,23 @@
 23ec: 60        -         rts 
 23ed: 00 00 00  -         .byte $00,$00,$00
 23f0: bd 00 23  - SUBROUTINE__23F0_251E_OK:lda PursuerData,X 
-23f3: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+23f3: 85 01     -         sta PAGEZERO. ZP_01 
 23f5: bd 01 23  -         lda PursuerData + 1,X 
-23f8: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+23f8: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 23fa: a9 00     -         lda #$00
-23fc: 85 03     -         sta PAGEZERO.ZP_POINTER_2 + 1 
+23fc: 85 03     -         sta PAGEZERO. ZP_POINTER_02 + 1 
 23fe: 18        -         clc 
 23ff: b1 01     -         lda ($01),Y 
 2401: 29 04     -         and #$04
 2403: d0 04     -         bne BRANCH_LOOP__2409_2403_OK
 2405: a9 04     -         lda #$04
-2407: 85 03     -         sta PAGEZERO.ZP_POINTER_2 + 1 
+2407: 85 03     -         sta PAGEZERO. ZP_POINTER_02 + 1 
 2409: bd 04 23  - BRANCH_LOOP__2409_2403_OK:lda PursuerData + 4,X 
 240c: 91 01     -         sta ($01),Y 
-240e: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
+240e: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
 2410: 18        -         clc 
 2411: 69 84     -         adc #$84
-2413: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2413: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2415: bd 03 23  -         lda PursuerData + 3,X 
 2418: 91 01     -         sta ($01),Y 
 241a: bd 02 23  - JUMP_BRANCH_241A_2559_OK:lda PursuerData + 2,X 
@@ -4016,24 +4016,24 @@
 245b: 69 19     -         adc #$19
 245d: 9d 00 23  -         sta PursuerData + 0,X 
 2460: bd 01 23  -         lda PursuerData + 1,X 
-2463: 69 00     -         adc #GAMESETTINGS.CARRY
+2463: 69 00     -         adc #GAMESETTINGS. CARRY
 2465: 9d 01 23  -         sta PursuerData + 1,X 
 2468: bd 00 23  - JUMP_BRANCH_2468_2431_OK,JUMP_BRANCH_2468_243C_OK,JUMP_BRANCH_2468_2454_OK:lda PursuerData + 0,X 
-246b: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+246b: 85 01     -         sta PAGEZERO. ZP_01 
 246d: bd 01 23  -         lda PursuerData + 1,X 
-2470: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2470: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2472: b1 01     -         lda ($01),Y 
 2474: c9 50     -         cmp #$50
 2476: f0 60     -         beq BRANCH_LOOP__24D8_2476_OK
 2478: c9 51     -         cmp #$51
 247a: f0 5c     -         beq BRANCH_LOOP__24D8_247A_OK
-247c: 85 04     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER  
+247c: 85 04     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER  
 247e: 8a        -         txa 
 247f: 48        -         pha 
 2480: a0 0c     -         ldy #$0C
 2482: a2 00     -         ldx #$00
 2484: bd 48 23  - BRANCH_LOOP__2484_2491_OK:lda PursuerData + $48,X 
-2487: c5 04     -         cmp PAGEZERO.ZP_GRID_SCREEN_POINTER  
+2487: c5 04     -         cmp PAGEZERO. ZP_GRID_SCREEN_POINTER  
 2489: f0 0a     -         beq BRANCH_LOOP__2495_2489_OK
 248b: e8        -         inx 
 248c: e8        -         inx 
@@ -4043,7 +4043,7 @@
 2490: 88        -         dey 
 2491: d0 f1     -         bne BRANCH_LOOP__2484_2491_OK
 2493: f0 73     -         beq BRANCH_LOOP__2508_2493_OK
-2495: 86 06     - BRANCH_LOOP__2495_2489_OK:stx PAGEZERO.ZP_POINTER_6  
+2495: 86 06     - BRANCH_LOOP__2495_2489_OK:stx PAGEZERO. ZP_06  
 2497: 68        -         pla 
 2498: aa        -         tax 
 2499: a9 03     -         lda #$03
@@ -4052,8 +4052,8 @@
 249f: 29 01     -         and #$01
 24a1: f0 04     -         beq BRANCH_LOOP__24A7_24A1_OK
 24a3: a9 01     -         lda #$01
-24a5: 85 05     -         sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
-24a7: a4 05     - BRANCH_LOOP__24A7_24A1_OK:ldy PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
+24a5: 85 05     -         sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
+24a7: a4 05     - BRANCH_LOOP__24A7_24A1_OK:ldy PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
 24a9: fe 02 23  - BRANCH_LOOP__24A9_24B9_OK,JUMP_BRANCH_24A9_24D3_OK:inc PursuerData + 2,X 
 24ac: bd 02 23  -         lda PursuerData + 2,X 
 24af: c9 04     -         cmp #$04
@@ -4065,10 +4065,10 @@
 24bb: 8a        -         txa 
 24bc: 48        -         pha 
 24bd: bd 02 23  -         lda PursuerData + 2,X 
-24c0: 85 07     -         sta PAGEZERO.ZP_POINTER_6 + 1 
-24c2: a5 06     -         lda PAGEZERO.ZP_POINTER_6  
+24c0: 85 07     -         sta PAGEZERO. ZP_06 + 1 
+24c2: a5 06     -         lda PAGEZERO. ZP_06  
 24c4: 18        -         clc 
-24c5: 65 07     -         adc PAGEZERO.ZP_POINTER_6 + 1 
+24c5: 65 07     -         adc PAGEZERO. ZP_06 + 1 
 24c7: aa        -         tax 
 24c8: bd 49 23  -         lda PursuerData + $49,X 
 24cb: c9 00     -         cmp #$00
@@ -4080,25 +4080,25 @@
 24d6: 68        - BRANCH_LOOP__24D6_24CD_OK:pla 
 24d7: aa        -         tax 
 24d8: bd 00 23  - BRANCH_LOOP__24D8_2476_OK,BRANCH_LOOP__24D8_247A_OK:lda PursuerData + 0,X 
-24db: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+24db: 85 01     -         sta PAGEZERO. ZP_01 
 24dd: bd 01 23  -         lda PursuerData + 1,X 
-24e0: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+24e0: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 24e2: b1 01     -         lda ($01),Y 
 24e4: 9d 04 23  -         sta PursuerData + 4,X 
 24e7: 8a        -         txa 
 24e8: 48        -         pha 
 24e9: bd 02 23  -         lda PursuerData + 2,X 
 24ec: 18        -         clc 
-24ed: 65 03     -         adc PAGEZERO.ZP_POINTER_2 + 1 
+24ed: 65 03     -         adc PAGEZERO. ZP_POINTER_02 + 1 
 24ef: aa        -         tax 
 24f0: bd 38 23  -         lda PursuerData + $38,X 
 24f3: 91 01     -         sta ($01),Y 
 24f5: 68        -         pla 
 24f6: aa        -         tax 
-24f7: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
+24f7: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
 24f9: 18        -         clc 
 24fa: 69 84     -         adc #$84
-24fc: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+24fc: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 24fe: b1 01     - SUBROUTINE__24FF_3384_BAD:lda ($01),Y 
 2500: 9d 03 23  -         sta PursuerData + 3,X 
 2503: a5 20     -         lda PAGEZERO. ZP_20 
@@ -4107,7 +4107,7 @@
 2508: 4c f8 2b  - BRANCH_LOOP__2508_2493_OK:jmp JUMP_BRANCH_2BF8_2508_OK
 250b: 00 00 00 00 00                                   -         .byte $00,$00,$00,$00,$00
 2510: a0 00     - SUBROUTINE__2510_25E0_OK:ldy #$00
-2512: a5 00     -         lda PAGEZERO.ZP_POINTER_0 
+2512: a5 00     -         lda PAGEZERO. ZP_00 
 2514: 85 fd     -         sta $FD 
 2516: a5 fd     - BRANCH_LOOP__2516_2523_OK:lda $FD 
 2518: 0a        -         asl  
@@ -4119,7 +4119,7 @@
 2521: c6 fd     -         dec $FD 
 2523: d0 f1     -         bne BRANCH_LOOP__2516_2523_OK
 2525: 60        -         rts 
-2526: c6 08     - JUMP_BRANCH_2526_28D1_OK:dec PAGEZERO.ZP_08 
+2526: c6 08     - JUMP_BRANCH_2526_28D1_OK:dec PAGEZERO. ZP_08 
 2528: f0 01     -         beq BRANCH_LOOP__252B_2528_OK
 252a: 60        -         rts 
 252b: 4c d4 28  - BRANCH_LOOP__252B_2528_OK:jmp JUMP_BRANCH_28D4_252B_OK
@@ -4146,48 +4146,48 @@
 2557: d0 ee     -         bne BRANCH_LOOP__2547_2557_OK
 2559: 4c 1a 24  -         jmp JUMP_BRANCH_241A_2559_OK
 255c: 00 00 00 00                                      -         .byte $00,$00,$00,$00
-2560: 78        - SUBROUTINE__2560_2253_OK,SUBROUTINE__2560_3079_OK:sei 
-2561: a2 7f     -         ldx #$7F
-2563: 8e 22 91  -         stx VIA.VIA2DDRB 
-2566: ac 20 91  - BRANCH_LOOP__2566_256C_OK:ldy VIA.VIA2PB 
-2569: cc 20 91  -         cpy VIA.VIA2PB 
-256c: d0 f8     -         bne BRANCH_LOOP__2566_256C_OK
-256e: a2 ff     -         ldx #$FF
-2570: 8e 22 91  -         stx VIA.VIA2DDRB
-2573: a2 f7     -         ldx #$F7
-2575: 8e 20 91  -         stx VIA.VIA2PB 
+2560: 78        - ReadJoystickPort:sei 
+2561: a2 7f     -         ldx #$7F    		// %0111 1111
+2563: 8e 22 91  -         stx VIA. VIA2DDRB 
+2566: ac 20 91  -         ldy VIA. VIA2PB 
+2569: cc 20 91  -         cpy VIA. VIA2PB 
+256c: d0 f8     -         bne !loop-
+256e: a2 ff     -         ldx #$FF			// %1111 1111
+2570: 8e 22 91  -         stx VIA. VIA2DDRB
+2573: a2 f7     -         ldx #$F7			// %1111 0111
+2575: 8e 20 91  -         stx VIA. VIA2PB 
 2578: 58        -         cli 
-2579: ad 1f 91  - BRANCH_LOOP__2579_257F_OK:lda VIA.VIA1PA2 
-257c: cd 1f 91  -         cmp VIA.VIA1PA2 
-257f: d0 f8     -         bne BRANCH_LOOP__2579_257F_OK
+2579: ad 1f 91  -         lda VIA. VIA1PA2 
+257c: cd 1f 91  -         cmp VIA. VIA1PA2 
+257f: d0 f8     -         bne !loop-
 2581: 48        -         pha 
-2582: 29 1c     -         and #$1C
-2584: 4a        -         lsr  
-2585: c0 80     -         cpy #$80
-2587: 90 02     -         bcc BRANCH_LOOP__258B_2587_OK
-2589: 09 10     -         ora #$10
-258b: a8        - BRANCH_LOOP__258B_2587_OK:tay 
+2582: 29 1c     -         and #$1C			// %0001 1100
+2584: 4a        -         lsr 				// %0000 1110 
+2585: c0 80     -         cpy #$80			// $1000 0000
+2587: 90 02     -         bcc SkipNoFire
+2589: 09 10     -         ora #$10			// %0001 1110
+258b: a8        - SkipNoFire:tay 
 258c: 68        -         pla 
-258d: 29 20     -         and #$20
+258d: 29 20     -         and #$20			// %00100000
 258f: c9 20     -         cmp #$20
 2591: 98        -         tya 
 2592: 6a        -         ror  
-2593: 49 8f     -         eor #$8F
+2593: 49 8f     -         eor #$8F			// %10001111
 2595: 85 0a     -         sta PAGEZERO. JOYSTICK_DIR 
 2597: 60        -         rts 
 2598: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 25a0: a9 c7     - JUMP_BRANCH_25A0_2BA6_OK,SUBROUTINE__25A0_2D5E_OK,SUBROUTINE__25A0_2D61_OK,JUMP_BRANCH_25A0_2E20_OK,SUBROUTINE__25A0_2E8F_OK:lda #$C7
-25a2: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+25a2: 85 01     -         sta PAGEZERO. ZP_01 
 25a4: a9 96     -         lda #$96
-25a6: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+25a6: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 25a8: a0 05     -         ldy #$05
 25aa: a9 02     -         lda #$02
 25ac: 91 01     - BRANCH_LOOP__25AC_25AF_OK:sta ($01),Y 
 25ae: 88        -         dey 
 25af: d0 fb     -         bne BRANCH_LOOP__25AC_25AF_OK
-25b1: e6 01     -         inc PAGEZERO.ZP_POINTER_0 + 1 
-25b3: e6 01     -         inc PAGEZERO.ZP_POINTER_0 + 1 
-25b5: a5 01     -         lda PAGEZERO.ZP_POINTER_0 + 1 
+25b1: e6 01     -         inc PAGEZERO. ZP_01 
+25b3: e6 01     -         inc PAGEZERO. ZP_01 
+25b5: a5 01     -         lda PAGEZERO. ZP_01 
 25b7: 8d 00 26  -         sta $2600 
 25ba: a9 12     -         lda #$12
 25bc: 8d 01 26  -         sta $2601 
@@ -4198,7 +4198,7 @@
 25c9: a9 00     -         lda #$00
 25cb: 8d 04 26  -         sta $2604 
 25ce: a9 12     -         lda #$12
-25d0: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+25d0: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 25d2: a9 4c     -         lda #$4C
 25d4: 91 01     -         sta ($01),Y 
 25d6: a9 02     -         lda #$02
@@ -4217,9 +4217,9 @@
 2615: 00 00 00 00 00 00 00 00                          -         .byte $00,$00,$00,$00,$00,$00,$00,$00
 261d: 00 00 00  -         .byte $00,$00,$00
 2620: ad 00 26  - JUMP_BRANCH_2620_25E3_OK,JUMP_BRANCH_2620_2BB4_OK:lda $2600 
-2623: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2623: 85 01     -         sta PAGEZERO. ZP_01 
 2625: ad 01 26  -         lda $2601 
-2628: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2628: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 262a: a0 00     -         ldy #$00
 262c: b1 01     -         lda ($01),Y 
 262e: ae 03 26  -         ldx $2603 
@@ -4227,25 +4227,25 @@
 2634: f0 03     -         beq BRANCH_LOOP__2639_2634_OK
 2636: 4c 91 2b  -         jmp JUMP_BRANCH_2B91_2636_OK
 2639: a9 00     - BRANCH_LOOP__2639_2634_OK:lda #$00
-263b: 85 0b     -         sta PAGEZERO.ZP_0B 
+263b: 85 0b     -         sta PAGEZERO. ZP_0B 
 263d: ad 02 26  -         lda $2602 
 2640: 91 01     -         sta ($01),Y 
-2642: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
+2642: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
 2644: 18        -         clc 
 2645: 69 84     -         adc #$84
-2647: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2647: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2649: ad 08 26  -         lda $2608 
 264c: 91 01     -         sta ($01),Y 
 264e: ad 02 26  -         lda $2602 
 2651: c9 50     -         cmp #$50
 2653: d0 07     -         bne BRANCH_LOOP__265C_2653_OK
 2655: a9 03     -         lda #$03
-2657: 85 0b     -         sta PAGEZERO.ZP_0B 
+2657: 85 0b     -         sta PAGEZERO. ZP_0B 
 2659: 4c a7 26  -         jmp JUMP_BRANCH_26A7_2659_OK
 265c: c9 51     - BRANCH_LOOP__265C_2653_OK:cmp #$51
 265e: d0 07     -         bne BRANCH_LOOP__2667_265E_OK
 2660: a9 0c     -         lda #$0C
-2662: 85 0b     -         sta PAGEZERO.ZP_0B 
+2662: 85 0b     -         sta PAGEZERO. ZP_0B 
 2664: 4c a7 26  -         jmp JUMP_BRANCH_26A7_2664_OK
 2667: a2 00     - BRANCH_LOOP__2667_265E_OK:ldx #$00
 2669: a0 0c     -         ldy #$0C
@@ -4262,23 +4262,23 @@
 267b: bd 49 23  - BRANCH_LOOP__267B_2671_OK:lda PursuerData + $49,X 
 267e: f0 06     -         beq BRANCH_LOOP__2686_267E_OK
 2680: a9 01     -         lda #$01
-2682: 05 0b     -         ora PAGEZERO.ZP_0B
-2684: 85 0b     -         sta PAGEZERO.ZP_0B 
+2682: 05 0b     -         ora PAGEZERO. ZP_0B
+2684: 85 0b     -         sta PAGEZERO. ZP_0B 
 2686: bd 4a 23  - BRANCH_LOOP__2686_267E_OK:lda PursuerData + $4A,X 
 2689: f0 06     -         beq BRANCH_LOOP__2691_2689_OK
 268b: a9 08     -         lda #$08
-268d: 05 0b     -         ora PAGEZERO.ZP_0B
-268f: 85 0b     -         sta PAGEZERO.ZP_0B 
+268d: 05 0b     -         ora PAGEZERO. ZP_0B
+268f: 85 0b     -         sta PAGEZERO. ZP_0B 
 2691: bd 4b 23  - BRANCH_LOOP__2691_2689_OK:lda PursuerData + $4B,X 
 2694: f0 06     -         beq BRANCH_LOOP__269C_2694_OK
 2696: a9 02     -         lda #$02
-2698: 05 0b     -         ora PAGEZERO.ZP_0B
-269a: 85 0b     -         sta PAGEZERO.ZP_0B 
+2698: 05 0b     -         ora PAGEZERO. ZP_0B
+269a: 85 0b     -         sta PAGEZERO. ZP_0B 
 269c: bd 4c 23  - BRANCH_LOOP__269C_2694_OK:lda PursuerData + $4C,X 
 269f: f0 06     -         beq BRANCH_LOOP__26A7_269F_OK
 26a1: a9 04     -         lda #$04
-26a3: 05 0b     -         ora PAGEZERO.ZP_0B
-26a5: 85 0b     -         sta PAGEZERO.ZP_0B 
+26a3: 05 0b     -         ora PAGEZERO. ZP_0B
+26a5: 85 0b     -         sta PAGEZERO. ZP_0B 
 26a7: ea        - JUMP_BRANCH_26A7_2659_OK,JUMP_BRANCH_26A7_2664_OK,BRANCH_LOOP__26A7_269F_OK:nop 
 26a8: ea        -         nop 
 26a9: ea        -         nop 
@@ -4289,9 +4289,9 @@
 26af: 29 0f     -         and #$0F
 26b1: f0 7a     -         beq BRANCH_LOOP__272D_26B1_OK
 26b3: a5 0a     -         lda PAGEZERO. JOYSTICK_DIR 
-26b5: 25 0b     -         and PAGEZERO.ZP_0B
-26b7: 85 0b     -         sta PAGEZERO.ZP_0B 
-26b9: a5 0b     -         lda PAGEZERO.ZP_0B 
+26b5: 25 0b     -         and PAGEZERO. ZP_0B
+26b7: 85 0b     -         sta PAGEZERO. ZP_0B 
+26b9: a5 0b     -         lda PAGEZERO. ZP_0B 
 26bb: f0 70     -         beq BRANCH_LOOP__272D_26BB_OK
 26bd: 29 01     -         and #$01
 26bf: f0 1a     -         beq BRANCH_LOOP__26DB_26BF_OK
@@ -4306,7 +4306,7 @@
 26d3: a9 00     -         lda #$00
 26d5: 8d 03 26  -         sta $2603 
 26d8: 4c 2d 27  -         jmp JUMP_BRANCH_272D_26D8_OK
-26db: a5 0b     - BRANCH_LOOP__26DB_26BF_OK:lda PAGEZERO.ZP_0B 
+26db: a5 0b     - BRANCH_LOOP__26DB_26BF_OK:lda PAGEZERO. ZP_0B 
 26dd: 29 08     -         and #$08
 26df: f0 10     -         beq BRANCH_LOOP__26F1_26DF_OK
 26e1: ee 00 26  -         inc $2600 
@@ -4315,7 +4315,7 @@
 26e9: a9 01     - BRANCH_LOOP__26E9_26E4_OK:lda #$01
 26eb: 8d 03 26  -         sta $2603 
 26ee: 4c 2d 27  -         jmp JUMP_BRANCH_272D_26EE_OK
-26f1: a5 0b     - BRANCH_LOOP__26F1_26DF_OK:lda PAGEZERO.ZP_0B 
+26f1: a5 0b     - BRANCH_LOOP__26F1_26DF_OK:lda PAGEZERO. ZP_0B 
 26f3: 29 02     -         and #$02
 26f5: f0 19     -         beq BRANCH_LOOP__2710_26F5_OK
 26f7: ad 00 26  -         lda $2600 
@@ -4323,12 +4323,12 @@
 26fb: 69 19     -         adc #$19
 26fd: 8d 00 26  -         sta $2600 
 2700: ad 01 26  -         lda $2601 
-2703: 69 00     -         adc #GAMESETTINGS.CARRY
+2703: 69 00     -         adc #GAMESETTINGS. CARRY
 2705: 8d 01 26  -         sta $2601 
 2708: a9 02     -         lda #$02
 270a: 8d 03 26  -         sta $2603 
 270d: 4c 2d 27  -         jmp JUMP_BRANCH_272D_270D_OK
-2710: a5 0b     - BRANCH_LOOP__2710_26F5_OK:lda PAGEZERO.ZP_0B 
+2710: a5 0b     - BRANCH_LOOP__2710_26F5_OK:lda PAGEZERO. ZP_0B 
 2712: 29 04     -         and #$04
 2714: f0 17     -         beq BRANCH_LOOP__272D_2714_OK
 2716: ce 00 26  -         dec $2600 
@@ -4346,9 +4346,9 @@
 272d: a0 00     - BRANCH_LOOP__272D_26B1_OK,BRANCH_LOOP__272D_26BB_OK,JUMP_BRANCH_272D_26D8_OK,JUMP_BRANCH_272D_26EE_OK,JUMP_BRANCH_272D_270D_OK,BRANCH_LOOP__272D_2714_OK:ldy #$00
 272f: ea        -         nop 
 2730: ad 00 26  -         lda $2600 
-2733: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2733: 85 01     -         sta PAGEZERO. ZP_01 
 2735: ad 01 26  -         lda $2601 
-2738: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2738: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 273a: b1 01     -         lda ($01),Y 
 273c: a2 08     -         ldx #$08
 273e: dd 37 23  - BRANCH_LOOP__273E_2747_OK:cmp PursuerData + $37,X 
@@ -4357,10 +4357,10 @@
 2746: ca        - BRANCH_LOOP__2746_2741_OK:dex 
 2747: d0 f5     -         bne BRANCH_LOOP__273E_2747_OK
 2749: 8d 02 26  -         sta $2602 
-274c: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
+274c: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
 274e: 18        -         clc 
 274f: 69 84     -         adc #$84
-2751: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2751: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2753: b1 01     -         lda ($01),Y 
 2755: 29 07     -         and #$07
 2757: c9 02     -         cmp #$02
@@ -4393,11 +4393,11 @@
 2782: ea        -         nop 
 2783: ea        -         nop 
 2784: 20 c0 27  -         jsr SUBROUTINE__27C0_2784_OK
-2787: a5 09     - JUMP_BRANCH_2787_2770_OK,BRANCH_LOOP__2787_2778_OK:lda PAGEZERO.ZP_09 
+2787: a5 09     - JUMP_BRANCH_2787_2770_OK,BRANCH_LOOP__2787_2778_OK:lda PAGEZERO. ZP_09 
 2789: ea        -         nop 
 278a: 91 01     -         sta ($01),Y 
 278c: ad 01 26  -         lda $2601 
-278f: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+278f: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2791: ae 03 26  -         ldx $2603 
 2794: bd 09 26  -         lda $2609,X 
 2797: 91 01     -         sta ($01),Y 
@@ -4459,11 +4459,11 @@
 282e: a9 00     - JUMP_BRANCH_282E_28C5_OK,JUMP_BRANCH_282E_2E3C_OK:lda #$00
 2830: 8d 04 26  -         sta $2604 
 2833: ad 00 26  - JUMP_BRANCH_2833_2873_OK,JUMP_BRANCH_2833_287B_OK:lda $2600 
-2836: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2836: 85 01     -         sta PAGEZERO. ZP_01 
 2838: ad 01 26  -         lda $2601 
 283b: 18        -         clc 
 283c: 69 84     -         adc #$84
-283e: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+283e: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2840: 60        -         rts 
 2841: a9 07     - BRANCH_LOOP__2841_2885_OK,SUBROUTINE__2841_2BA0_OK,SUBROUTINE__2841_2D3A_OK:lda #$07
 2843: 8d 08 26  -         sta $2608 
@@ -4474,9 +4474,9 @@
 2850: 0a        - BRANCH_LOOP__2850_284B_OK:asl  
 2851: aa        -         tax 
 2852: bd 9e 27  - BRANCH_LOOP__2852_2867_OK:lda $279E,X 
-2855: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2855: 85 01     -         sta PAGEZERO. ZP_01 
 2857: bd 9f 27  -         lda $279F,X 
-285a: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+285a: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 285c: a0 00     -         ldy #$00
 285e: a9 07     -         lda #$07
 2860: 91 01     -         sta ($01),Y 
@@ -4487,7 +4487,7 @@
 2869: a9 00     -         lda #$00
 286b: 8d 04 26  -         sta $2604 
 286e: a9 c3     -         lda #$C3
-2870: 8d 0d 90  -         sta VIC.VICCRD 
+2870: 8d 0d 90  -         sta VIC. VICCRD 
 2873: 4c 33 28  -         jmp JUMP_BRANCH_2833_2873_OK
 2876: a9 02     - JUMP_BRANCH_2876_284D_OK:lda #$02
 2878: 8d 08 26  -         sta $2608 
@@ -4497,9 +4497,9 @@
 2883: c9 01     -         cmp #$01
 2885: d0 ba     -         bne BRANCH_LOOP__2841_2885_OK
 2887: ad a0 27  -         lda $27A0 
-288a: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+288a: 85 01     -         sta PAGEZERO. ZP_01 
 288c: ad a1 27  -         lda $27A1 
-288f: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+288f: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2891: a0 00     -         ldy #$00
 2893: a9 07     -         lda #$07
 2895: 91 01     -         sta ($01),Y 
@@ -4511,7 +4511,7 @@
 289e: a0 0a     -         ldy #$0A
 28a0: a2 00     -         ldx #$00
 28a2: bd 00 23  - BRANCH_LOOP__28A2_28BB_OK:lda PursuerData + 0,X 
-28a5: c5 01     -         cmp PAGEZERO.ZP_POINTER_0 + 1 
+28a5: c5 01     -         cmp PAGEZERO. ZP_01 
 28a7: d0 0c     -         bne BRANCH_LOOP__28B5_28A7_OK
 28a9: 20 c6 29  -         jsr SUBROUTINE__29C6_28A9_OK
 28ac: ea        -         nop 
@@ -4540,12 +4540,12 @@
 28cf: 85 0f     -         sta PAGEZERO. ZP_0F 
 28d1: 4c 26 25  -         jmp JUMP_BRANCH_2526_28D1_OK
 28d4: a5 0d     - JUMP_BRANCH_28D4_252B_OK:lda PAGEZERO. ZP_GameSpeed 
-28d6: 85 08     -         sta PAGEZERO.ZP_08 
+28d6: 85 08     -         sta PAGEZERO. ZP_08 
 28d8: 4c e0 25  -         jmp JUMP_BRANCH_25E0_28D8_OK
-28db: 85 05     - SUBROUTINE__28DB_249B_OK:sta PAGEZERO.ZP_GRID_SCREEN_POINTER + 1 
-28dd: ad 04 90  -         lda VIC.VICCR4 
+28db: 85 05     - SUBROUTINE__28DB_249B_OK:sta PAGEZERO. ZP_GRID_SCREEN_POINTER + 1 
+28dd: ad 04 90  -         lda VIC. VICCR4 
 28e0: 60        -         rts 
-28e1: c6 14     - SUBROUTINE__28E1_2256_OK:dec PAGEZERO. ZP_14 
+28e1: c6 14     - PlayInGameMusic:dec PAGEZERO. ZP_14 
 28e3: f0 01     -         beq !skip+
 28e5: 60        -         rts 
 28e6: a5 13     -         lda PAGEZERO. ZP_13 
@@ -4554,9 +4554,9 @@
 28ec: f0 01     -         beq !skip+
 28ee: 60        -         rts
 28ef: a9 28     -         lda #$28
-28f1: 85 10     -         sta $10 
-28f3: ce 0e 90  -         dec VIC.VICCRE 
-28f6: ad 0e 90  -         lda VIC.VICCRE 
+28f1: 85 10     -         sta PAGEZERO. ZP_10 
+28f3: ce 0e 90  -         dec VIC. VICCRE 
+28f6: ad 0e 90  -         lda VIC. VICCRE 
 28f9: f0 01     -         beq !skip+
 28fb: 60        -         rts 
 28fc: a0 02     -         ldy #$02
@@ -4569,13 +4569,13 @@
 2909: b1 15     -         lda (PAGEZERO. ZP_15),Y 
 290b: c9 ff     -         cmp #$FF
 290d: f0 11     -         beq !skip+
-290f: 8d 0c 90  -         sta VIC.VICCRC 
+290f: 8d 0c 90  -         sta VIC. VICCRC 
 2912: c8        -         iny 
 2913: b1 15     -         lda (PAGEZERO. ZP_15),Y 
 2915: 85 13     -         sta PAGEZERO. ZP_13 
 2917: 85 14     -         sta PAGEZERO. ZP_14 
 2919: a9 0f     -         lda #$0F
-291b: 8d 0e 90  -         sta VIC.VICCRE 
+291b: 8d 0e 90  -         sta VIC. VICCRE 
 291e: 60        -         rts 
 291f: ea        -         nop 
 2920: 4c d0 29  - SUBROUTINE__2920_2225_OK:jmp JUMP_BRANCH_29D0_2920_OK
@@ -4603,7 +4603,7 @@
 29c6: bd 01 23  - SUBROUTINE__29C6_28A9_OK:lda PursuerData + 1,X 
 29c9: 18        -         clc 
 29ca: 69 84     -         adc #$84
-29cc: c5 02     -         cmp PAGEZERO.ZP_POINTER_2  
+29cc: c5 02     -         cmp PAGEZERO. ZP_POINTER_02  
 29ce: 60        -         rts 
 29cf: ff        -         .byte $FF
 29d0: a9 29     - JUMP_BRANCH_29D0_2920_OK:lda #$29
@@ -4616,61 +4616,61 @@
 29de: 85 14     -         sta PAGEZERO. ZP_14 
 29e0: a0 00     -         ldy #$00
 29e2: a9 01     -         lda #$01
-29e4: 8d 0e 90  -         sta VIC.VICCRE 
+29e4: 8d 0e 90  -         sta VIC. VICCRE 
 29e7: 60        -         rts 
 29e8: a2 01     - BRANCH_LOOP__29E8_2A12_OK,JUMP_BRANCH_29E8_2B28_OK:ldx #$01
-29ea: ad 0d 90  - BRANCH_LOOP__29EA_2A0B_OK:lda VIC.VICCRD 
+29ea: ad 0d 90  - BRANCH_LOOP__29EA_2A0B_OK:lda VIC. VICCRD 
 29ed: c9 c3     -         cmp #$C3
 29ef: d0 08     -         bne BRANCH_LOOP__29F9_29EF_OK
 29f1: a9 e1     -         lda #$E1
-29f3: 8d 0d 90  -         sta VIC.VICCRD 
+29f3: 8d 0d 90  -         sta VIC. VICCRD 
 29f6: 4c 0a 2a  -         jmp JUMP_BRANCH_2A0A_29F6_OK
 29f9: c9 e1     - BRANCH_LOOP__29F9_29EF_OK:cmp #$E1
 29fb: d0 08     -         bne BRANCH_LOOP__2A05_29FB_OK
 29fd: a9 f0     -         lda #$F0
-29ff: 8d 0d 90  -         sta VIC.VICCRD 
+29ff: 8d 0d 90  -         sta VIC. VICCRD 
 2a02: 4c 0a 2a  -         jmp JUMP_BRANCH_2A0A_2A02_OK
 2a05: a9 00     - BRANCH_LOOP__2A05_29FB_OK:lda #$00
-2a07: 8d 0d 90  -         sta VIC.VICCRD 
+2a07: 8d 0d 90  -         sta VIC. VICCRD 
 2a0a: ca        - JUMP_BRANCH_2A0A_29F6_OK,JUMP_BRANCH_2A0A_2A02_OK:dex 
 2a0b: d0 dd     -         bne BRANCH_LOOP__29EA_2A0B_OK
 2a0d: 60        -         rts 
-2a0e: a5 08     - SUBROUTINE__2A0E_2259_OK:lda PAGEZERO.ZP_08 
+2a0e: a5 08     - SUBROUTINE__2A0E_2259_OK:lda PAGEZERO. ZP_08 
 2a10: c9 01     -         cmp #$01
 2a12: f0 d4     -         beq BRANCH_LOOP__29E8_2A12_OK
 2a14: 60        -         rts 
-2a15: ad 0b 90  - BRANCH_LOOP__2A17_2A38_BAD,BRANCH_LOOP__2A15_2A41_OK:lda VIC.VICCRB 
+2a15: ad 0b 90  - BRANCH_LOOP__2A15_2A41_OK,BRANCH_LOOP__2A17_2A38_BAD:lda VIC. VICCRB 
 2a18: c9 00     -         cmp #$00
-2a1a: d0 01     -         bne BRANCH_LOOP__2A1D_2A1A_OK
+2a1a: d0 01     -         bne Voice2FrqNot0
 2a1c: 60        -         rts 
-2a1d: ee 0b 90  - BRANCH_LOOP__2A1D_2A1A_OK:inc VIC.VICCRB 
-2a20: ee 0a 90  -         inc VIC.VICCRA 
-2a23: ee 0d 90  -         inc VIC.VICCRD 
+2a1d: ee 0b 90  - Voice2FrqNot0:inc VIC. VICCRB 
+2a20: ee 0a 90  -         inc VIC. VICCRA 
+2a23: ee 0d 90  -         inc VIC. VICCRD 
 2a26: 60        -         rts 
-2a27: 0f        -         .byte PAGEZERO. ZP_0F
-2a28: 8d 0e 90  -         sta VIC.VICCRE 
+2a27: 0f        -         .byte $0F
+2a28: 8d 0e 90  -         sta VIC. VICCRE 
 2a2b: 60        -         rts 
-2a2c: 9d 09 90  -         sta $9009,X 
+2a2c: 9d 09 90  -         sta VIC. VICCR9,X 
 2a2f: 4c 37 2a  -         jmp JUMP_BRANCH_2A37_2A2F_OK
 2a32: a9 00     -         lda #$00
-2a34: 9d 09 90  -         sta $9009,X 
+2a34: 9d 09 90  -         sta VIC. VICCR9,X 
 2a37: ca        - JUMP_BRANCH_2A37_2A2F_OK:dex 
 2a38: d0 db     -         bne BRANCH_LOOP__2A17_2A38_BAD
 2a3a: 60        -         rts 
-2a3b: a5 08     - SUBROUTINE__2A3B_225C_OK:lda PAGEZERO.ZP_08 
+2a3b: a5 08     - SUBROUTINE__2A3B_225C_OK:lda PAGEZERO. ZP_08 
 2a3d: ea        -         nop 
 2a3e: ea        -         nop 
 2a3f: c9 01     -         cmp #$01
 2a41: f0 d2     -         beq BRANCH_LOOP__2A15_2A41_OK
 2a43: 60        -         rts 
 2a44: a9 f2     - JUMP_BRANCH_2A44_281E_OK:lda #$F2
-2a46: 8d 0a 90  -         sta VIC.VICCRA 
-2a49: 8d 0b 90  -         sta VIC.VICCRB 
+2a46: 8d 0a 90  -         sta VIC. VICCRA 
+2a49: 8d 0b 90  -         sta VIC. VICCRB 
 2a4c: a0 03     -         ldy #$03
 2a4e: a6 19     -         ldx PAGEZERO. ZP_Pursures 
 2a50: 20 60 2a  -         jsr SUBROUTINE__2A60_2A50_OK
-2a53: e6 17     -         inc PAGEZERO.ZP_completedBlk 
-2a55: a5 17     -         lda PAGEZERO.ZP_completedBlk 
+2a53: e6 17     -         inc PAGEZERO. ZP_completedBlk 
+2a55: a5 17     -         lda PAGEZERO. ZP_completedBlk 
 2a57: c9 24     -         cmp #$24
 2a59: f0 23     -         beq LevelComplete
 2a5b: ea        -         nop 
@@ -4678,14 +4678,14 @@
 2a5d: 4c 83 2a  -         jmp JUMP_BRANCH_2A83_2A5D_OK
 2a60: 98        - SUBROUTINE__2A60_2A50_OK,BRANCH_LOOP__2A60_2A79_OK,SUBROUTINE__2A60_2B49_OK:tya 
 2a61: 48        -         pha 
-2a62: b1 1a     - BRANCH_LOOP__2A62_2A74_OK:lda (PAGEZERO.ZP_1A),Y 
+2a62: b1 1a     - BRANCH_LOOP__2A62_2A74_OK:lda (PAGEZERO. ZP_1A),Y 
 2a64: 18        -         clc 
 2a65: 69 01     -         adc #$01
-2a67: 91 1a     -         sta (PAGEZERO.ZP_1A),Y 
+2a67: 91 1a     -         sta (PAGEZERO. ZP_1A),Y 
 2a69: c9 3a     -         cmp #$3A
 2a6b: d0 09     -         bne BRANCH_LOOP__2A76_2A6B_OK
 2a6d: a9 30     -         lda #$30
-2a6f: 91 1a     -         sta (PAGEZERO.ZP_1A),Y 
+2a6f: 91 1a     -         sta (PAGEZERO. ZP_1A),Y 
 2a71: 88        -         dey 
 2a72: c0 ff     -         cpy #$FF
 2a74: d0 ec     -         bne BRANCH_LOOP__2A62_2A74_OK
@@ -4702,15 +4702,15 @@
 2a86: 29 07     -         and #$07
 2a88: c9 07     -         cmp #$07
 2a8a: f0 27     -         beq BRANCH_LOOP__2AB3_2A8A_OK
-2a8c: ad 7c 94  -         lda GAMESETTINGS.ScreenColour + $7C 
+2a8c: ad 7c 94  -         lda GAMESETTINGS. ScreenColour + $7C 
 2a8f: 29 07     -         and #$07
 2a91: c9 07     -         cmp #$07
 2a93: f0 1e     -         beq BRANCH_LOOP__2AB3_2A93_OK
-2a95: ad bc 96  -         lda GAMESETTINGS.ScreenColour + $2BC 
+2a95: ad bc 96  -         lda GAMESETTINGS. ScreenColour + $2BC 
 2a98: 29 07     -         and #$07
 2a9a: c9 07     -         cmp #$07
 2a9c: f0 15     -         beq BRANCH_LOOP__2AB3_2A9C_OK
-2a9e: ad d4 96  -         lda GAMESETTINGS.ScreenColour + $2D4 
+2a9e: ad d4 96  -         lda GAMESETTINGS. ScreenColour + $2D4 
 2aa1: 29 07     -         and #$07
 2aa3: c9 07     -         cmp #$07
 2aa5: f0 0c     -         beq BRANCH_LOOP__2AB3_2AA5_OK
@@ -4734,17 +4734,17 @@
 2ac8: a5 21     -         lda PAGEZERO. ZP_21 
 2aca: 85 18     -         sta $18 
 2acc: a9 90     -         lda #$90
-2ace: 8d 0c 90  -         sta VIC.VICCRC 
+2ace: 8d 0c 90  -         sta VIC. VICCRC 
 2ad1: a9 01     -         lda #$01
 2ad3: 85 13     -         sta PAGEZERO. ZP_13 
 2ad5: 60        -         rts 
 2ad6: 20 2b 2b  - BRANCH_LOOP__2AD6_2AC6_OK:jsr SUBROUTINE__2B2B_2AD6_OK
-2ad9: ad 0c 90  -         lda VIC.VICCRC 
+2ad9: ad 0c 90  -         lda VIC. VICCRC 
 2adc: c9 c0     -         cmp #$C0
 2ade: f0 01     -         beq BRANCH_LOOP__2AE1_2ADE_OK
 2ae0: 60        -         rts 
 2ae1: a9 90     - BRANCH_LOOP__2AE1_2ADE_OK:lda #$90     //144
-2ae3: 8d 0c 90  -         sta VIC.VICCRC //voice 3
+2ae3: 8d 0c 90  -         sta VIC. VICCRC //voice 3
 2ae6: c6 18     -         dec $18 
 2ae8: a9 01     -         lda #$01
 2aea: 85 20     -         sta PAGEZERO. ZP_20 
@@ -4773,7 +4773,7 @@
 2b16: f0 01     -         beq BRANCH_LOOP__2B19_2B16_OK
 2b18: 60        -         rts 
 2b19: 4c b6 2a  - BRANCH_LOOP__2B19_2B16_OK:jmp JUMP_BRANCH_2AB6_2B19_OK
-2b1c: a5 08     -         lda PAGEZERO.ZP_08 
+2b1c: a5 08     -         lda PAGEZERO. ZP_08 
 2b1e: c9 01     -         cmp #$01
 2b20: f0 01     -         beq BRANCH_LOOP__2B23_2B20_OK
 2b22: 60        -         rts 
@@ -4781,9 +4781,9 @@
 2b25: f0 01     -         beq BRANCH_LOOP__2B28_2B25_OK
 2b27: 60        -         rts 
 2b28: 4c e8 29  - BRANCH_LOOP__2B28_2B25_OK:jmp JUMP_BRANCH_29E8_2B28_OK
-2b2b: ee 0c 90  - SUBROUTINE__2B2B_2AD6_OK:inc VIC.VICCRC 
+2b2b: ee 0c 90  - SUBROUTINE__2B2B_2AD6_OK:inc VIC. VICCRC 
 2b2e: a9 0f     -         lda #$0F
-2b30: 8d 0e 90  -         sta VIC.VICCRE 
+2b30: 8d 0e 90  -         sta VIC. VICCRE 
 2b33: a9 20     -         lda #$20
 2b35: 85 10     -         sta $10 
 2b37: 60        -         rts 
@@ -4803,10 +4803,10 @@
 2b52: a9 00     - BRANCH_LOOP__2B52_2B3A_OK,JUMP_BRANCH_2B52_2B97_OK:lda #$00
 2b54: 20 db 2e  -         jsr SUBROUTINE__2EDB_2B54_OK
 2b57: a9 80     -         lda #$80
-2b59: 8d 0d 90  -         sta VIC.VICCRD 
+2b59: 8d 0d 90  -         sta VIC. VICCRD 
 2b5c: a9 0f     -         lda #$0F
-2b5e: 8d 0e 90  -         sta VIC.VICCRE 
-2b61: 8d 0e 90  -         sta VIC.VICCRE 
+2b5e: 8d 0e 90  -         sta VIC. VICCRE 
+2b61: 8d 0e 90  -         sta VIC. VICCRE 
 2b64: a0 50     - BRANCH_LOOP__2B64_2B6D_OK:ldy #$50
 2b66: 88        - BRANCH_LOOP__2B66_2B67_OK,BRANCH_LOOP__2B66_2B8C_OK:dey 
 2b67: d0 fd     -         bne BRANCH_LOOP__2B66_2B67_OK
@@ -4816,17 +4816,17 @@
 2b6d: d0 f5     -         bne BRANCH_LOOP__2B64_2B6D_OK
 2b6f: ea        -         nop 
 2b70: ad 00 26  -         lda $2600 
-2b73: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2b73: 85 01     -         sta PAGEZERO. ZP_01 
 2b75: ad 01 26  -         lda $2601 
-2b78: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
-2b7a: ad 0e 90  -         lda VIC.VICCRE 
+2b78: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
+2b7a: ad 0e 90  -         lda VIC. VICCRE 
 2b7d: 29 03     -         and #$03
 2b7f: aa        -         tax 
 2b80: bd 09 26  - BRANCH_LOOP__2B80_2B87_OK:lda $2609,X 
 2b83: 91 01     -         sta ($01),Y 
 2b85: c6 1f     -         dec PAGEZERO. ZP_Speed 
 2b87: d0 f7     -         bne BRANCH_LOOP__2B80_2B87_OK
-2b89: ce 0e 90  -         dec VIC.VICCRE 
+2b89: ce 0e 90  -         dec VIC. VICCRE 
 2b8c: d0 d8     -         bne BRANCH_LOOP__2B66_2B8C_OK
 2b8e: 4c 3a 2d  -         jmp JUMP_BRANCH_2D3A_2B8E_OK
 2b91: a5 18     - JUMP_BRANCH_2B91_2636_OK,JUMP_BRANCH_2B91_2743_OK,JUMP_BRANCH_2B91_2C19_OK:lda $18 
@@ -4845,18 +4845,18 @@
 2bb4: 4c 20 26  -         jmp JUMP_BRANCH_2620_2BB4_OK
 2bb7: a6 22     - JUMP_BRANCH_2BB7_2B4E_OK:ldx $22 
 2bb9: ad 00 26  -         lda $2600 
-2bbc: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2bbc: 85 01     -         sta PAGEZERO. ZP_01 
 2bbe: ad 01 26  -         lda $2601 
-2bc1: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2bc1: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2bc3: a0 00     -         ldy #$00
 2bc5: a9 a0     -         lda #$A0
 2bc7: 18        -         clc 
 2bc8: 65 22     -         adc $22 
 2bca: 91 01     -         sta ($01),Y 
-2bcc: a5 02     -         lda PAGEZERO.ZP_POINTER_2  
+2bcc: a5 02     -         lda PAGEZERO. ZP_POINTER_02  
 2bce: 18        -         clc 
 2bcf: 69 84     -         adc #$84
-2bd1: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2bd1: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2bd3: a9 80     -         lda #$80
 2bd5: 85 1f     -         sta PAGEZERO. ZP_Speed 
 2bd7: a2 08     - BRANCH_LOOP__2BD7_2BEE_OK:ldx #$08
@@ -4869,13 +4869,13 @@
 2be3: 29 07     -         and #$07
 2be5: 91 01     -         sta ($01),Y 
 2be7: a5 1f     -         lda PAGEZERO. ZP_Speed 
-2be9: 8d 0c 90  -         sta VIC.VICCRC 
+2be9: 8d 0c 90  -         sta VIC. VICCRC 
 2bec: e6 1f     -         inc PAGEZERO. ZP_Speed 
 2bee: d0 e7     -         bne BRANCH_LOOP__2BD7_2BEE_OK
 2bf0: a9 90     -         lda #$90
-2bf2: 8d 0c 90  -         sta VIC.VICCRC 
+2bf2: 8d 0c 90  -         sta VIC. VICCRC 
 2bf5: 4c a0 2b  -         jmp JUMP_BRANCH_2BA0_2BF5_OK
-2bf8: a5 04     - JUMP_BRANCH_2BF8_2508_OK:lda PAGEZERO.ZP_GRID_SCREEN_POINTER  
+2bf8: a5 04     - JUMP_BRANCH_2BF8_2508_OK:lda PAGEZERO. ZP_GRID_SCREEN_POINTER  
 2bfa: a2 04     -         ldx #$04
 2bfc: dd 08 26  - BRANCH_LOOP__2BFC_2C02_OK:cmp $2608,X 
 2bff: f0 06     -         beq BRANCH_LOOP__2C07_2BFF_OK
@@ -4894,13 +4894,13 @@
 2c18: 68        -         pla 
 2c19: 4c 91 2b  -         jmp JUMP_BRANCH_2B91_2C19_OK
 2c1c: a2 00     - SUBROUTINE__2C1C_2212_OK:ldx #$00
-2c1e: bd 00 94  - BRANCH_LOOP__2C1E_2C3A_OK:lda GAMESETTINGS.ScreenColour ,X 
+2c1e: bd 00 94  - BRANCH_LOOP__2C1E_2C3A_OK:lda GAMESETTINGS. ScreenColour ,X 
 2c21: 9d 00 35  -         sta $3500,X 
 2c24: 9d 00 39  -         sta $3900,X 
-2c27: bd 00 95  -         lda GAMESETTINGS.ScreenColour + $100,X 
+2c27: bd 00 95  -         lda GAMESETTINGS. ScreenColour + $100,X 
 2c2a: 9d 00 36  -         sta $3600,X 
 2c2d: 9d 00 3a  -         sta $3A00,X 
-2c30: bd 00 96  -         lda GAMESETTINGS.ScreenColour + $200,X 
+2c30: bd 00 96  -         lda GAMESETTINGS. ScreenColour + $200,X 
 2c33: 9d 00 37  -         sta $3700,X 
 2c36: 9d 00 3b  -         sta $3B00,X 
 2c39: e8        -         inx 
@@ -4976,21 +4976,21 @@
 2cc4: a0 04     -         ldy #$04
 2cc6: a9 46     -         lda #$46
 2cc8: 85 1a     -         sta $1A 
-2cca: 84 09     - BRANCH_LOOP__2CCA_2CC2_OK:sty PAGEZERO.ZP_09 
+2cca: 84 09     - BRANCH_LOOP__2CCA_2CC2_OK:sty PAGEZERO. ZP_09 
 2ccc: 60        -         rts 
 2ccd: ea        -         nop 
 2cce: ea        -         nop 
 2ccf: ea        -         nop 
 2cd0: a2 05     - JUMP_BRANCH_2CD0_2D89_OK:ldx #$05
-2cd2: a5 00     -         lda PAGEZERO.ZP_POINTER_0 
+2cd2: a5 00     -         lda PAGEZERO. ZP_00 
 2cd4: 85 1f     -         sta PAGEZERO. ZP_Speed 
 2cd6: a0 00     -         ldy #$00
 2cd8: bd 00 23  - BRANCH_LOOP__2CD8_2CF1_OK:lda PursuerData + 0,X 
-2cdb: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2cdb: 85 01     -         sta PAGEZERO. ZP_01 
 2cdd: bd 01 23  -         lda PursuerData + 1,X 
 2ce0: 18        -         clc 
 2ce1: 69 84     -         adc #$84
-2ce3: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2ce3: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2ce5: bd 03 23  -         lda PursuerData + 3,X 
 2ce8: 91 01     -         sta ($01),Y 
 2cea: e8        -         inx 
@@ -5060,7 +5060,7 @@
 2d61: 20 a0 25  - BRANCH_LOOP__2D62_2DBE_BAD:jsr SUBROUTINE__25A0_2D61_OK
 2d64: 20 54 2c  -         jsr SUBROUTINE__2C54_2D64_OK
 2d67: a9 02     -         lda #$02
-2d69: 8d 0e 90  - BRANCH_LOOP__2D6B_2DC3_BAD:sta VIC.VICCRE 
+2d69: 8d 0e 90  - BRANCH_LOOP__2D6B_2DC3_BAD:sta VIC. VICCRE 
 2d6c: 4c 8d 2d  -         jmp JUMP_BRANCH_2D8D_2D6C_OK
 2d6f: ea        -         nop 
 2d70: a2 00     - SUBROUTINE__2D70_2D3D_OK,JUMP_BRANCH_2D70_2ED1_OK:ldx #$00
@@ -5068,7 +5068,7 @@
 2d74: c9 02     - BRANCH_LOOP__2D74_2DC8_OK:cmp #$02
 2d76: d0 02     -         bne BRANCH_LOOP__2D7A_2D76_OK
 2d78: a2 10     -         ldx #$10
-2d7a: a5 17     - BRANCH_LOOP__2D7A_2D76_OK:lda PAGEZERO.ZP_completedBlk 
+2d7a: a5 17     - BRANCH_LOOP__2D7A_2D76_OK:lda PAGEZERO. ZP_completedBlk 
 2d7c: 9d 03 3c  - BRANCH_LOOP__2D7D_2DCD_BAD:sta $3C03,X 
 2d7f: a5 19     - BRANCH_LOOP__2D80_2DDC_BAD:lda PAGEZERO. ZP_Pursures 
 2d81: 9d 02 3c  - BRANCH_LOOP__2D83_2DD2_BAD:sta $3C02,X 
@@ -5084,7 +5084,7 @@
 2d97: bd 02 3c  - BRANCH_LOOP__2D97_2D93_OK:lda $3C02,X 
 2d9a: 85 19     -         sta PAGEZERO. ZP_Pursures 
 2d9c: bd 03 3c  -         lda $3C03,X 
-2d9f: 85 17     - BRANCH_LOOP__2DA0_2DD7_BAD:sta PAGEZERO.ZP_completedBlk 
+2d9f: 85 17     - BRANCH_LOOP__2DA0_2DD7_BAD:sta PAGEZERO. ZP_completedBlk 
 2da1: bd 04 3c  -         lda $3C04,X 
 2da4: 85 18     -         sta $18 
 2da6: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2DA6_OK
@@ -5111,11 +5111,11 @@
 2dec: a9 09     -         lda #$09
 2dee: 85 1f     -         sta PAGEZERO. ZP_Speed 
 2df0: bd 00 23  - BRANCH_LOOP__2DF0_2E09_OK:lda PursuerData + 0,X 
-2df3: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2df3: 85 01     -         sta PAGEZERO. ZP_01 
 2df5: bd 01 23  -         lda PursuerData + 1,X 
 2df8: 18        -         clc 
 2df9: 69 84     -         adc #$84
-2dfb: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2dfb: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2dfd: b1 01     -         lda ($01),Y 
 2dff: 9d 03 23  -         sta PursuerData + 3,X 
 2e02: e8        -         inx 
@@ -5154,43 +5154,43 @@
 2e42: a9 e0     - LoopForAprox5Sec:lda #$E0
 2e44: 85 1f     -         sta PAGEZERO. ZP_Speed 
 2e46: a0 00     -         ldy #$00
-2e48: 99 64 94  -         sta GAMESETTINGS.ScreenColour + $64,Y 
-2e4b: 99 00 95  -         sta GAMESETTINGS.ScreenColour + $100,Y 
-2e4e: 99 00 96  -         sta GAMESETTINGS.ScreenColour + $200,Y 
+2e48: 99 64 94  -         sta GAMESETTINGS. ScreenColour + $64,Y 
+2e4b: 99 00 95  -         sta GAMESETTINGS. ScreenColour + $100,Y 
+2e4e: 99 00 96  -         sta GAMESETTINGS. ScreenColour + $200,Y 
 2e51: c8        -         iny 
 2e52: d0 f4     -         bne !SetScreenColours-
 2e54: a5 1f     -         lda PAGEZERO. ZP_Speed 
-2e56: 8d 0c 90  -         sta VIC.VICCRC 
+2e56: 8d 0c 90  -         sta VIC. VICCRC 
 2e59: e6 1f     -         inc PAGEZERO. ZP_Speed 
 2e5b: d0 e9     -         bne !CycleThroughColours-
 2e5d: ca        -         dex 
 2e5e: d0 e2     -         bne LoopForAprox5Sec
-2e60: e6 19     -         inc PAGEZERO.ZP_Pursures 
+2e60: e6 19     -         inc PAGEZERO. ZP_Pursures 
 2e62: a9 00     -         lda #$00
-2e64: 85 17     -         sta PAGEZERO.ZP_completedBlk 
+2e64: 85 17     -         sta PAGEZERO. ZP_completedBlk 
 2e66: a9 01     -         lda #$01
 2e68: 85 22     -         sta $22 
 2e6a: a9 00     -         lda #$00
-2e6c: 85 17     -         sta PAGEZERO.ZP_completedBlk 
-2e6e: e6 00     -         inc PAGEZERO.ZP_POINTER_0 
-2e70: a5 19     -         lda PAGEZERO.ZP_Pursures 
+2e6c: 85 17     -         sta PAGEZERO. ZP_completedBlk 
+2e6e: e6 00     -         inc PAGEZERO. ZP_00 
+2e70: a5 19     -         lda PAGEZERO. ZP_Pursures 
 2e72: c9 0a     -         cmp #$0A							//Have We got to Level 10?
 2e74: d0 04     -         bne NotMaxPursures
 2e76: a9 09     -         lda #$09							//Keep at Max Now
-2e78: 85 19     -         sta PAGEZERO.ZP_Pursures 
-2e7a: a5 19     - NotMaxPursures:lda PAGEZERO.ZP_Pursures
-2e7c: 85 00     -         sta PAGEZERO.ZP_POINTER_0 
+2e78: 85 19     -         sta PAGEZERO. ZP_Pursures 
+2e7a: a5 19     - NotMaxPursures:lda PAGEZERO. ZP_Pursures
+2e7c: 85 00     -         sta PAGEZERO. ZP_00 
 2e7e: a9 00     -         lda #$00
-2e80: 8d 0c 90  -         sta VIC.VICCRC 
-2e83: 8d 0b 90  -         sta VIC.VICCRB 
-2e86: 8d 0a 90  -         sta VIC.VICCRA 
+2e80: 8d 0c 90  -         sta VIC. VICCRC 
+2e83: 8d 0b 90  -         sta VIC. VICCRB 
+2e86: 8d 0a 90  -         sta VIC. VICCRA 
 2e89: 20 ae 21  -         jsr ClearPlayScreen
 2e8c: 20 00 21  -         jsr DrawGrid
 2e8f: 20 a0 25  -         jsr SUBROUTINE__25A0_2E8F_OK
 2e92: 20 dd 2d  -         jsr SUBROUTINE__2DDD_2E92_OK
 2e95: 4c f4 2e  -         jmp JUMP_BRANCH_2EF4_2E95_OK
 2e98: 4c 50 22  -         jmp MainGameLoop
-2e9b: a5 08     - SUBROUTINE__2E9B_2262_OK:lda PAGEZERO.ZP_08 
+2e9b: a5 08     - SUBROUTINE__2E9B_2262_OK:lda PAGEZERO. ZP_08 
 2e9d: c9 01     -         cmp #$01
 2e9f: f0 01     -         beq BRANCH_LOOP__2EA2_2E9F_OK
 2ea1: 60        -         rts 
@@ -5223,13 +5223,13 @@
 2ed0: ea        -         nop 
 2ed1: 4c 70 2d  -         jmp JUMP_BRANCH_2D70_2ED1_OK
 2ed4: a5 19     - JUMP_BRANCH_2ED4_2E0B_OK:lda PAGEZERO. ZP_Pursures 
-2ed6: 85 00     -         sta PAGEZERO.ZP_POINTER_0 
+2ed6: 85 00     -         sta PAGEZERO. ZP_00 
 2ed8: 4c 40 2f  -         jmp JUMP_BRANCH_2F40_2ED8_OK
 2edb: a9 00     - SUBROUTINE__2EDB_2B54_OK,SUBROUTINE__2EDB_2EEE_OK,SUBROUTINE__2EDB_2EFB_OK,SUBROUTINE__2EDB_2F4F_OK,SUBROUTINE__2EDB_2F99_OK:lda #$00
-2edd: 8d 0a 90  -         sta VIC.VICCRA 
-2ee0: 8d 0b 90  -         sta VIC.VICCRB 
-2ee3: 8d 0c 90  -         sta VIC.VICCRC 
-2ee6: 8d 0d 90  -         sta VIC.VICCRD 
+2edd: 8d 0a 90  -         sta VIC. VICCRA 
+2ee0: 8d 0b 90  -         sta VIC. VICCRB 
+2ee3: 8d 0c 90  -         sta VIC. VICCRC 
+2ee6: 8d 0d 90  -         sta VIC. VICCRD 
 2ee9: a9 03     -         lda #$03
 2eeb: 85 20     -         sta PAGEZERO. ZP_20 
 2eed: 60        -         rts 
@@ -5242,7 +5242,7 @@
 2ef8: 4c 50 22  -         jmp MainGameLoop
 2efb: 20 db 2e  - JUMP_BRANCH_2EFB_2C72_OK:jsr SUBROUTINE__2EDB_2EFB_OK
 2efe: a9 0f     -         lda #$0F
-2f00: 8d 0e 90  -         sta VIC.VICCRE 
+2f00: 8d 0e 90  -         sta VIC. VICCRE 
 2f03: 20 ae 21  -         jsr ClearPlayScreen
 2f06: a2 09     -         ldx #$09
 2f08: bd 36 2f  - BRANCH_LOOP__2F08_2F0F_OK:lda $2F36,X 
@@ -5254,9 +5254,9 @@
 2f15: a4 1f     - BRANCH_LOOP__2F15_2F2E_OK:ldy PAGEZERO. ZP_Speed 
 2f17: ca        - BRANCH_LOOP__2F17_2F18_OK,BRANCH_LOOP__2F17_2F26_OK:dex 
 2f18: d0 fd     -         bne BRANCH_LOOP__2F17_2F18_OK
-2f1a: 8c 0a 90  -         sty VIC.VICCRA 
-2f1d: 8c 0b 90  -         sty VIC.VICCRB 
-2f20: 8c 0c 90  -         sty VIC.VICCRC 
+2f1a: 8c 0a 90  -         sty VIC. VICCRA 
+2f1d: 8c 0b 90  -         sty VIC. VICCRB 
+2f20: 8c 0c 90  -         sty VIC. VICCRC 
 2f23: 88        -         dey 
 2f24: c0 80     -         cpy #$80
 2f26: d0 ef     -         bne BRANCH_LOOP__2F17_2F26_OK
@@ -5284,36 +5284,36 @@
 2f52: 4c 90 23  -         jmp InitilizePursuer
 2f55: a0 00     - JUMP_BRANCH_2F55_2F30_OK:ldy #$00
 2f57: a2 05     -         ldx #$05
-2f59: b9 35 10  - BRANCH_LOOP__2F59_2F67_OK:lda $1035,Y 
-2f5c: d9 7b 20  -         cmp $207B,Y 
-2f5f: f0 04     -         beq BRANCH_LOOP__2F65_2F5F_OK
-2f61: 10 06     -         bpl BRANCH_LOOP__2F69_2F61_OK
-2f63: 30 12     -         bmi BRANCH_LOOP__2F77_2F63_OK
-2f65: c8        - BRANCH_LOOP__2F65_2F5F_OK:iny 
+2f59: b9 35 10  - Check_For_New_HighScoreP1:lda GAMESETTINGS. PLAYER_1_SCORE,Y 
+2f5c: d9 7b 20  -         cmp GAMESETTINGS. HIGH_SCORE,Y 
+2f5f: f0 04     -         beq !Next_Digit+
+2f61: 10 06     -         bpl !Increase_Score+
+2f63: 30 12     -         bmi !Skip_Checking+
+2f65: c8        -         iny 
 2f66: ca        -         dex 
-2f67: d0 f0     -         bne BRANCH_LOOP__2F59_2F67_OK
-2f69: a2 05     - BRANCH_LOOP__2F69_2F61_OK:ldx #$05
-2f6b: bd 34 10  - BRANCH_LOOP__2F6B_2F75_OK:lda $1034,X 
-2f6e: 9d 7a 20  -         sta $207A,X 
-2f71: 9d 55 10  -         sta $1055,X 
+2f67: d0 f0     -         bne Check_For_New_HighScoreP1
+2f69: a2 05     -         ldx #$05
+2f6b: bd 34 10  -         lda GAMESETTINGS. PLAYER_1_SCORE - 1,X 
+2f6e: 9d 7a 20  -         sta GAMESETTINGS. HIGH_SCORE -1,X 
+2f71: 9d 55 10  -         sta GAMESETTINGS. HIGH_SCORE_SCREEN - 1,X 
 2f74: ca        -         dex 
-2f75: d0 f4     -         bne BRANCH_LOOP__2F6B_2F75_OK
-2f77: a0 00     - BRANCH_LOOP__2F77_2F63_OK:ldy #$00
+2f75: d0 f4     -         bne !Update_HighScore-
+2f77: a0 00     -         ldy #$00
 2f79: a2 05     -         ldx #$05
-2f7b: b9 46 10  - BRANCH_LOOP__2F7B_2F89_OK:lda $1046,Y 
-2f7e: d9 7b 20  -         cmp $207B,Y 
-2f81: f0 04     -         beq BRANCH_LOOP__2F87_2F81_OK
-2f83: 10 06     -         bpl BRANCH_LOOP__2F8B_2F83_OK
+2f7b: b9 46 10  - Check_For_New_HighScoreP2:lda GAMESETTINGS. PLAYER_2_SCORE,Y 
+2f7e: d9 7b 20  -         cmp GAMESETTINGS. HIGH_SCORE,Y 
+2f81: f0 04     -         beq !Next_Digit+
+2f83: 10 06     -         bpl !Increase_Score+
 2f85: 30 12     -         bmi BRANCH_LOOP__2F99_2F85_OK
-2f87: c8        - BRANCH_LOOP__2F87_2F81_OK:iny 
+2f87: c8        -         iny 
 2f88: ca        -         dex 
-2f89: d0 f0     -         bne BRANCH_LOOP__2F7B_2F89_OK
-2f8b: a2 05     - BRANCH_LOOP__2F8B_2F83_OK:ldx #$05
-2f8d: bd 45 10  - BRANCH_LOOP__2F8D_2F97_OK:lda $1045,X 
-2f90: 9d 7a 20  -         sta $207A,X 
-2f93: 9d 55 10  -         sta $1055,X 
+2f89: d0 f0     -         bne Check_For_New_HighScoreP2
+2f8b: a2 05     -         ldx #$05
+2f8d: bd 45 10  -         lda GAMESETTINGS. PLAYER_2_SCORE - 1,X 
+2f90: 9d 55 10  -         sta GAMESETTINGS. HIGH_SCORE_SCREEN - 1,X 
+2f93: 9d 7a 20  -         sta GAMESETTINGS. HIGH_SCORE - 1,X 
 2f96: ca        -         dex 
-2f97: d0 f4     -         bne BRANCH_LOOP__2F8D_2F97_OK
+2f97: d0 f4     -         bne !Update_HighScore-
 2f99: 20 db 2e  - BRANCH_LOOP__2F99_2F85_OK:jsr SUBROUTINE__2EDB_2F99_OK
 2f9c: ea        -         nop 
 2f9d: ea        -         nop 
@@ -5327,16 +5327,16 @@
 2fa7: 48        -         pha 
 2fa8: 98        -         tya 
 2fa9: 48        -         pha 
-2faa: a5 00     -         lda PAGEZERO.ZP_POINTER_0 
+2faa: a5 00     -         lda PAGEZERO. ZP_00 
 2fac: 85 1f     -         sta PAGEZERO. ZP_Speed 
 2fae: a2 05     -         ldx #$05
 2fb0: a0 00     -         ldy #$00
 2fb2: bd 00 23  - BRANCH_LOOP__2FB2_2FCB_OK:lda PursuerData + 0,X 
-2fb5: 85 01     -         sta PAGEZERO.ZP_POINTER_0 + 1 
+2fb5: 85 01     -         sta PAGEZERO. ZP_01 
 2fb7: bd 01 23  -         lda PursuerData + 1,X 
 2fba: 18        -         clc 
 2fbb: 69 84     -         adc #$84
-2fbd: 85 02     -         sta PAGEZERO.ZP_POINTER_2  
+2fbd: 85 02     -         sta PAGEZERO. ZP_POINTER_02  
 2fbf: bd 03 23  -         lda PursuerData + 3,X 
 2fc2: 91 01     -         sta ($01),Y 
 2fc4: e8        -         inx 
@@ -5365,41 +5365,41 @@
 3000: 20 ae 21  - DrawOptionsTitleScreen:jsr ClearPlayScreen
 3003: a2 12     -         ldx #$12
 3005: bd ff 30  - LoopLlamaSoftPresents:lda llamasoftPresents-1,X 
-3008: 9d 7f 10  -         sta GAMESETTINGS.Screen + $7F,X 
+3008: 9d 7f 10  -         sta GAMESETTINGS. Screen + $7F,X 
 300b: ca        -         dex 
 300c: d0 f7     -         bne LoopLlamaSoftPresents
 300e: a2 05     -         ldx #$05
 3010: bd 2f 20  - LoopTraxxLogo:lda Memory1.Traxx_logo_top-1,X 
-3013: 9d b9 10  -         sta GAMESETTINGS.Screen + $B9,X 
+3013: 9d b9 10  -         sta GAMESETTINGS. Screen + $B9,X 
 3016: bd 48 20  -         lda Memory1.Traxx_logo_bottom-1,x
-3019: 9d d2 10  -         sta GAMESETTINGS.Screen + $D2,X 
+3019: 9d d2 10  -         sta GAMESETTINGS. Screen + $D2,X 
 301c: ca        -         dex 
 301d: d0 f1     -         bne LoopTraxxLogo
 301f: a2 19     -         ldx #$19
 3021: bd 1b 31  - LoopAdvancedGameSoftware:lda advancedGameSoftware-1,X 
-3024: 9d f9 10  -         sta GAMESETTINGS.Screen + $F9,X 
+3024: 9d f9 10  -         sta GAMESETTINGS. Screen + $F9,X 
 3027: ca        -         dex 
 3028: d0 f7     -         bne LoopAdvancedGameSoftware
 302a: ea        -         nop 
 302b: a2 07     -         ldx #$07
 302d: bd 34 31  - LoopJeffMinter:lda geoffMinterTop-1,X 
-3030: 9d 35 11  - SUBROUTINE__3030_206A_OK:sta GAMESETTINGS.Screen + $135,X 
+3030: 9d 35 11  - SUBROUTINE__3030_206A_OK:sta GAMESETTINGS. Screen + $135,X 
 3033: bd 3b 31  -         lda geoffMinterBottom-1,X 
-3036: 9d 4e 11  -         sta GAMESETTINGS.Screen + $14E,X 
+3036: 9d 4e 11  -         sta GAMESETTINGS. Screen + $14E,X 
 3039: ca        -         dex 
 303a: d0 f1     -         bne LoopJeffMinter
 303c: a2 14     -         ldx #$14
 303e: bd 42 31  - LoopOptions:lda f1Pursures-1,X 
-3041: 9d 78 11  -         sta GAMESETTINGS.Screen + $178,X 
+3041: 9d 78 11  -         sta GAMESETTINGS. Screen + $178,X 
 3044: bd 56 31  -         lda f3Speed-1,X 
-3047: 9d aa 11  -         sta GAMESETTINGS.Screen + $1AA,X 
+3047: 9d aa 11  -         sta GAMESETTINGS. Screen + $1AA,X 
 304a: bd 6a 31  -         lda f5Players-1,X 
-304d: 9d dc 11  -         sta GAMESETTINGS.Screen + $1DC,X 
+304d: 9d dc 11  -         sta GAMESETTINGS. Screen + $1DC,X 
 3050: ca        -         dex 
 3051: d0 eb     -         bne LoopOptions
 3053: a2 14     -         ldx #$14
 3055: bd 7e 31  - LoopPressFire:lda pressFireToStart-1,X 
-3058: 9d 0e 12  -         sta GAMESETTINGS.Screen + $20E,X 
+3058: 9d 0e 12  -         sta GAMESETTINGS. Screen + $20E,X 
 305b: ca        -         dex 
 305c: d0 f7     -         bne LoopPressFire
 305e: 60        -         rts 
@@ -5408,23 +5408,23 @@
 3063: a2 02     - FlashTitleScreenText:ldx #$02
 3065: 8a        -         txa 
 3066: a0 00     -         ldy #$00
-3068: 99 64 94  -         sta GAMESETTINGS.ScreenColour + $64,Y 
-306b: 99 00 95  -         sta GAMESETTINGS.ScreenColour + $100,Y 
-306e: 99 00 96  -         sta GAMESETTINGS.ScreenColour + $200,Y 
+3068: 99 64 94  -         sta GAMESETTINGS. ScreenColour + $64,Y 
+306b: 99 00 95  -         sta GAMESETTINGS. ScreenColour + $100,Y 
+306e: 99 00 96  -         sta GAMESETTINGS. ScreenColour + $200,Y 
 3071: 88        -         dey 
 3072: d0 f4     -         bne !FillScreen-
 3074: e8        -         inx
 3075: e0 08     -         cpx #$08
 3077: d0 ec     -         bne !NextFlashColour-
-3079: 20 60 25  -         jsr SUBROUTINE__2560_3079_OK
+3079: 20 60 25  -         jsr ReadJoystickPort
 307c: a5 0a     -         lda PAGEZERO. JOYSTICK_DIR 
 307e: 29 80     -         and #$80
 3080: f0 03     -         beq CheckOptionsKey
-3082: 4c 00 32  -         jmp JUMP_BRANCH_3200_3082_OK
+3082: 4c 00 32  -         jmp JUMP_BRANCH_3200_3082_OK //Start Game?
 3085: a5 c5     - CheckOptionsKey:lda PAGEZERO.LSTX
-3087: c9 40     -         cmp #KEYBOARD.NUL
+3087: c9 40     -         cmp #KEYBOARD. NUL
 3089: f0 d8     -         beq FlashTitleScreenText
-308b: c9 27     -         cmp #KEYBOARD.KEY_F1
+308b: c9 27     -         cmp #KEYBOARD. KEY_F1
 308d: d0 12     -         bne !CheckNextKey+
 308f: ee 56 31  -         inc noOfPursures
 3092: ad 56 31  -         lda noOfPursures
@@ -5433,7 +5433,7 @@
 3099: a9 31     -         lda #$31
 309b: 8d 56 31  -         sta noOfPursures
 309e: 4c ca 30  -         jmp UpdateTitleOptions
-30a1: c9 2f     -         cmp #KEYBOARD.KEY_F3
+30a1: c9 2f     -         cmp #KEYBOARD. KEY_F3
 30a3: d0 12     -         bne !CheckNextKey+
 30a5: ee 6a 31  -         inc gameSpeed 
 30a8: ad 6a 31  -         lda gameSpeed 
@@ -5442,7 +5442,7 @@
 30af: a9 31     -         lda #$31
 30b1: 8d 6a 31  -         sta gameSpeed 
 30b4: 4c ca 30  -         jmp UpdateTitleOptions
-30b7: c9 37     -         cmp #KEYBOARD.KEY_F5
+30b7: c9 37     -         cmp #KEYBOARD. KEY_F5
 30b9: d0 a8     -         bne FlashTitleScreenText
 30bb: ee 7e 31  -         inc noOfPlayers
 30be: ad 7e 31  -         lda noOfPlayers 
@@ -5452,7 +5452,7 @@
 30c7: 8d 7e 31  -         sta noOfPlayers 
 30ca: 20 00 30  - UpdateTitleOptions:jsr DrawOptionsTitleScreen
 30cd: a5 c5     - NoKeyPressed:lda PAGEZERO.LSTX
-30cf: c9 40     -         cmp #KEYBOARD.NUL
+30cf: c9 40     -         cmp #KEYBOARD. NUL
 30d1: d0 fa     -         bne NoKeyPressed
 30d3: 4c 63 30  -         jmp FlashTitleScreenText
 30d6: ea        -         nop 
@@ -5627,29 +5627,29 @@
 31ff: ea        -         nop 
 3200: a0 30     - JUMP_BRANCH_3200_3082_OK:ldy #$30
 3202: ad 7e 31  -         lda noOfPlayers 
-3205: 85 26     -         sta PAGEZERO.ZP_Players // $26 
-3207: c6 26     -         dec PAGEZERO.ZP_Players
+3205: 85 26     -         sta PAGEZERO. ZP_Players // $26 
+3207: c6 26     -         dec PAGEZERO. ZP_Players
 3209: 88        -         dey 
 320a: d0 fb     -         bne !ConvertScreenCodeToNumber-
 320c: a0 30     -         ldy #$30
 320e: ad 56 31  -         lda noOfPursures 
-3211: 85 19     -         sta PAGEZERO.ZP_Pursures
-3213: c6 19     -         dec PAGEZERO.ZP_Pursures
+3211: 85 19     -         sta PAGEZERO. ZP_Pursures
+3213: c6 19     -         dec PAGEZERO. ZP_Pursures
 3215: 88        -         dey 
 3216: d0 fb     -         bne !ConvertScreenCodeToNumber-
 3218: a9 aa     -         lda #$AA
 321a: 85 0d     -         sta PAGEZERO. ZP_GameSpeed 
 321c: ad 6a 31  -         lda gameSpeed
-321f: 85 1f     -         sta PAGEZERO.ZP_Speed
+321f: 85 1f     -         sta PAGEZERO. ZP_Speed
 3221: a0 30     -         ldy #$30
-3223: c6 1f     -         dec PAGEZERO.ZP_Speed 
+3223: c6 1f     -         dec PAGEZERO. ZP_Speed 
 3225: 88        -         dey 
 3226: d0 fb     -         bne !ConvertScreenCodeToNumber-
-3228: a5 0d     - CreateGameSpeedDelayTime:lda PAGEZERO.ZP_GameSpeed
+3228: a5 0d     - CreateGameSpeedDelayTime:lda PAGEZERO. ZP_GameSpeed
 322a: 38        -         sec 
 322b: e9 0a     -         sbc #$0A
-322d: 85 0d     -         sta PAGEZERO.ZP_GameSpeed 
-322f: c6 1f     -         dec PAGEZERO.ZP_Speed
+322d: 85 0d     -         sta PAGEZERO. ZP_GameSpeed 
+322f: c6 1f     -         dec PAGEZERO. ZP_Speed
 3231: d0 f5     -         bne CreateGameSpeedDelayTime
 3233: 20 ed 20  -         jsr DrawScreenHeader
 3236: 4c 00 22  -         jmp StartGamePlay
